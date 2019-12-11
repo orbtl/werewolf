@@ -1,0 +1,7 @@
+We plan to make an application to assist with playing the game "Werewolf" in-person, as many members of CodingDojo enjoy doing during the fun weekly activity sessions.  The idea is to handle and automate the administrative tasks involved in managing a game of Werewolf, as well as keep track of all relevant data to be able to show interesting statistics.
+
+The game Werewolf is very fun, but requires some unnecessary effort to manually distribute roles amongst the players.  Our app aims to improve this process by handling automated randomization of roles for players, while still allowing customizable quantities of roles, adjustable by a single player designated as the moderator.  
+
+Our app would also log all data about each game and player in its database, which would allow for interesting statistics to be shown.  We could show, for example, the average win percentage 
+
+AAAAAAAND INTERRUPT MIDWAY THROUGH BECAUSE NOW I FIND OUT WE DON'T NEED TO ACTUALLY WRITE THIS LMAO
