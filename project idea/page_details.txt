@@ -30,3 +30,27 @@
     -Card on the right showing the number of connected players as the card Header
         -List of currently connected players (going to need this to update live via ajax/channels so the host knows who's connected)
             -Link next to each player to kick the player?
+
+
+
+
+
+
+
+
+
+--Game in progress for host page--
+    -Header
+    -Title saying the game is in progress (with game id??)
+    -Card on right showing all players, their role, their status (alive/dead etc), and a button to kick them from the game in case someone has to leave early or something
+    -Card on left with title showing current phase (start at night phase)
+        -Night phase
+            -Present buttons or maybe a dropdown? for selecting which person the werewolves kill that night
+            -Present same style of choice for the seer choosing who to check, etc for all the roles so each action is logged in the database
+            -Have it show at the end of the choices a quick recap/review of the choices that have been made for that phase and a button to either confirm the actions into the database or change them to adjust for input errors
+        -Day phase
+            -Present same style of choice for which 'villager' was voted to be executed and is now out of the game
+            -Have it show the recap/review with button to confirm/submit or to adjust the input
+        -End of game handling -- Do we want to always allow the host to manually handle the game being over?  Or have an algorithm check if the werewolves outnumber the villagers and force the game to be over?
+            -Might be complicated with weird roles like the twins or lovers causing some difficulties in figuring out whether the game is over
+                -So maybe have the app alert the host that it thinks the game is over because of X reason, but allow the host to decide whether to confirm that yes the game is over, or no they are going to keep playing (in case of algorithm error or players just wanting to play it out)
