@@ -32,4 +32,4 @@ P2
 -Implement ability for player to join a game that has already started if approved by moderator (with manual role assignment) to account for issues where a player has disconnected or an error happens? or maybe just:
 -Spectator mode for bystanders to "join" a game and be able to see a player list with roles?
 -Allow moderator to kick players from game either in host-game lobby or during game to deal with troublemakers
-
+-Make header stay at top of screen even when scrolling down, such as in /home/ page
