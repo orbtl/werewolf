@@ -19,3 +19,7 @@ Feature List ideas
 -implement python channels to keep users' phones listening for new information to update when they have been killed in-game, etc
 -maybe have a page for each game in the database history so you can view information about how that game went, and then -be able to leave comments on individual games so you can talk about crazy stuff that happened?
 -have a profile page for users that shows their stats etc and allows users to leave comments?
+-Use python channels or implement a small ajax refresh button to refresh current list of active games
+-Implement ability for player to join a game that has already started if approved by moderator (with manual role assignment) to account for issues where a player has disconnected or an error happens? or maybe just:
+-Allow players to reconnect to existing game only if they are currently on the game's list of players
+-Spectator mode for bystanders to "join" a game and be able to see a player list with roles?
