@@ -1,0 +1,23 @@
+--LOGIN/REGISTRATION--
+    -Should have a basic welcome splash screen that ideally updates without refreshing the page when you click on login or register
+    -Should automatically redirect to the logged-in page from the splash screen if you are already logged in with your session
+    -Basic validations
+    -AJAX email-in-database validation
+    -Email verification????
+    -Forgot my password????
+    -Admin account that can manually alter DB? with another page for htis kind of stuff?  probably not
+
+--Welcome/Home Page--
+    -Header with username and options button to dropdown links to options page (if we need one), profile page, logout, whatever
+    -Leaderboard of players
+    -Team winrate trends
+    -Personal Stats
+    -Big host game button on one side of the bottom of hte page, and on the other side:
+        -Current/Existing games card that shows the list of current games
+            -Join game button next to each
+                -Only show if game isn't at capacity
+            -Ideally live-update with AJAX and/or python channels
+                -If not able to implement (or maybe to start): manual little refresh button to make an AJAX call to refresh that one card instead of the whole page
+            -Show some basic stats about the game in a table format like who the host is, how many players have joined and how many is the max, etc
+    -Maybe have a link somewhere to go to a search to find past games if we implement that functionality?
+
