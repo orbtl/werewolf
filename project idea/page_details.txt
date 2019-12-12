@@ -21,3 +21,12 @@
             -Show some basic stats about the game in a table format like who the host is, how many players have joined and how many is the max, etc
     -Maybe have a link somewhere to go to a search to find past games if we implement that functionality?
 
+--Host A Game Page--
+    -Same Header (is there a way we can load this as a partial from a partial html file so if we want to make changes to it it will update across all pages instead of having to manually change it everywhere?)
+    -Big "Host A Game" Title
+    -Card on the left containing all the options for the game
+        -Things like max players allowed to connect, number of werewolves, number of seers etc etc etc
+        -Start Game button that sends all the data from the options form in a post request, and then redirects to the game's page
+    -Card on the right showing the number of connected players as the card Header
+        -List of currently connected players (going to need this to update live via ajax/channels so the host knows who's connected)
+            -Link next to each player to kick the player?
