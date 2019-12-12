@@ -1,0 +1,2 @@
+# ignore virtual environment because it has binaries and other large files
+/werewolfEnv/
