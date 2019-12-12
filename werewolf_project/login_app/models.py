@@ -49,3 +49,22 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+    # games_hosted = game objects the player created
+    # games_joined = game objects the player joined
+    # games_werewolf = games the player is/was a werewolf
+    # games_villager = games the player is/was a villager
+    # games_village_idiot = games the player is/was the village idiot
+    # games_cupid = games the player is/was cupid
+    # games_lover = games the player is/was a lover
+    # games_twin = games the player is/was a twin
+    # games_accursed_one = games the player is/was the accursed_one
+    # games_seer = '' seer
+    # games_witch = '' witch
+    # games_defender = '' defender
+    # games_hunter = '' hunter
+    # games_wild_child = '' wild child
+    # games_role_model = '' role model (for the wild child)
+    # games_rusty_knight = '' knight with the rusty sword
+    # games_elder = '' elder
+    # games_angel = '' angel
+    # games_gypsy = '' gypsy
