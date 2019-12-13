@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 def homeIndex(request): # Main Home Page
-    pass
+    return render(request, 'homeIndex.html')
