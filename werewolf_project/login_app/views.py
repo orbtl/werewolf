@@ -4,7 +4,10 @@ from .models import User
 import bcrypt
 
 def index(request):
-    return render(request, 'login_registration.html')
+    if 'userID' not in request.session or request.session['userID'] == None:
+        return render(request, 'login_registration.html')
+    else:
+        return redirect('/home')
 
 def register(request):
     errors = User.objects.new_user_validator(request.POST)
@@ -13,11 +16,9 @@ def register(request):
             messages.error(request, errors[error])
         return redirect('/')
     passwordHash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt()).decode()
-    print("hashed password:", passwordHash)
-    currUser = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=passwordHash)
-    print("created user")
-    request.session['currUserID'] = currUser.id
-    return redirect('/trips')
+    currUser = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], username=request.POST['username'], email=request.POST['email'], password=passwordHash)
+    request.session['userID'] = currUser.id
+    return redirect('/home')
     
 def login(request):
     errors = User.objects.login_validator(request.POST)
@@ -26,28 +27,15 @@ def login(request):
             messages.error(request, errors[error])
         return redirect('/')
     currUser = User.objects.filter(email=request.POST['email'])[0]
-    request.session['currUserID'] = currUser.id
-    return redirect('/trips')
-
-def success(request):
-    if not request.session['currUserID'] or request.session['currUserID'] == None:
-        messages.error(request, "You must first login!")
-        return redirect('/')
-    return render(request, 'success.html')
+    request.session['userID'] = currUser.id
+    return redirect('/home')
 
 def logout(request):
-    request.session['currUserID'] = None
+    request.session.clear()
     return redirect('/')
 
 def checkEmail(request):
-    found = False
-    if len(User.objects.filter(email=request.POST['email'])) > 0:
-        found = True
     context = {
-        'found': found,
+        'found': (len(User.objects.filter(email=request.POST['email'])) > 0),
     }
-    # if found == False:
-    #     msg = "Email Available"
-    # else:
-    #     msg = "Email already taken"
     return render(request, 'partials/emailCheck.html', context)

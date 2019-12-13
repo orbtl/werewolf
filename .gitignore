@@ -1,2 +1,4 @@
 # ignore virtual environment because it has binaries and other large files
 /werewolfEnv/
+# ignore sqlite database
+db.sqlite3
