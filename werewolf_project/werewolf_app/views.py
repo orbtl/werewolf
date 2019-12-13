@@ -14,6 +14,7 @@ def homeIndex(request): # Main Home Page
         return redirect('/')
     context = {
         'user': User.objects.get(id=request.session['userID']),
+        'games': Game.objects.all(),
     }
     return render(request, 'homeIndex.html', context)
 

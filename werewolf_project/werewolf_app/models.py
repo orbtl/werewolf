@@ -21,7 +21,7 @@ class Game(models.Model):
     has_elder = models.BooleanField(default=False)
     has_angel = models.BooleanField(default=False)
     has_gypsy = models.BooleanField(default=False)
-    allow_spectators = models.BooleanField(default=False)
+    allow_spectators = models.BooleanField(default=True)
     # Game Properties:
     started = models.BooleanField(default=False) # whether the game has started or is still in lobby -- do we need this or can we just use turn number or phase?
     ended = models.BooleanField(default=False) # whether the game is over
