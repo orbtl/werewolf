@@ -1,7 +1,40 @@
 from django.db import models
 from login_app.models import User
 
+class GameManager(models.Manager):
+    def count_special_roles(self, postData):
+        #for total special roles we skip accursed_one because the number is taken out of num_werewolves.  We can add booleans because True acts as 1 and False acts as 0.  We add twins twice because it creates two special role players
+        total_special_roles = (postData['num_werewolves'] + postData['seer'] + postData['witch'] + postData['cupid'] + postData['defender'] + postData['hunter'] + postData['twins'] + postData['twins'] + postData['village_idiot'] + postData['wild_child'] + postData['little_child'] + postData['rusty_knight'] + postData['elder'] + postData['angel'] + postData['gypsy'])
+        return total_special_roles
+
+    def game_validator(self, postData):
+        errors = {}
+        if postData['max_players'] < 2 or postData['max_players'] > 100:
+            errors['max_players'] = "Please enter a valid number between 2 and 100 for max # of players"
+        if postData['num_werewolves'] < 1 or postData['num_werewolves'] >= postData['max_players']:
+            errors['num_werewolves'] = "Number of werewolves must be at least 1 and less than your max # of players"
+        total_special_roles = self.count_special_roles(postData)
+        if total_special_roles > postData['max_players']:
+            errors['special_roles'] = "The number of non-villager roles you specified exceeds your maximum # of players"
+        return errors
+
+    def start_game_validator(self, postData, gameID):
+        errors = self.game_validator(postData)
+        current_player_count = (len(Game.objects.get(id=gameID)) - 1) # subtract 1 to not count host
+        total_special_roles = self.count_special_roles(postData)
+        if total_special_roles > current_player_count:
+            errors['special_roles_exceeds_players'] = "The number of non-villager roles you specified exceeds your currently connected players"
+        if current_player_count > postData['max_players']:
+            errors['too_many_players'] = "There are more players connected than you are allowing in your max # of players... kick someone?"
+        return errors
+
+    def updateGame(self, postData, gameID, userID):
+        pass
+    
+        
+
 class Game(models.Model):
+    objects = GameManager()
     # Game Options:
     max_players = models.IntegerField(default=100)
     num_werewolves = models.IntegerField(default=2)

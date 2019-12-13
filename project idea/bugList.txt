@@ -1,1 +1,2 @@
 -Header loading a split second after the rest of the page.  Can we make it load first?
+-Game Options currently load to a template-based default.  Need to adjust template to actually load whatever the game's current options are set to, so in the event of refresh the host doens't have to re-enter all of the current settings
