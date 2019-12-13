@@ -3,18 +3,20 @@ from login_app.models import User
 
 class GameManager(models.Manager):
     def count_special_roles(self, postData):
-        #for total special roles we skip accursed_one because the number is taken out of num_werewolves.  We can add booleans because True acts as 1 and False acts as 0.  We add twins twice because it creates two special role players
-        total_special_roles = (postData['num_werewolves'] + postData['seer'] + postData['witch'] + postData['cupid'] + postData['defender'] + postData['hunter'] + postData['twins'] + postData['twins'] + postData['village_idiot'] + postData['wild_child'] + postData['little_child'] + postData['rusty_knight'] + postData['elder'] + postData['angel'] + postData['gypsy'])
+        #for total special roles we skip accursed_one because the number is taken out of num_werewolves.  We add twins twice because it creates two special role players
+        total_special_roles = (int(postData['num_werewolves']) + int(postData['seer']) + int(postData['witch']) + int(postData['cupid']) + int(postData['defender']) + int(postData['hunter']) + int(postData['twins']) + int(postData['twins']) + int(postData['village_idiot']) + int(postData['wild_child']) + int(postData['little_child']) + int(postData['rusty_knight']) + int(postData['elder']) + int(postData['angel']) + int(postData['gypsy']))
         return total_special_roles
 
     def game_validator(self, postData):
         errors = {}
-        if postData['max_players'] < 2 or postData['max_players'] > 100:
+        max_players = int(postData['max_players'])
+        num_werewolves = int(postData['num_werewolves'])
+        if max_players < 2 or max_players > 100:
             errors['max_players'] = "Please enter a valid number between 2 and 100 for max # of players"
-        if postData['num_werewolves'] < 1 or postData['num_werewolves'] >= postData['max_players']:
+        if num_werewolves < 1 or num_werewolves >= max_players:
             errors['num_werewolves'] = "Number of werewolves must be at least 1 and less than your max # of players"
         total_special_roles = self.count_special_roles(postData)
-        if total_special_roles > postData['max_players']:
+        if total_special_roles > max_players:
             errors['special_roles'] = "The number of non-villager roles you specified exceeds your maximum # of players"
         return errors
 
@@ -50,7 +52,7 @@ class GameManager(models.Manager):
             thisGame.has_defender = postData['defender']
             thisGame.has_hunter = postData['hunter']
             thisGame.has_wild_child = postData['wild_child']
-            thisGame.has_role_model = postData['role_model']
+            thisGame.has_role_model = postData['wild_child'] # based on whether there's a wild child
             thisGame.has_little_child = postData['little_child']
             thisGame.has_rusty_knight = postData['rusty_knight']
             thisGame.has_elder = postData['elder']
@@ -60,7 +62,7 @@ class GameManager(models.Manager):
             thisGame.save()
         return errors
         
-    def start_game(self, postData, gameID, userID):
+    def startGame(self, postData, gameID, userID):
         errors = self.updateGame(postData, gameID, userID)
         thisGame = Game.objects.get(id=gameID)
         current_player_count = (len(thisGame.players.all()) - 1) # subtract 1 to not count host
