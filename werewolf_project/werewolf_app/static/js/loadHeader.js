@@ -1,3 +1,3 @@
 $(document).ready(function(){
-    console.log("jq working");
+    $('#header').load('header');
 })
