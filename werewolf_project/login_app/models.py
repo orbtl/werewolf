@@ -50,7 +50,8 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
     # roles = each role this player is or has been for given games
-
+    # games_hosted = game objects the player created
+    # games_joined = game objects the player joined
 
 
 
@@ -66,8 +67,7 @@ class User(models.Model):
 
 
     ### this was the old setup of commented relationship related_names
-    # games_hosted = game objects the player created
-    # games_joined = game objects the player joined
+    # 
     # games_werewolf = games the player is/was a werewolf
     # games_villager = games the player is/was a villager
     # games_village_idiot = games the player is/was the village idiot
