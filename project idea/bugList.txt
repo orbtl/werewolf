@@ -1,1 +1,1 @@
--Header only loading in /home/ page and not other pages (404 error)
+-Header loading a split second after the rest of the page.  Can we make it load first?
