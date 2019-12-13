@@ -28,6 +28,7 @@ class Game(models.Model):
     current_phase = models.CharField(max_length=45, default="Lobby") # Lobby, Night, Day
     current_turn = models.IntegerField(default=0) #what turn are we on
     winning_team = models.CharField(max_length=45, null=True) # for statistics, store who won this particular game in form of string such as "Villagers", "Werewolves", or "Lovers"
+    join_key = models.CharField(max_length=45, null=True) # for joining a game manually by alphanumeric key
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # Game Relationships:
@@ -41,6 +42,7 @@ class Role(models.Model):
     player = models.ForeignKey(User, related_name="roles", on_delete=models.SET_NULL, null=True)
     game = models.ForeignKey(Game, related_name="roles", on_delete=models.SET_NULL, null=True)
     isAlive = models.BooleanField(default=True)
+    isBanned = models.BooleanField(default=False) # If we implement ban-from-game functionality we'll need this
     turn_died = models.IntegerField(null=True) # keep track of what turn the player died
     role_notes = models.CharField(max_length=255, null=True) # Not sure we'll need this, but I want it here in case we need to put special notes on a role a player played to explain that they became a werewolf from being turned by the accursed one, etc
     primary_ammo = models.IntegerField(default=0) # Used to keep track of whether special abilities have been used, such as the gypsy questions, or witch potion
