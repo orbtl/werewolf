@@ -76,21 +76,9 @@ def updateGame(request, gameID):
     if 'userID' not in request.session or request.session['userID'] == None:
         messages.error(request, "You must log in to view that page")
         return redirect('/')
-    gameList = Game.objects.filter(id=gameID)
-    if len(gameList) == 0: # prevent errors from users typing in an address of a non-existing game id
-        messages.error(request, "No game with that ID found")
-        return redirect('/home')
-    currUser = User.objects.get(id=request.session['userID'])
-    thisGame = gameList[0]
-    if thisGame.started == True or thisGame.ended == True: # prevent hosts from updating a game after it started or ended
-        messages.error(request, "This game can no longer be edited")
-        return redirect('/home')
-    if thisGame.host != currUser:
-        messages.error(request, "You cannot edit a game you did not create!")
-        return redirect('/home')
-    errors = Game.objects.game_validator(request.POST)
+    errors = Game.objects.updateGame(request.POST, gameID, request.session['userID'])
     if len(errors) > 0:
         for error in errors:
             messages.error(request, errors[error])
-        return redirect(f'/home/game/{gameID}')
+    return redirect(f'/home/game/{gameID}')
     

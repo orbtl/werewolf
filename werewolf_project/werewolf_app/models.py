@@ -29,8 +29,47 @@ class GameManager(models.Manager):
         return errors
 
     def updateGame(self, postData, gameID, userID):
-        pass
-    
+        errors = {}
+        gameList = Game.objects.filter(id=GameID)
+        if len(gameList) == 0: # prevent errors from users typing in an address of a non-existing game id
+            errors['nogame'] = "No game with that ID found"
+            return errors
+        currUser = User.objects.get(id=userID)
+        thisGame = gameList[0]
+        if thisGame.started == True or thisGame.ended == True: # prevent hosts from updating a game after it started or ended
+            errors['gameNotAvail'] = "This game can no longer be edited"
+            return errors
+        if thisGame.host != currUser:
+            errors['notYourGame'] = "You cannot edit a game you did not create!")
+            return errors
+        furtherErrors = Game.objects.game_validator(postData)
+        if len(furtherErrors) > 0:
+            for error in furtherErrors:
+                errors[error] = furtherErrors[error]
+            return errors
+        if len(errors) == 0 and len(furtherErrors) == 0: # actually update
+            thisGame.max_players = postData['max_players']
+            thisGame.num_werewolves = postData['num_werewolves']
+            thisGame.has_village_idiot = postData['village_idiot']
+            thisGame.has_cupid = postData['cupid']
+            thisGame.has_lovers = postData['cupid'] # based on whether cupid is there or not
+            thisGame.has_twins = postData['twins']
+            thisGame.has_accursed_one = postData['accursed_one']
+            thisGame.has_seer = postData['seer']
+            thisGame.has_witch = postData['witch']
+            thisGame.has_defender = postData['defender']
+            thisGame.has_hunter = postData['hunter']
+            thisGame.has_wild_child = postData['wild_child']
+            thisGame.has_role_model = postData['role_model']
+            thisGame.has_little_child = postData['little_child']
+            thisGame.has_rusty_knight = postData['rusty_knight']
+            thisGame.has_elder = postData['elder']
+            thisGame.has_angel = postData['angel']
+            thisGame.has_gypsy = postData['gypsy']
+            thisGame.allow_spectators = postData['allow_spectators']
+            thisGame.save()
+        return errors
+        
         
 
 class Game(models.Model):
