@@ -21,17 +21,19 @@ class Game(models.Model):
     has_elder = models.BooleanField(default=False)
     has_angel = models.BooleanField(default=False)
     has_gypsy = models.BooleanField(default=False)
+    allow_spectators = models.BooleanField(default=False)
     # Game Properties:
     started = models.BooleanField(default=False) # whether the game has started or is still in lobby -- do we need this or can we just use turn number or phase?
     ended = models.BooleanField(default=False) # whether the game is over
     current_phase = models.CharField(max_length=45, default="Lobby") # Lobby, Night, Day
     current_turn = models.IntegerField(default=0) #what turn are we on
+    winning_team = models.CharField(max_length=45, null=True) # for statistics, store who won this particular game in form of string such as "Villagers", "Werewolves", or "Lovers"
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # Game Relationships:
     host = models.ForeignKey(User, related_name="games_hosted", on_delete=models.SET_NULL, null=True)
     players = models.ManyToManyField(User, related_name="games_joined") # I believe we need this in addition to roles for each player so we can have the players join the lobby before they are assigned roles.  I suppose an alternative owuld be to assign them a role initially by default that would be called something like "noRole" or "lobbyRole" etc
-    # roles = each role associated with this game
+    
     
 
 
@@ -61,6 +63,7 @@ class Role(models.Model):
 
 
     ### this was the old setup of relationships
+    # roles = each role associated with this game
     # werewolves = models.ManyToManyField(User, related_name="games_werewolf")
     # villagers = models.ManyToManyField(User, related_name="games_villager")
     # village_idiot = models.ForeignKey(User, related_name="games_village_idiot", on_delete=models.SET_NULL, null=True)
