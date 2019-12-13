@@ -1,15 +1,6 @@
 from django.db import models
 from login_app.models import User
 
-class Role(models.Model):
-    player = models.ForeignKey(User, related_name="roles", on_delete=models.SET_NULL, null=True)
-    game = models.ForeignKey(Game, related_name="roles", on_delete=models.SET_NULL, null=True)
-    isAlive = models.BooleanField(default=True)
-    isActivePlayer = models.BooleanField(default=True) # to deal with players being kicked?
-    role_name = models.CharField(max_length=45) #Name of Role, choose from:
-    #role_name options: cupid,lover,werewolf,villager,village_idiot,twin,accursed_one,seer,witch,defender,hunter,wild_child,role_model,little_child,rusty_knight,elder,angel,gypsy
-    
-
 class Game(models.Model):
     # Game Options:
     max_players = models.IntegerField()
@@ -26,6 +17,17 @@ class Game(models.Model):
     players = models.ManyToManyField(User, related_name="games_joined")
     # roles = each role associated with this game
     
+
+
+class Role(models.Model):
+    player = models.ForeignKey(User, related_name="roles", on_delete=models.SET_NULL, null=True)
+    game = models.ForeignKey(Game, related_name="roles", on_delete=models.SET_NULL, null=True)
+    isAlive = models.BooleanField(default=True)
+    isActivePlayer = models.BooleanField(default=True) # to deal with players being kicked?
+    role_name = models.CharField(max_length=45) #Name of Role, choose from:
+    #role_name options: cupid,lover,werewolf,villager,village_idiot,twin,accursed_one,seer,witch,defender,hunter,wild_child,role_model,little_child,rusty_knight,elder,angel,gypsy
+    
+
 
 
 
