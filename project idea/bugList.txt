@@ -1,0 +1,1 @@
+-Header only loading in /home/ page and not other pages (404 error)
