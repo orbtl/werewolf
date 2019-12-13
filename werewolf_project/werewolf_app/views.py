@@ -70,4 +70,4 @@ def joinGame(request, gameID):
     else: # create a new role for the player and add them to the player list
         thisGame.players.add(currUser)
         thisRole = Role.objects.create(player=currUser, game=thisGame, role_name="unassigned")
-        return redirct(f'/home/game/{gameID}')
+        return redirect(f'/home/game/{gameID}')
