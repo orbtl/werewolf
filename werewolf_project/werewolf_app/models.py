@@ -18,16 +18,6 @@ class GameManager(models.Manager):
             errors['special_roles'] = "The number of non-villager roles you specified exceeds your maximum # of players"
         return errors
 
-    def start_game_validator(self, postData, gameID):
-        errors = self.game_validator(postData)
-        current_player_count = (len(Game.objects.get(id=gameID)) - 1) # subtract 1 to not count host
-        total_special_roles = self.count_special_roles(postData)
-        if total_special_roles > current_player_count:
-            errors['special_roles_exceeds_players'] = "The number of non-villager roles you specified exceeds your currently connected players"
-        if current_player_count > postData['max_players']:
-            errors['too_many_players'] = "There are more players connected than you are allowing in your max # of players... kick someone?"
-        return errors
-
     def updateGame(self, postData, gameID, userID):
         errors = {}
         gameList = Game.objects.filter(id=GameID)
@@ -37,10 +27,10 @@ class GameManager(models.Manager):
         currUser = User.objects.get(id=userID)
         thisGame = gameList[0]
         if thisGame.started == True or thisGame.ended == True: # prevent hosts from updating a game after it started or ended
-            errors['gameNotAvail'] = "This game can no longer be edited"
+            errors['gameNotAvail'] = "This game can no longer be edited or started"
             return errors
         if thisGame.host != currUser:
-            errors['notYourGame'] = "You cannot edit a game you did not create!")
+            errors['notYourGame'] = "You cannot edit or start a game you did not create!")
             return errors
         furtherErrors = Game.objects.game_validator(postData)
         if len(furtherErrors) > 0:
@@ -70,6 +60,19 @@ class GameManager(models.Manager):
             thisGame.save()
         return errors
         
+    def start_game(self, postData, gameID, userID):
+        errors = self.updateGame(postData, gameID, userID)
+        thisGame = Game.objects.get(id=gameID)
+        current_player_count = (len(thisGame.players.all()) - 1) # subtract 1 to not count host
+        total_special_roles = self.count_special_roles(postData)
+        if total_special_roles > current_player_count:
+            errors['special_roles_exceeds_players'] = "The number of non-villager roles you specified exceeds your currently connected players"
+        if current_player_count > postData['max_players']:
+            errors['too_many_players'] = "There are more players connected than you are allowing in your max # of players... kick someone?"
+        if len(errors) == 0: #actually start the game
+            thisGame.started = True
+            thisGame.save()
+        return errors
         
 
 class Game(models.Model):
