@@ -16,12 +16,12 @@
     <div class="container">
         <div id="header"></div>
         <div class="row text-center">
-            <h1>Host A Game</h1>
+            <h1 class="col-md-12">Host A Game</h1>
         </div>
         <div class="row">
-            <div class="card-deck">
-                <div class="card">
-                    <div class="card-header">
+            <div class="card-deck col-md-12">
+                <div class="card col-md-7">
+                    <div class="card-header row">
                         <h4>Game Options</h4>
                     </div>
                     <div class="card-body">
@@ -36,14 +36,37 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Connected Players: #</h4>
+                <div class="card col-md-5">
+                    <div class="card-header row">
+                        <h4>Connected Players: {{game.players.all|length|add:"-1"}}</h4>
                     </div>
                     <div class="card-body">
-                        Player blah (kick buttons here)
-                        Player bleh
-                        Player meh
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for player in game.players.all %}
+                                    {% if player != game.host %}
+                                        <tr>
+                                            <td>{{player.username}}</td>
+                                            <td>{{player.first_name}} {{player.last_name}}</td>
+                                            <td>
+                                                {% if user == game.host %}
+                                                    <a href="/home/game/{{game.id}}/kick/{{player.id}}" class="btn btn-sm btn-warning">Kick</a>
+                                                    <a href="/home/game/{{game.id}}/ban/{{player.id}}" class="btn btn-sm btn-danger">Ban</a>
+                                                {% endif %}
+                                                <a href="/home/users/{{player.id}}" class="btn btn-sm btn-info">Profile</a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
