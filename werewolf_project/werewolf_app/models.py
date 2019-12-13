@@ -3,9 +3,24 @@ from login_app.models import User
 
 class Game(models.Model):
     # Game Options:
-    max_players = models.IntegerField()
-    num_werewolves = models.IntegerField()
-    has_
+    max_players = models.IntegerField(default=100)
+    num_werewolves = models.IntegerField(default=0)
+    has_village_idiot = models.BooleanField(default=False)
+    has_cupid = models.BooleanField(default=False)
+    has_lovers = models.BooleanField(default=False)
+    has_twins = models.BooleanField(default=False)
+    has_accursed_one = models.BooleanField(default=False)
+    has_seer = models.BooleanField(default=False)
+    has_witch = models.BooleanField(default=False)
+    has_defender = models.BooleanField(default=False)
+    has_hunter = models.BooleanField(default=False)
+    has_wild_child = models.BooleanField(default=False)
+    has_role_model = models.BooleanField(default=False)
+    has_little_child = models.BooleanField(default=False)
+    has_rusty_knight = models.BooleanField(default=False)
+    has_elder = models.BooleanField(default=False)
+    has_angel = models.BooleanField(default=False)
+    has_gypsy = models.BooleanField(default=False)
     # Game Properties:
     started = models.BooleanField(default=False) # whether the game has started or is still in lobby -- do we need this or can we just use turn number or phase?
     ended = models.BooleanField(default=False) # whether the game is over
