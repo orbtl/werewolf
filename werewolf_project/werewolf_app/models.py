@@ -20,7 +20,7 @@ class GameManager(models.Manager):
 
     def updateGame(self, postData, gameID, userID):
         errors = {}
-        gameList = Game.objects.filter(id=GameID)
+        gameList = Game.objects.filter(id=gameID)
         if len(gameList) == 0: # prevent errors from users typing in an address of a non-existing game id
             errors['nogame'] = "No game with that ID found"
             return errors
@@ -30,7 +30,7 @@ class GameManager(models.Manager):
             errors['gameNotAvail'] = "This game can no longer be edited or started"
             return errors
         if thisGame.host != currUser:
-            errors['notYourGame'] = "You cannot edit or start a game you did not create!")
+            errors['notYourGame'] = "You cannot edit or start a game you did not create!"
             return errors
         furtherErrors = Game.objects.game_validator(postData)
         if len(furtherErrors) > 0:

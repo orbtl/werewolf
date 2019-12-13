@@ -76,17 +76,22 @@ def updateGame(request, gameID):
     if 'userID' not in request.session or request.session['userID'] == None:
         messages.error(request, "You must log in to view that page")
         return redirect('/')
-    errors = Game.objects.updateGame(request.POST, gameID, request.session['userID']) # this function spits out any errors and updates the game if there are none
-    if len(errors) > 0:
-        for error in errors:
-            messages.error(request, errors[error])
-    return redirect(f'/home/game/{gameID}')
+    if request.POST['submitAction'] == 'update':
+        errors = Game.objects.updateGame(request.POST, gameID, request.session['userID']) # this function spits out any errors and updates the game if there are none
+        if len(errors) > 0:
+            for error in errors:
+                messages.error(request, errors[error])
+        return redirect(f'/home/game/{gameID}')
+    elif request.POST['submitAction'] == 'start':
+        return redirect(f'/home/game/{gameID}/start')
+    else:
+        return redirect(f'/home/game/{gameID}')
     
 def startGame(request, gameID):
     if 'userID' not in request.session or request.session['userID'] == None:
         messages.error(request, "You must log in to view that page")
         return redirect('/')
-    errors = Game.objects.start_game(request.POST, gameID, request.session['userID'])
+    errors = Game.objects.startGame(request.POST, gameID, request.session['userID'])
     if len(errors) > 0:
         for error in errors:
             messages.error(request, errors[error])
