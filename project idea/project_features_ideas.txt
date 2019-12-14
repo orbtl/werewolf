@@ -1,39 +1,40 @@
 Feature List ideas
 
 P0
--Login/Register
+(done)-Login/Register
     -Basic Validations
--create a game
--join a game
--have default numbers of roles in a given game based on the number of players
--randomize roles for players and show them helpful information about their role
--send assigned roles to players so they can see it on their phone
--store each game's overall data in a database so overall winrates etc are viewable as statistics
--show list of players that are in a given game as well as their current status (dead/alive)
+(done)-create a game
+(done)-join a game
+(scheduled)-randomize roles for players and show them helpful information about their role
+(scheduled)-send assigned roles to players so they can see it on their phone
+(scheduled)-store each game's overall data in a database so overall winrates etc are viewable as statistics
+(scheduled)-show list of players that are in a given game as well as their current status (dead/alive)
 
 P1
--allow host to customize number of different roles in a given game
--give moderator/admin a list of players with their roles
--store each game's overall data in a database so overall winrates etc are viewable as statistics
--store each player's individual data from each game in a database so they can view their own stats and leaderboards are possible
--implement a leaderboard showing the players with the highest winrates or other metrics (highest loss rate?  fastest deathrate?  longest average lifespan?)
--Allow players to reconnect to existing game only if they are currently on the game's list of players
+-have suggested numbers of roles in a given game based on the number of players
+(done)-allow host to customize number of different roles in a given game
+(scheduled)-give moderator/admin a list of players with their roles
+(scheduled)-store each game's overall data in a database so overall winrates etc are viewable as statistics
+(scheduled)-store each player's individual data from each game in a database so they can view their own stats and leaderboards are possible
+(scheduled)-implement a leaderboard showing the players with the highest winrates
+(scheduled)-Allow players to reconnect to existing game only if they are currently on the game's list of players
 
 P2
--allow turn-by-turn entry from moderator on what has happened (who got killed at night, who got killed during the day, who the seer checked, etc
-    -store each turn's information in a database linked to the current game, so that per-turn statistics are possible (like what average turn a player dies on)
--implement data visualization for things like average winrates for the two teams over time, so users can visualize how the winrates of the villagers/werewolves have changed over the past couple dozen times they have played
--maybe have a page for each game in the database history so you can view information about how that game went, and then -be able to leave comments on individual games so you can talk about crazy stuff that happened?
--have a profile page for users that shows their stats etc and allows users to leave comments?
--Implement ability for player to join a game that has already started if approved by moderator (with manual role assignment) to account for issues where a player has disconnected or an error happens? or maybe just:
--Spectator mode for bystanders to "join" a game and be able to see a player list with roles?
--Allow moderator to kick players from game either in host-game lobby or during game to deal with troublemakers or people that have to leave mid-game
--Allow moderator/host to manually 'kill' players (set to dead) in case of weird situations the game can't account for
--Make header stay at top of screen even when scrolling down, such as in /home/ page
--Modularize the header so it is a partial html that is loaded on each page
+(scheduled)-allow turn-by-turn entry from moderator on what has happened (who got killed at night, who got killed during the day, who the seer checked, etc
+    (scheduled)-store each turn's information in a database linked to the current game, so that per-turn statistics are possible (like what average turn a player dies on)
+(scheduled)-maybe have a page for each game in the database history so you can view information about how that game went, and then -be able to leave comments on individual games so you can talk about crazy stuff that happened?
+(scheduled)-have a profile page for users that shows their stats etc and allows users to leave comments?
+(scheduled)-implement option to change metrics the leaderboard is showing (highest loss rate?  fastest deathrate?  longest average lifespan?)
+(scheduled)-implement data visualization for things like average winrates for the two teams over time, so users can visualize how the winrates of the villagers/werewolves have changed over the past couple dozen times they have played
+(scheduled)-Spectator mode for bystanders to "join" a game and be able to see a player list with roles?
+(scheduled)-Allow moderator to kick players from game either in host-game lobby or during game to deal with troublemakers or people that have to leave mid-game
+(scheduled)-Allow moderator/host to manually 'kill' players (set to dead) in case of weird situations the game can't account for
+(scheduled)-Make header stay at top of screen even when scrolling down, such as in /home/ page
+(done)-Modularize the header so it is a partial html that is loaded on each page
 
 P3
--Email verification (?)
+(scheduled)-implement python channels to keep users' browsers listening for new information to update when they have been killed in-game, etc
+(scheduled)-Email verification (?)
     -Forgot my password (?)
--implement python channels to keep users' phones listening for new information to update when they have been killed in-game, etc
--Use python channels or implement a small ajax refresh button to refresh current list of active games
+(scheduled)-Use python channels or implement a small ajax refresh button to refresh current list of active games
+(nixed)-Implement ability for player to join a game that has already started if approved by moderator (with manual role assignment) to account for issues where a player has disconnected or an error happens? or maybe just:
