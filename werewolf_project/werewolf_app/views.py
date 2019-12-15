@@ -34,6 +34,9 @@ def game(request, gameID): # game page
         messages.error(request, "No game with that ID found")
         return redirect('/home')
     currUser = User.objects.get(id=request.session['userID'])
+    if currUser not in gameList[0].players.all() and gameList[0].allow_spectators == False and gameList[0].ended == False:
+        messages.error(request, "Spectating is disabled for that game")
+        return redirect('/home')
     context = {
         'user': currUser,
         'game': gameList[0],
@@ -126,3 +129,20 @@ def addFakeUsers(request, gameID):
             game.players.add(fakeUser)
     messages.success(request, "Added fake users to current game")
     return redirect(f'/home/game/{gameID}') 
+
+def kickPlayer(request, gameID, playerID):
+    if 'userID' not in request.session or request.session['userID'] == None:
+        messages.error(request, "You must log in to view that page")
+        return redirect('/')
+    game = Game.objects.get(id=gameID)
+    user = User.objects.get(id=request.session['userID'])
+    if game.host == user:
+        # kick the player
+        playerToKick = User.objects.get(id=playerID)
+        roleToKick = Role.objects.filter(game=game, player=playerToKick)
+        game.players.remove(playerToKick)
+        roleToKick.delete()
+        return redirect(f'/home/game/{gameID}')
+    else:
+        messages.error(request, "You are not the host!  Get out of there!")
+        return redirect(f'/home/game/{gameID}')

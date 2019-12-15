@@ -1,8 +1,8 @@
 By EOD Monday:
     -In-game page FUNCTIONALITY done (show roles to players)
         -big if check for if games in progress to show game info
-        -if not on player list, don't show game info
-        -(for spectate) don't allow players to spectate
+        (done)-if not on player list, don't show game info
+        (done)-(for spectate) don't allow players to spectate
     -role randomization done
     -Finish list of players in-game so it shows roles and alive/dead
 
