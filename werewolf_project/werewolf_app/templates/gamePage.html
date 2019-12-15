@@ -266,7 +266,6 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                        {% endif %}
                         {% else %} <!--Game has started-->
                             <table class="table table-striped">
                                 <thead>
@@ -300,16 +299,24 @@
                                                     {% if user == game.host %}
                                                         <div class="dropdown">
                                                             <button class="btn btn-secondary" type="button" id="role{{role.id}}Control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                ☰
+                                                                ●
                                                             </button>
+                                                            <div class="dropdown-menu" aria-labelledby="role{{role.id}}Control">
+                                                                <a class="dropdown-item" href="/home/game/{{game.id}}/kick/{{role.player.id}}">Kick</a>
+                                                                <a class="dropdown-item" href="/home/game/{{game.id}}/forceKill/{{role.player.id}}">Force Dead</a>
+                                                                <a class="dropdown-item" href="/home/users/{{role.player.id}}">Profile</a>
+                                                            </div>
                                                         </div>
-                                                    {% if user != game.host %}
+                                                    {% else %} <!--for players-->
                                                         <a href="/home/users/{{player.id}}" class="btn btn-sm btn-info">Profile</a>\
-                                                    {}
+                                                    {% endif %}
                                                 </td>
                                             </tr>
+                                        {% endif %}
+                                    {% endfor %}
                                 </tbody>
                             </table>
+                        {% endif %}
                     </div>
                 </div>
             </div>

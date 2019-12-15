@@ -69,7 +69,7 @@ class GameManager(models.Manager):
         total_special_roles = self.count_special_roles(postData)
         if total_special_roles > current_player_count:
             errors['special_roles_exceeds_players'] = "The number of non-villager roles you specified exceeds your currently connected players"
-        if current_player_count > postData['max_players']:
+        if current_player_count > int(postData['max_players']):
             errors['too_many_players'] = "There are more players connected than you are allowing in your max # of players... kick someone?"
         if len(errors) == 0: #actually start the game
             thisGame.started = True

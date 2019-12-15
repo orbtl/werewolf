@@ -71,6 +71,16 @@ def joinGame(request, gameID):
         thisGame.players.add(currUser)
         thisRole = Role.objects.create(player=currUser, game=thisGame, role_name="unassigned")
         return redirect(f'/home/game/{gameID}')
+    
+def startGame(request, gameID, postData):
+    if 'userID' not in request.session or request.session['userID'] == None:
+        messages.error(request, "You must log in to view that page")
+        return redirect('/')
+    errors = Game.objects.startGame(request.POST, gameID, request.session['userID'])
+    if len(errors) > 0:
+        for error in errors:
+            messages.error(request, errors[error])
+    return redirect(f'/home/game/{gameID}')
 
 def updateGame(request, gameID):
     if 'userID' not in request.session or request.session['userID'] == None:
@@ -83,16 +93,6 @@ def updateGame(request, gameID):
                 messages.error(request, errors[error])
         return redirect(f'/home/game/{gameID}')
     elif request.POST['submitAction'] == 'start':
-        return redirect(f'/home/game/{gameID}/start')
+        return startGame(request, gameID, request.POST)
     else:
         return redirect(f'/home/game/{gameID}')
-    
-def startGame(request, gameID):
-    if 'userID' not in request.session or request.session['userID'] == None:
-        messages.error(request, "You must log in to view that page")
-        return redirect('/')
-    errors = Game.objects.startGame(request.POST, gameID, request.session['userID'])
-    if len(errors) > 0:
-        for error in errors:
-            messages.error(request, errors[error])
-    return redirect(f'/home/game/{gameID}')
