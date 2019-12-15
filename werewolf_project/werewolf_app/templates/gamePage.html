@@ -25,95 +25,212 @@
                         <h4>Game Options</h4>
                     </div>
                     <div class="card-body">
-                        {% if user == game.host %}
-                            <form action="/home/game/{{game.id}}/update" class="form-horizontal" method="post">
-                                {% csrf_token %}
-                                <div class="form-group row align-items-center">
-                                    <label for="max_players" class="control-label col-md-8">Maximum Players</label>
-                                    <input type="number" name="max_players" class="form-control col-md-4" value={{game.max_players}} required>
+                        {% if user == game.host %} <!--Page for game's host-->
+                            {% if game.started == False %} <!--Show configuration screen because at pre-game lobby-->
+                                <form action="/home/game/{{game.id}}/update" class="form-horizontal" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group row align-items-center">
+                                        <label for="max_players" class="control-label col-md-8">Maximum Players</label>
+                                        <input type="number" name="max_players" class="form-control col-md-4" value={{game.max_players}} required>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="num_werewolves" class="control-label col-md-8"># of Werewolves (including Accursed One)</label>
+                                        <input type="number" name="num_werewolves" class="form-control col-md-4" value={{game.num_werewolves}} required>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="seer" class="control-label col-md-5">Seer</label>
+                                        <input type="hidden" name="seer" value=0>
+                                        <input type="checkbox" value=1 name="seer" class="form-control col-md-1" {% if game.has_seer %}checked{% endif %}>
+                                        <label for="witch" class="control-label col-md-5">Witch</label>
+                                        <input type="hidden" name="witch" value=0>
+                                        <input type="checkbox" value=1 name="witch" class="form-control col-md-1" {% if game.has_witch %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-group align-items-center row">
+                                        <label for="accursed_one" class="control-label col-md-5">Accursed One</label>
+                                        <input type="hidden" name="accursed_one" value=0>
+                                        <input type="checkbox" value=1 name="accursed_one" class="form-control col-md-1" {% if game.has_accursed_one %}checked{% endif %}>
+                                        <label for="cupid" class="control-label col-md-5">Cupid (and lovers)</label>
+                                        <input type="hidden" name="cupid" value=0>
+                                        <input type="checkbox" value=1 name="cupid" class="form-control col-md-1" {% if game.has_cupid %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="defender" class="control-label col-md-5">Defender</label>
+                                        <input type="hidden" name="defender" value=0>
+                                        <input type="checkbox" value=1 name="defender" class="form-control col-md-1" {% if game.has_defender %}checked{% endif %}>
+                                        <label for="hunter" class="control-label col-md-5">Hunter</label>
+                                        <input type="hidden" name="hunter" value=0>
+                                        <input type="checkbox" value=1 name="hunter" class="form-control col-md-1" {% if game.has_hunter %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="twins" class="control-label col-md-5">Twins</label>
+                                        <input type="hidden" name="twins" value=0>
+                                        <input type="checkbox" value=1 name="twins" class="form-control col-md-1" {% if game.has_twins %}checked{% endif %}>
+                                        <label for="village_idiot" class="control-label col-md-5">Village Idiot</label>
+                                        <input type="hidden" name="village_idiot" value=0>
+                                        <input type="checkbox" value=1 name="village_idiot" class="form-control col-md-1" {% if game.has_village_idiot %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="wild_child" class="control-label col-md-5">Wild Child (and Role Model)</label>
+                                        <input type="hidden" name="wild_child" value=0>
+                                        <input type="checkbox" value=1 name="wild_child" class="form-control col-md-1" {% if game.has_wild_child %}checked{% endif %}>
+                                        <label for="little_child" class="control-label col-md-5">Little Child</label>
+                                        <input type="hidden" name="little_child" value=0>
+                                        <input type="checkbox" value=1 name="little_child" class="form-control col-md-1" {% if game.has_little_child %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="rusty_knight" class="control-label col-md-5">Knight with the Rusty Sword</label>
+                                        <input type="hidden" name="rusty_knight" value=0>
+                                        <input type="checkbox" value=1 name="rusty_knight" class="form-control col-md-1" {% if game.has_rusty_knight %}checked{% endif %}>
+                                        <label for="elder" class="control-label col-md-5">Elder</label>
+                                        <input type="hidden" name="elder" value=0>
+                                        <input type="checkbox" value=1 name="elder" class="form-control col-md-1" {% if game.has_elder %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="angel" class="control-label col-md-5">Angel</label>
+                                        <input type="hidden" name="angel" value=0>
+                                        <input type="checkbox" value=1 name="angel" class="form-control col-md-1" {% if game.has_angel %}checked{% endif %}>
+                                        <label for="gypsy" class="control-label col-md-5">Gypsy</label>
+                                        <input type="hidden" name="gypsy" value=0>
+                                        <input type="checkbox" value=1 name="gypsy" class="form-control col-md-1" {% if game.has_gypsy %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="allow_spectators" class="control-label col-md-5">Allow Spectators</label>
+                                        <input type="hidden" name="allow_spectators" value=0>
+                                        <input type="checkbox" value=1 name="allow_spectators" class="form-control col-md-1" {% if game.allow_spectators %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-group row align-items-center justify-content-end">
+                                        <button type="submit" name="submitAction" value="update" class="btn btn-primary mr-3">Apply Changes</button>
+                                        <a href="#" class="btn btn-secondary mr-3">Suggest Values</a>
+                                        <button type="submit" name="submitAction" value="start" class="btn btn-danger">Start Game</button>
+                                    </div>
+                                    {% if messages %}
+                                    <div class="row">
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                                <li>{{message}}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </form>
+                            {% endif %} <!--End pre-game lobby config card for host-->
+                        {% else %} <!--Show players game page-->
+                            {% if game.started == False %} <!--players pre-game lobby current settings page-->
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">Maximum Players</div>
+                                    <div class="col-md-4">{{game.max_players}}</div>
                                 </div>
-                                <div class="form-group row align-items-center">
-                                    <label for="num_werewolves" class="control-label col-md-8"># of Werewolves (including Accursed One)</label>
-                                    <input type="number" name="num_werewolves" class="form-control col-md-4" value={{game.num_werewolves}} required>
+                                <div class="row align-items-center">
+                                    <div class="col-md-8"># of Werewolves (including Accursed One)</div>
+                                    <div class="col-md-4">{{game.num_werewolves}}</div>
                                 </div>
-                                <div class="form-group row align-items-center">
-                                    <label for="seer" class="control-label col-md-5">Seer</label>
-                                    <input type="hidden" name="seer" value=0>
-                                    <input type="checkbox" value=1 name="seer" class="form-control col-md-1" {% if game.has_seer %}checked{% endif %}>
-                                    <label for="witch" class="control-label col-md-5">Witch</label>
-                                    <input type="hidden" name="witch" value=0>
-                                    <input type="checkbox" value=1 name="witch" class="form-control col-md-1" {% if game.has_witch %}checked{% endif %}>
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        Seer
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_seer}}
+                                    </div>
+                                    <div class="col-md-5">
+                                        Witch
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_witch}}
+                                    </div>
                                 </div>
-                                <div class="form-group align-items-center row">
-                                    <label for="accursed_one" class="control-label col-md-5">Accursed One</label>
-                                    <input type="hidden" name="accursed_one" value=0>
-                                    <input type="checkbox" value=1 name="accursed_one" class="form-control col-md-1" {% if game.has_accursed_one %}checked{% endif %}>
-                                    <label for="cupid" class="control-label col-md-5">Cupid (and lovers)</label>
-                                    <input type="hidden" name="cupid" value=0>
-                                    <input type="checkbox" value=1 name="cupid" class="form-control col-md-1" {% if game.has_cupid %}checked{% endif %}>
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        Accursed One
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_accursed_one}}
+                                    </div>
+                                    <div class="col-md-5">
+                                        Cupid (and lovers)
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_cupid}}
+                                    </div>
                                 </div>
-                                <div class="form-group row align-items-center">
-                                    <label for="defender" class="control-label col-md-5">Defender</label>
-                                    <input type="hidden" name="defender" value=0>
-                                    <input type="checkbox" value=1 name="defender" class="form-control col-md-1" {% if game.has_defender %}checked{% endif %}>
-                                    <label for="hunter" class="control-label col-md-5">Hunter</label>
-                                    <input type="hidden" name="hunter" value=0>
-                                    <input type="checkbox" value=1 name="hunter" class="form-control col-md-1" {% if game.has_hunter %}checked{% endif %}>
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        Defender
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_defender}}
+                                    </div>
+                                    <div class="col-md-5">
+                                        Hunter
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_hunter}}
+                                    </div>
                                 </div>
-                                <div class="form-group row align-items-center">
-                                    <label for="twins" class="control-label col-md-5">Twins</label>
-                                    <input type="hidden" name="twins" value=0>
-                                    <input type="checkbox" value=1 name="twins" class="form-control col-md-1" {% if game.has_twins %}checked{% endif %}>
-                                    <label for="village_idiot" class="control-label col-md-5">Village Idiot</label>
-                                    <input type="hidden" name="village_idiot" value=0>
-                                    <input type="checkbox" value=1 name="village_idiot" class="form-control col-md-1" {% if game.has_village_idiot %}checked{% endif %}>
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        Twins
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_twins}}
+                                    </div>
+                                    <div class="col-md-5">
+                                        Village Idiot
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_village_idiot}}
+                                    </div>
                                 </div>
-                                <div class="form-group row align-items-center">
-                                    <label for="wild_child" class="control-label col-md-5">Wild Child (and Role Model)</label>
-                                    <input type="hidden" name="wild_child" value=0>
-                                    <input type="checkbox" value=1 name="wild_child" class="form-control col-md-1" {% if game.has_wild_child %}checked{% endif %}>
-                                    <label for="little_child" class="control-label col-md-5">Little Child</label>
-                                    <input type="hidden" name="little_child" value=0>
-                                    <input type="checkbox" value=1 name="little_child" class="form-control col-md-1" {% if game.has_little_child %}checked{% endif %}>
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        Wild Child
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_wild_child}}
+                                    </div>
+                                    <div class="col-md-5">
+                                        Little Child
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_little_child}}
+                                    </div>
                                 </div>
-                                <div class="form-group row align-items-center">
-                                    <label for="rusty_knight" class="control-label col-md-5">Knight with the Rusty Sword</label>
-                                    <input type="hidden" name="rusty_knight" value=0>
-                                    <input type="checkbox" value=1 name="rusty_knight" class="form-control col-md-1" {% if game.has_rusty_knight %}checked{% endif %}>
-                                    <label for="elder" class="control-label col-md-5">Elder</label>
-                                    <input type="hidden" name="elder" value=0>
-                                    <input type="checkbox" value=1 name="elder" class="form-control col-md-1" {% if game.has_elder %}checked{% endif %}>
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        Knight with the Rusty Sword
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_rusty_knight}}
+                                    </div>
+                                    <div class="col-md-5">
+                                        Elder
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_elder}}
+                                    </div>
                                 </div>
-                                <div class="form-group row align-items-center">
-                                    <label for="angel" class="control-label col-md-5">Angel</label>
-                                    <input type="hidden" name="angel" value=0>
-                                    <input type="checkbox" value=1 name="angel" class="form-control col-md-1" {% if game.has_angel %}checked{% endif %}>
-                                    <label for="gypsy" class="control-label col-md-5">Gypsy</label>
-                                    <input type="hidden" name="gypsy" value=0>
-                                    <input type="checkbox" value=1 name="gypsy" class="form-control col-md-1" {% if game.has_gypsy %}checked{% endif %}>
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        Angel
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_angel}}
+                                    </div>
+                                    <div class="col-md-5">
+                                        Gypsy
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.has_gypsy}}
+                                    </div>
                                 </div>
-                                <div class="form-group row align-items-center">
-                                    <label for="allow_spectators" class="control-label col-md-5">Allow Spectators</label>
-                                    <input type="hidden" name="allow_spectators" value=0>
-                                    <input type="checkbox" value=1 name="allow_spectators" class="form-control col-md-1" {% if game.allow_spectators %}checked{% endif %}>
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        Allow Spectators
+                                    </div>
+                                    <div class="col-md-1">
+                                        {{game.allow_spectators}}
+                                    </div>
                                 </div>
-                                <div class="form-group row align-items-center justify-content-end">
-                                    <button type="submit" name="submitAction" value="update" class="btn btn-primary mr-3">Apply Changes</button>
-                                    <a href="#" class="btn btn-secondary mr-3">Suggest Values</a>
-                                    <button type="submit" name="submitAction" value="start" class="btn btn-danger">Start Game</button>
-                                </div>
-                                {% if messages %}
-                                <div class="row">
-                                    <ul class="messages">
-                                        {% for message in messages %}
-                                            <li>{{message}}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                {% endif %}
-                            </form>
-                        {% else %}
-                        show option values for players 
+                            {% endif %} <!--End players pre-game lobby current settings page-->
                         {% endif %}
                     </div>
                 </div>

@@ -2,3 +2,5 @@
 /werewolfEnv/
 # ignore sqlite database
 db.sqlite3
+# ignore python caches
+__pycache__
