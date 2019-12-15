@@ -146,3 +146,12 @@ def kickPlayer(request, gameID, playerID):
     else:
         messages.error(request, "You are not the host!  Get out of there!")
         return redirect(f'/home/game/{gameID}')
+
+def deleteGame(request, gameID): # remove this functionality for production
+    gameToDelete = Game.objects.get(id=gameID)
+    rolesToDelete = gameToDelete.roles.all()
+    for role in rolesToDelete:
+        role.delete()
+    gameToDelete.delete()
+    messages.success(request, f'Successfully deleted game id {gameID} and associated roles')
+    return redirect('/home')

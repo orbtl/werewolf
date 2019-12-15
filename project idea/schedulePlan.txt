@@ -3,9 +3,9 @@ By EOD Monday:
         -big if check for if games in progress to show game info
         (done)-if not on player list, don't show game info
         (done)-(for spectate) don't allow players to spectate
-    -role randomization done
+    (done)-role randomization done
     (done)-Finish list of players in-game so it shows roles and alive/dead
-
+    -Add ability to delete games during debugging
 
 
 By EOD Tuesday:

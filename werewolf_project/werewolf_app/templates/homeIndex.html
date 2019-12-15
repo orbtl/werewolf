@@ -58,6 +58,15 @@
                 </div>
             </div>
         </div>
+        {% if messages %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
         <div class="row">
             <div class="card-group col-md-10 offset-md-1">
                 <div class="card btn btn-primary" style="transform: rotate(0);"> <!--Transform identifies the place where stretched-link stops-->
