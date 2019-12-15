@@ -62,15 +62,21 @@ def joinGame(request, gameID):
         return redirect('/home')
     currUser = User.objects.get(id=request.session['userID'])
     thisGame = gameList[0]
-    if thisGame.started == True or thisGame.ended == True: # prevent players from joining a game after it started or ended
-        messages.error(request, "This game is no longer joinable")
-        return redirect('/home')
     roleList = Role.objects.filter(game=thisGame, player=currUser)
     if len(roleList) > 0: # player has already joined game and been assigned a role
         return redirect(f'/home/game/{gameID}')
-    else: # create a new role for the player and add them to the player list
+    if thisGame.started == True:
+        if thisGame.ended == False: # game is currently running
+            if thisGame.allow_spectators == True:
+                return redirect(f'/home/game/{gameID}')
+            else:
+                messages.error(request, "Sorry, game currently in progress and spectating not enabled")
+                return redirect(f'/home')
+        else: # game is finished
+            return redirect(f'/home/game/{gameID}')
+    else: # still in lobby -- create a new role for the player and add them to the player list
         thisGame.players.add(currUser)
-        thisRole = Role.objects.create(player=currUser, game=thisGame, role_name="unassigned")
+        Role.objects.create(player=currUser, game=thisGame, role_name="unassigned")
         return redirect(f'/home/game/{gameID}')
     
 def startGame(request, gameID, postData):
@@ -119,4 +125,4 @@ def addFakeUsers(request, gameID):
             Role.objects.create(player=fakeUser, game=game)
             game.players.add(fakeUser)
     messages.success(request, "Added fake users to current game")
-    return redirect(f'/home/game/{gameID}')
+    return redirect(f'/home/game/{gameID}') 

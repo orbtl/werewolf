@@ -73,8 +73,8 @@
                         <ul>
                             {% for game in games %}
                                 {% if game.ended == False %}
-                                    <li>ID: {{game.id}} - Hosted by {{game.host.username}}
-                                        {% if game.started == False %}
+                                    <li {% if game.started == True %} class="text-success" {% endif %}>ID: {{game.id}} - Host: {{game.host.username}}
+                                        {% if game.started == False or user in game.players.all %}
                                             <a href="/home/game/{{game.id}}/join" class="btn btn-sm btn-primary">Join Game</a>
                                         {% endif %}
                                         {% if game.allow_spectators == True %}
