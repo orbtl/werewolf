@@ -16,8 +16,27 @@
     <div class="container">
         <div id="header"></div>
         <div class="row text-center">
-            <h1 class="col-md-12">Host A Game</h1>
+            <h1 class="col-md-12">
+                {% if game.started == False %}
+                    {% if user == game.host %}
+                        Host A Game
+                    {% else %}
+                        Pre-Game Lobby
+                    {% endif %}
+                {% elif game.ended == False %}
+                    Game In Progress
+                {% else %}
+                    Completed Game
+                {% endif %}
+            </h1>
         </div>
+        {% if game.started == True and game.ended == False %}
+            <div class="row text-center">
+                <h5 class="col-md-12">
+                    Turn Number: {{game.current_turn}} | Phase: {{game.current_phase}}
+                </h5>
+            </div>
+        {% endif %}
         <div class="row">
             <div class="card-deck col-md-12">
                 <div class="card col-md-7">
