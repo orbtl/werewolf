@@ -102,5 +102,21 @@ def fakeUsers(request): # comment this function for production
     fakePassword = bcrypt.hashpw("password".encode(), bcrypt.gensalt()).decode()
     for i in range(1,11):
         if len(User.objects.filter(username=f"user{i}")) == 0: #this fake user doesn't yet exist
-            User.objects.create(first_name="user", last_name=f"{i}", username=f"user{i}", password=fakePassword)
+            User.objects.create(first_name="user", last_name=f"{i}", email=f"user{i}@email.com", username=f"user{i}", password=fakePassword)
+    messages.success(request, "Generated fake users user1@email.com - user10@email.com with password 'password'")
+    return redirect('/')
 
+def addFakeUsers(request, gameID):
+    if 'userID' not in request.session or request.session['userID'] == None:
+        messages.error(request, "You must log in to view that page")
+        return redirect('/')
+    game = Game.objects.get(id=gameID)
+    user = User.objects.get(id=request.session['userID'])
+    if game.host == user:
+        # add the fake users to the game
+        fakeUserList = User.objects.filter(first_name="user")
+        for fakeUser in fakeUserList:
+            Role.objects.create(player=fakeUser, game=game)
+            game.players.add(fakeUser)
+    messages.success(request, "Added fake users to current game")
+    return redirect(f'/home/game/{gameID}')
