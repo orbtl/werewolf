@@ -3,6 +3,7 @@ from django.contrib import messages
 from .models import User, Game, Role
 import random #for random key generation
 import string #for easy random key string generation
+import bcrypt
 
 def randomKey():
     charsAllowed = (string.ascii_uppercase + string.digits)
@@ -96,3 +97,10 @@ def updateGame(request, gameID):
         return startGame(request, gameID, request.POST)
     else:
         return redirect(f'/home/game/{gameID}')
+
+def fakeUsers(request): # comment this function for production
+    fakePassword = bcrypt.hashpw("password".encode(), bcrypt.gensalt()).decode()
+    for i in range(1,11):
+        if len(User.objects.filter(username=f"user{i}")) == 0: #this fake user doesn't yet exist
+            User.objects.create(first_name="user", last_name=f"{i}", username=f"user{i}", password=fakePassword)
+
