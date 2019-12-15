@@ -5,7 +5,7 @@ By EOD Monday:
         (done)-(for spectate) don't allow players to spectate
     (done)-role randomization done
     (done)-Finish list of players in-game so it shows roles and alive/dead
-    -Add ability to delete games during debugging
+    (done)-Add ability to delete games during debugging
 
 
 By EOD Tuesday:
