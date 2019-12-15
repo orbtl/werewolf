@@ -1,3 +1,4 @@
 -Header loading a split second after the rest of the page.  Can we make it load first?
 -game options need to show their current values to non-host players on game lobby
 -make function for populating game with fake players for debugging/demonstration purposes
+-game settings page for players shows correct settings but we need to fix it showing True/False instead of maybe 1 or 0 (or maybe show greyed out checkboxes???)

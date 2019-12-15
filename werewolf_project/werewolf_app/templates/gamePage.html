@@ -105,7 +105,7 @@
                                     </div>
                                     {% if messages %}
                                     <div class="row">
-                                        <ul class="messages">
+                                        <ul class="messages"> <!--Error Messages for host-->
                                             {% for message in messages %}
                                                 <li>{{message}}</li>
                                             {% endfor %}
@@ -239,32 +239,77 @@
                         <h4>Connected Players: {{game.players.all|length|add:"-1"}}</h4>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Full Name</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for player in game.players.all %}
-                                    {% if player != game.host %}
-                                        <tr>
-                                            <td>{{player.username}}</td>
-                                            <td>{{player.first_name}} {{player.last_name}}</td>
-                                            <td>
-                                                {% if user == game.host %}
-                                                    <a href="/home/game/{{game.id}}/kick/{{player.id}}" class="btn btn-sm btn-warning">Kick</a>
-                                                    <a href="/home/game/{{game.id}}/ban/{{player.id}}" class="btn btn-sm btn-danger">Ban</a>
-                                                {% endif %}
-                                                <a href="/home/users/{{player.id}}" class="btn btn-sm btn-info">Profile</a>
-                                            </td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        {% if game.started == False %} <!--Pre-Game Lobby Player List-->
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Full Name</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for player in game.players.all %}
+                                        {% if player != game.host %}
+                                            <tr>
+                                                <td>{{player.username}}</td>
+                                                <td>{{player.first_name}} {{player.last_name}}</td>
+                                                <td>
+                                                    {% if user == game.host %}
+                                                        <a href="/home/game/{{game.id}}/kick/{{player.id}}" class="btn btn-sm btn-warning">Kick</a>
+                                                        <a href="/home/game/{{game.id}}/ban/{{player.id}}" class="btn btn-sm btn-danger">Ban</a>
+                                                    {% endif %}
+                                                    <a href="/home/users/{{player.id}}" class="btn btn-sm btn-info">Profile</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                        {% else %} <!--Game has started-->
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Player</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for role in game.roles.all %}
+                                        {% if role.player != game.host %}
+                                            <tr>
+                                                <td>{{role.player.username}}</td>
+                                                <td>
+                                                    {% if role.isAlive == True %}
+                                                        Alive
+                                                    {% else %}
+                                                        Dead
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if user == game.host or role.isAlive == False %}
+                                                        {{role.role_name}}
+                                                    {% else %}
+                                                        ???
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if user == game.host %}
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary" type="button" id="role{{role.id}}Control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                ☰
+                                                            </button>
+                                                        </div>
+                                                    {% if user != game.host %}
+                                                        <a href="/home/users/{{player.id}}" class="btn btn-sm btn-info">Profile</a>\
+                                                    {}
+                                                </td>
+                                            </tr>
+                                </tbody>
+                            </table>
                     </div>
                 </div>
             </div>
