@@ -1,11 +1,72 @@
 from django.db import models
 from login_app.models import User
+import random
 
 class GameManager(models.Manager):
     def count_special_roles(self, postData):
         #for total special roles we skip accursed_one because the number is taken out of num_werewolves.  We add twins twice because it creates two special role players
         total_special_roles = (int(postData['num_werewolves']) + int(postData['seer']) + int(postData['witch']) + int(postData['cupid']) + int(postData['defender']) + int(postData['hunter']) + int(postData['twins']) + int(postData['twins']) + int(postData['village_idiot']) + int(postData['wild_child']) + int(postData['little_child']) + int(postData['rusty_knight']) + int(postData['elder']) + int(postData['angel']) + int(postData['gypsy']))
         return total_special_roles
+
+    def randomizeRoles(self, thisGame):
+        gameRoles = thisGame.roles.exclude(player=thisGame.host)
+        roleArray = []
+        numWerewolves = thisGame.num_werewolves
+        if thisGame.has_accursed_one == True:
+            numWerewolves -= 1
+            roleArray.append("Accursed One")
+        for i in range(numWerewolves):
+            roleArray.append("Werewolf")
+        if thisGame.has_village_idiot:
+            roleArray.append("Village Idiot")
+        if thisGame.has_cupid:
+            roleArray.append("Cupid")
+        if thisGame.has_twins:
+            roleArray.append("Twin")
+            roleArray.append("Twin")
+        if thisGame.has_seer:
+            roleArray.append("Seer")
+        if thisGame.has_witch:
+            roleArray.append("Witch")
+        if thisGame.has_defender:
+            roleArray.append("Defender")
+        if thisGame.has_hunter:
+            roleArray.append("Hunter")
+        if thisGame.has_wild_child:
+            roleArray.append("Wild Child")
+        if thisGame.has_role_model:
+            roleArray.append("Role Model")
+        if thisGame.has_little_child:
+            roleArray.append("Little Child")
+        if thisGame.has_rusty_knight:
+            roleArray.append("Knight with the Rusty Sword")
+        if thisGame.has_elder:
+            roleArray.append("Elder")
+        if thisGame.has_angel:
+            roleArray.append("Angel")
+        if thisGame.has_gypsy:
+            roleArray.append("Gypsy")
+        current_player_count = (len(thisGame.players.all()) - 1) # subtract 1 to not count host
+        numVillagers = current_player_count - len(roleArray)
+        for i in range(numVillagers):
+            roleArray.append("Villager")
+        # array of roles is built, now randomize:
+        for role in gameRoles:
+            roleIndex = random.randrange(0, len(roleArray), 1)
+            role.role_name = roleArray.pop(roleIndex)
+            role.save()
+            if role.role_name == "Gypsy":
+                role.primary_ammo = 5
+            else:
+                role.primary_ammo = 1
+            role.secondary_ammo = 1
+            role.save()
+        return
+        
+
+
+
+
 
     def game_validator(self, postData):
         errors = {}
@@ -73,7 +134,11 @@ class GameManager(models.Manager):
             errors['too_many_players'] = "There are more players connected than you are allowing in your max # of players... kick someone?"
         if len(errors) == 0: #actually start the game
             thisGame.started = True
+            thisGame.current_phase = "Night"
             thisGame.save()
+            # randomize roles
+            self.randomizeRoles(thisGame)
+
         return errors
         
 

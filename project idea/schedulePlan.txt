@@ -4,7 +4,7 @@ By EOD Monday:
         (done)-if not on player list, don't show game info
         (done)-(for spectate) don't allow players to spectate
     -role randomization done
-    -Finish list of players in-game so it shows roles and alive/dead
+    (done)-Finish list of players in-game so it shows roles and alive/dead
 
 
 
@@ -25,7 +25,7 @@ By EOD Wednesday:
 By EOD Thursday: 
     -Dry-run of presentation (do we want to use two laptops for host vs player view?)
     -Implement force-kill functionality
-    -Implement Kick/Ban functionality
+    -Implement Ban functionality (kick is done)
     -Try implementing data visualization (d3?) for winrate trend graph etc
     -change leaderboard metrics from a dropdown or something
 
