@@ -99,7 +99,7 @@
                                         <input type="checkbox" value=1 name="allow_spectators" class="form-control col-md-1" {% if game.allow_spectators %}checked{% endif %}>
                                     </div>
                                     <div class="form-group row align-items-center justify-content-end">
-                                        <a href="#" class="btn btn-warning mr-3">Add Fake Users</a> <!--Populates game with fake users, comment this out for production-->
+                                        <a href="/home/game/{{game.id}}/addFakeUsers" class="btn btn-warning mr-3">Add Fake Users</a> <!--Populates game with fake users, comment this out for production-->
                                         <button type="submit" name="submitAction" value="update" class="btn btn-primary mr-3">Apply Changes</button>
                                         <a href="#" class="btn btn-secondary mr-3">Suggest Values</a>
                                         <button type="submit" name="submitAction" value="start" class="btn btn-danger">Start Game</button>

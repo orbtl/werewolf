@@ -10,4 +10,5 @@ urlpatterns = [
     path('game/<int:gameID>/update', views.updateGame),
     path('game/<int:gameID>/start', views.startGame),
     path('fakeUserGen', views.fakeUsers), # comment this for production -- generate fake users for debug
+    path('game/<int:gameID>/addFakeUsers', views.addFakeUsers), # comment this for production -- add fake users to game
 ]
