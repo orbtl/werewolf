@@ -67,13 +67,26 @@ class GameManager(models.Manager):
         phase = game.current_phase
         roles = game.roles.exclude(player=game.host)
         aliveRoles = game.roles.filter(isAlive=True)
-        if phase == "Night":
-            if turn == 0:
+        htmlArr = [] # this is where we will append all html to send to template for form inputs
+        if phase == "Night": # determining form inputs to send to template
+            if turn == 0: # initial game setup for special roles
                 #night of turn 0
                 if len(roles.filter(role_name="Cupid")) > 0:
-                    # cupid logic
+                    htmlArr.append("<div class='form-group row align-items-center'>")
+                    htmlArr.append("<label for='lover1' class='control-label col-md-5'>Lover 1</label>")
+                    htmlArr.append("<select name='lover1' class='form-control col-md-7'>")
+                    for role in aliveRoles.exclude(role_name="Cupid"):
+                        htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
+                    htmlArr.append("</select>")
+                    htmlArr.append("<select name='lover2'>")
+                    for role in aliveRoles.exclude(role_name="Cupid"):
+                        htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
+                    htmlArr.append("</select>")
                 if len(roles.filter(role_name="Wild Child")) > 0:
-                    # wild logic
+                    htmlArr.append("<select name='role_model'>")
+                    for role in aliveRoles.exclude(role_name="Wild Child"):
+                        htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
+                    htmlArr.append("</select>")
             # all nights
             if len(aliveRoles.filter(role_name="Werewolf")) == 0 and len(aliveRoles.filter(role_name="Accursed One")) == 0:
                 # logic for vill WIN
