@@ -5,9 +5,9 @@
 input:
 	-If cupid in game, input who the two lovers are and store that and set them to lovers as secondary
 	-If wild_child in game, input who they choose to be their role model and set secondary role to that
-	-If player is werewolf, they should be able to see roles of other werewolves (? little child ???)
+	* -If player is werewolf, they should be able to see roles of other werewolves (? little child ???)
 		-Same for accursed one (but they should not see who accursed one is)
-	-If player is twin, show who the other twin is on player list
+	* -If player is twin, show who the other twin is on player list
 output: 
 
 
@@ -18,7 +18,7 @@ output:
 		
 	-check was little child caught?
 		-if so, kill instead of current kill target
-	-If lover gets selected to die, other lover needs to die too
+	
 	-Who the seer chose, and then update role list to show that role to seer
 	-Whether the witch uses potion, whether the witch uses poison, and if so who they poison,
 		-check amo
@@ -40,7 +40,7 @@ output:
 		-if tetatanus = True, random wolf also dies
 		-if hunter: choose who hunter kills
 		-if rolemodel: wildchild switch roles to werewolf
-		-if lover gets voted to be killed, other lover dies too
+		-if lover gets killed, other lover dies too
 		-Rusty knight, random werewolf gets tetanus
 			-gets tetanus = next turn die
 		-if elder, check ammo
