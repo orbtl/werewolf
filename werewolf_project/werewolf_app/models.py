@@ -138,8 +138,10 @@ class GameManager(models.Manager):
             littleChildCaught = False
             defTarget = None
             
-            
-            
+            #check for previously infected tetanus here
+            tetanusList = Role.objects.filter(role_notes="Tetanus")
+            if len(tetanusList) > 0: # we know one is infected
+                tetanusList[0].isAlive = False
             
             #check if accursed one switched them to werewolf
             if 'targetSwitched' in postData:
@@ -174,56 +176,35 @@ class GameManager(models.Manager):
                 if wwTarget.primary_ammo == 1:
                     wwTarget.primary_ammo = 0
                     wwTarget = None
+            if witchUsedPotion == True and targetSwitched == False:
+                Role.objects.filter(role_name="Witch")[0].primary_ammo = 0
+                wwTarget = None
+            if wwTarget != None: # confirm someone is dying
+                if wwTarget.role_name == "Hunter":
+                    # hunter kill extra form logic
+                if wwTarget.role_name == "Role Model":
+                    wildChildList = aliveRoles.filter(role_name="Wild Child")
+                    if len(wildChildList) > 0:
+                        wildChildList[0].role_notes = "Role before being turned: Wild Child"
+                        wildChildList[0].role_name = "Werewolf"
+                if wwTarget.role_name == "Lover":
+                    loverList = aliveRoles.filter(secondary_role_name="Lover")
+                    if len(loverList) > 0:
+                        loverList[0].isAlive = False
+                        loverList[1].isAlive = False
+                if wwTarget.role_name == "Knight with the Rusty Sword":
+                    # infect werewolf with tetanus logic
+
+                wwTarget.isAlive = False # actually kill the target
             
-            
-            
-            
-            
-            
-            
-            #check if rusty knight was killed
-            rustyKnightList = aliveRoles.filter(role_name="Knight with the Rusty Sword")
-            if len(rustyKnightList) > 0:
-                if rustyKnightList[0] == wwTarget:
-                    # logic to store that a werewolf gets tetanus and dies the following day
-                    # random werewolf (or accursed one)'s special_notes becomes "Tetanus"
-            #check if hunter was killed
-            hunterList = aliveRoles.filter(role_name="Hunter")
-            if len(hunterList) > 0:
-                if hunterList[0] == wwTarget:
-                    #logic to get another form's data about who the hunter chooses to kill
-            
-            #check if elder was killed
-            elderList = aliveRoles.filter(role_name="Elder")
-            if len(elderList) > 0:
-                if elderList[0] == wwTarget:
-                    #Logic to check elder's ammo
-                    # if ammo is 0, elder dies
-                    # if ammo is 1, elder lives but ammo goes to 0
-            #check if tetanus is true to kill a wolf
-            tetanusList = Role.objects.filter(role_notes="Tetanus")
-            if len(tetanusList) > 0: # we know one is infected
-                #logic to kill infected player
-            #check if lover was killed
-            loverList = aliveRoles.filter(secondary_role_name="Lover")
-            if len(loverList) > 0:
-                # logic to kill both lovers in this list
-            #check if role model was killed
-            roleModelList = aliveRoles.filter(secondary_role_name="Role Model")
-            wildChildList = aliveRoles.filter(role_name="Wild Child")
-            if len(roleModelList) > 0 and len(wildChildList) > 0:
-                if roleModelList[0] == wwTarget:
-                    # logic to change wildChildList[0] to werewolf team
-                    # logic to kill role model
-                    
+                   
             #check if angel killed and it's day 2, angel wins
             if game.turn == 2:
                 angelList = aliveRoles.filter(role_name="Angel")
                 if len(angelList) > 0:
                     if angelList[0] == wwTarget:
                         # logic for angel winning
-            # dont kill logic
-            # if witchUsedPotion == True
+            
 
 
 
