@@ -34,8 +34,6 @@ class GameManager(models.Manager):
             roleArray.append("Hunter")
         if thisGame.has_wild_child:
             roleArray.append("Wild Child")
-        if thisGame.has_role_model:
-            roleArray.append("Role Model")
         if thisGame.has_little_child:
             roleArray.append("Little Child")
         if thisGame.has_rusty_knight:

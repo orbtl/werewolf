@@ -2,3 +2,4 @@
 -game settings page for players shows correct settings but we need to fix it showing True/False instead of maybe 1 or 0 (or maybe show greyed out checkboxes???)
 -spectators can't see roles of players
 -Need to implement lovers seeing who else is their lover once chosen by cupid
+-Add name property to game model and implement showing the name for game differentiation
