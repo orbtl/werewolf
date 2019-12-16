@@ -1,0 +1,63 @@
+-Main Game functionality for host
+
+
+-Night phase of turn 0
+input:
+	-If cupid in game, input who the two lovers are and store that and set them to lovers as secondary
+	-If wild_child in game, input who they choose to be their role model and set secondary role to that
+	-If player is werewolf, they should be able to see roles of other werewolves (? little child ???)
+		-Same for accursed one (but they should not see who accursed one is)
+	-If player is twin, show who the other twin is on player list
+output: 
+
+
+-Regular night phases
+	-Who the werewolves choose to kill
+		-Whether the accursed_one turns them instead of them being killed
+			-(only if accursed one exists and is still alive)
+		
+	-check was little child caught?
+		-if so, kill instead of current kill target
+	-If lover gets selected to die, other lover needs to die too
+	-Who the seer chose, and then update role list to show that role to seer
+	-Whether the witch uses potion, whether the witch uses poison, and if so who they poison,
+		-check amo
+			-if they save, make sure person doesn't get killed,
+			-if they poison, kill person
+		-updated witch ammo
+	-who the defender saves
+		- if person was supposed to be killed, don't kill
+		- enter saved person in role notes
+		*save selection: dont show stored player from role notes
+	-If has ammo, Gypsy use ammo?: reduce ammo
+	
+
+
+
+-Day phase
+	-reveal dead
+		-(If turn 1): if angel, game ends, angel wins
+		-if tetatanus = True, random wolf also dies
+		-if hunter: choose who hunter kills
+		-if rolemodel: wildchild switch roles to werewolf
+		-if lover gets voted to be killed, other lover dies too
+		-Rusty knight, random werewolf gets tetanus
+			-gets tetanus = next turn die
+		-if elder, check ammo
+			-if ammo = 0: kill elder
+			-else: dont kill, ammo = 0
+	-Who the villagers vote to kill
+		-(If turn 1): if angel, game ends, angel wins
+		-if village idiot was voted to be killed, deal with them not being killed and display that they now cannot vote
+		-if lover gets voted to be killed, other lover dies too
+		-if hunter, choose someone to kill
+		-if rolemodel: wildchild switch roles to werewolf
+		-if elder, set all village special roles to villager
+
+		
+
+
+
+(for display on the player list for werewolves)
+if blah.role_name == "Werewolf" or blah.role_name == "Accursed One":
+	<td>Werewolf<td>
