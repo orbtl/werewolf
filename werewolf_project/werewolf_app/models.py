@@ -10,7 +10,7 @@ class GameManager(models.Manager):
         if role.role_name == "Villager":
             desc = "As a villager, you do not have any special abilities.  There are werewolves in your midst, and your goal is to identify and eliminate them, using only your wit.  Each day, you will have the opportunity to come to a consensus with your fellow villagers and vote to kill one of your own that you suspect is secretly a werewolf.  Choose wisely!  You win the game if you eliminate all werewolves from the game."
         if role.role_name == "Village Idiot":
-            desc = "What is a village without an Idiot? You do pretty much nothing important, but you are so charming that no one would want to hurt you....<br> If the village votes against you, you are revealed as the Village Idiot. At that moment the Villagers understand their mistake and immediately let you be. From now on you continue to play, but may no longer vote. As what would the vote of an idiot be worth....<br> Keep in mind that if the Werewolves devour you, you are dead."
+            desc = "What is a village without an Idiot? You do pretty much nothing important, but you are so charming that no one would want to hurt you....\n If the village votes against you, you are revealed as the Village Idiot. At that moment the Villagers understand their mistake and immediately let you be. From now on you continue to play, but may no longer vote. As what would the vote of an idiot be worth....\n Keep in mind that if the Werewolves devour you, you are dead."
         if role.role_name == "Cupid":
             desc = "Cupid is the village matchmaker. YOu received the nickname because of your ability to make any two people fall in love instantly. During the first night of the game, Cupid designates two players who will be in 'in love' with one another for the rest of the game. Cupid can choose themself as one of the lovers. If one of the lovers dies, the other immediately kills him/herself in a fit of grief. A love cannot, even as a bluff, vote to lynch their lover."
         if role.role_name == "Twin":
@@ -26,19 +26,19 @@ class GameManager(models.Manager):
         if role.role_name == "Hunter":
             desc = "The Hunter is a villager with special abilities. If you are killed by the Werewolves, or lynched by the Villagers, you can retalitate. With your dying breath, you will shoot, thus eliminating, any one other player."
         if role.role_name == "Wild Child":
-            desc = "Abandoned in the woods by your parents, at a young age you were raised by wolves. As soon as you learned to walk you began to explore the Village. The community was moved by your frailty and adopted you. You are currently a Villager and on the first night, once called by the Host, you will choose a player to be your role model.  As long as your role model is alive, you are a villager. <br>IF during the game your role model is eliminated, you become a Werewolf and will wake up the next night with your peers and devour with them until the end of the game."
+            desc = "Abandoned in the woods by your parents, at a young age you were raised by wolves. As soon as you learned to walk you began to explore the Village. The community was moved by your frailty and adopted you. You are currently a Villager and on the first night, once called by the Host, you will choose a player to be your role model.  As long as your role model is alive, you are a villager. \nIF during the game your role model is eliminated, you become a Werewolf and will wake up the next night with your peers and devour with them until the end of the game."
         if role.role_name == "Little Child":
             desc = "The Little Child is a villager who is very curious. You can open your eyes during the night to spy on the Werewolves. However, if you are caught in the act by the Werewolves, you immediately die of fright, silently, instead of the designated victim. You can spy during the night only during the 'Werewolves awaking' phase. When the Little Child is in play, it is necessary for all players to avoid hiding their faces when sleeping (and instead just close their eyes)."
         if role.role_name == "Knight with the Rusty Sword":
-            desc = "'Don Sneezy' as they like to call you, is an old retired knight. You are rather tired by a life of questing throughout the world and you just simply don't maintain your noble sword very well anymore. Rust has slowly started to settle on your protector's dull edge, but you'll never leave it for another. <br> If you are devoured, as you lay dying you contaminate one of the Werewolves with your trusty rusty sword. <br> A random Werewolf will now be infected with tetanus and will survive his wound for the day, but succumb at night."
+            desc = "'Don Sneezy' as they like to call you, is an old retired knight. You are rather tired by a life of questing throughout the world and you just simply don't maintain your noble sword very well anymore. Rust has slowly started to settle on your protector's dull edge, but you'll never leave it for another. \n If you are devoured, as you lay dying you contaminate one of the Werewolves with your trusty rusty sword. \n A random Werewolf will now be infected with tetanus and will survive his wound for the day, but succumb at night."
         if role.role_name == "Elder":
-            desc = "You have victoriously gone through all of life's terrible trials, and have gained an uncommon resistance! The Werewolves have to try twice to devour you! <br> The first time you are defvoured by the Werewolves, you survive. <br> You are only eliminated when devoured a second time. <br> The Villager's vote, Witch's poison, and the Hunter's shot will all kill you the first time, BUT, despairing from having killed such a fount of knowledge, the Villagers all lose their special powers for the rest of the game. "
+            desc = "You have victoriously gone through all of life's terrible trials, and have gained an uncommon resistance! The Werewolves have to try twice to devour you! \n The first time you are defvoured by the Werewolves, you survive. \n You are only eliminated when devoured a second time. \n The Villager's vote, Witch's poison, and the Hunter's shot will all kill you the first time, BUT, despairing from having killed such a fount of knowledge, the Villagers all lose their special powers for the rest of the game. "
         if role.role_name == "Angel":
-            desc = "The muddy life of a village infested with evil creatures repulses you. You only wish to escape this terrible nightmare and wake up in your comfortable bed. If you manage to attract the discriminatory vote of the villagers or the devouring vindictiveness of the lycanthropes to be eliminated on the first turn, you will then be able to leave the nightmare as the winner of the game! <br> If you fail, you are reduced to a simple villager the rest of the game."
+            desc = "The muddy life of a village infested with evil creatures repulses you. You only wish to escape this terrible nightmare and wake up in your comfortable bed. If you manage to attract the discriminatory vote of the villagers or the devouring vindictiveness of the lycanthropes to be eliminated on the first turn, you will then be able to leave the nightmare as the winner of the game! \n If you fail, you are reduced to a simple villager the rest of the game."
         if role.role_name == "Gypsy":
-            desc = "You are Esmeralda's sister, who is simply called The Gypsy and you know the ways of the Great Beyond. You simply have to, with no artifice or unguent, concentrate and gaze upon the sky during the new moon to communicate with the souls of the departed<br> Each night, the Host will ask if you would like you use your power. If affirmative, you may be given a choice of yes/no questions to ask the departed players. This ability may be used 5 times per game, but only once per night. "
+            desc = "You are Esmeralda's sister, who is simply called The Gypsy and you know the ways of the Great Beyond. You simply have to, with no artifice or unguent, concentrate and gaze upon the sky during the new moon to communicate with the souls of the departed\n Each night, the Host will ask if you would like you use your power. If affirmative, you may be given a choice of yes/no questions to ask the departed players. This ability may be used 5 times per game, but only once per night. "
         if role.secondary_role_name == "Lover":
-            desc += "<br>You have been destined by Cupid to fall in love!  You now care more about the welfare of your lover than anyone else in the game.  You may not vote in favor of your lover being lynched during the day phase!  If your lover dies, you simply cannot go on, and you take your own life." 
+            desc += "\n \n You have been destined by Cupid to fall in love!  You now care more about the welfare of your lover than anyone else in the game.  You may not vote in favor of your lover being lynched during the day phase!  If your lover dies, you simply cannot go on, and you take your own life." 
         return desc
 
 
@@ -135,7 +135,7 @@ class GameManager(models.Manager):
             defTarget = None
             
             #check for previously infected tetanus here
-            tetanusList = Role.objects.filter(role_notes="Tetanus")
+            tetanusList = aliveRoles.filter(hasTetanus = True)
             if len(tetanusList) > 0: # we know one is infected
                 tetanusList[0].isAlive = False
                 tetanusList[0].turn_died = game.current_turn
@@ -205,8 +205,17 @@ class GameManager(models.Manager):
                         loverList[1].turn_died = game.current_turn
                         loverList[1].save()
                 if wwTarget.role_name == "Knight with the Rusty Sword":
-                    pass
-                    # infect werewolf with tetanus logic
+                    wwList = aliveRoles.filter(role_name="Werewolf")
+                    aoList = aliveRoles.filter(role_name="Accursed One")
+                    wwArr = []
+                    if len(wwList) > 0:
+                        for ww in wwList: wwArr.append(ww)
+                    if len(aoList) > 0:
+                        wwArr.append(aoList[0])
+                    randIndex = random.randint(0, len(wwArr), 1)
+                    wwArr[randIndex].hasTetanus = True
+                    wwArr[randIndex].save()
+
 
                 wwTarget.isAlive = False # actually kill the target
                 wwTarget.turn_died = game.current_turn
@@ -474,5 +483,6 @@ class Role(models.Model):
     role_name = models.CharField(max_length=45, null=True) #Name of Role, choose from:
     secondary_role_name = models.CharField(max_length=45, null=True) # Need this for roles like Lover that can be used in conjunction with other roles like werewolf
     isRoleModel = models.BooleanField(default=False) #store if role is wild child's role model
+    hasTetanus = models.BooleanField(default=False) # store if werewolf has tetanus
     #role_name options: cupid,lover,werewolf,villager,village_idiot,twin,accursed_one,seer,witch,defender,hunter,wild_child,role_model,little_child,rusty_knight,elder,angel,gypsy
     

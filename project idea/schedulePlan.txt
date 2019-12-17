@@ -1,6 +1,6 @@
 By EOD Monday:
     (done)-In-game page FUNCTIONALITY done (show roles to players)
-        -big if check for if games in progress to show game info
+        (done)-big if check for if games in progress to show game info
         (done)-if not on player list, don't show game info
         (done)-(for spectate) don't allow players to spectate
     (done)-role randomization done
@@ -9,8 +9,8 @@ By EOD Monday:
 
 
 By EOD Tuesday:
-    -Storing each game's data in the database
-    -Storing each turn's data in the database
+    (done)-Storing each game's data in the database
+    (COME ONNNNNNNNNNNNNNNNNNNNNN)-Storing each turn's data in the database
     -Implement game page for post-game stats/info
     -Implement user profile page with user stats
 

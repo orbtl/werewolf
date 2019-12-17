@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col-md-10 offset-md-1">
-        {{roleInfo}}
+        {{roleInfo|linebreaks}}
     </div>
 </div>
 <div class="row">
@@ -29,12 +29,13 @@
                 {% endfor %}
         {% endif %}
         {% if playerRole.secondary_role_name == "Lover" and playerRole.game.current_turn >= 1 %} <!--Lovers-->
-            <p>Your lover is:</p>
+            <p>Your lover is:
                 {% for role in roles %}
                     {% if role.secondary_role_name == "Lover" and role != playerRole %}
-                        <p>{{role.player.username}}</p>
+                        {{role.player.username}}
                     {% endif %}
                 {% endfor %}
+            </p>
         {% endif %}
         {% if playerRole.role_name == "Twin" %}
             <p>Your twin (who you know is surely not a werewolf) is:</p>

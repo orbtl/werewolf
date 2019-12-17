@@ -1,16 +1,13 @@
--Header loading a split second after the rest of the page.  Can we make it load first?
+-implement tetanus functionality
 -game settings page for players shows correct settings but we need to fix it showing True/False instead of maybe 1 or 0 (or maybe show greyed out checkboxes???)
 -spectators can't see roles of players
--Need to implement lovers seeing who else is their lover once chosen by cupid
--Add name property to game model and implement showing the name for game differentiation
--check defender to make sure primary ammo role id check is working
--show secondary roles in player list
--program witch functionality (killing someone)
 -actually get post-game page to show information about the game
 -accursed one needs to have only 1 ammo (check all special characters too)
--never actually set lovers to secondary_role_name even though logic to check for them is there
--add input for who seer checked, append string to role notes maybe to store info on who they checked and show it for the player
--implement tetanus functionality
 -maybe have helpful info box at the bottom of host's game page to show reminders about certain roles, like village idiot no longer being able to vote
--partial html template - update seer information once seer functionality is programmed
 -add last_phase_description to game model and show it to host to remind of the events that happened i nthe last phase
+-Tidy up current game list with scroll/margins
+-spectate is hella borked
+-partial html template - update seer information once seer functionality is programmed
+-add input for who seer checked, append string to role notes maybe to store info on who they checked and show it for the player
+-Add name property to game model and implement showing the name for game differentiation
+-Header loading a split second after the rest of the page.  Can we make it load first?
