@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     path('', views.homeIndex),
     path('header', views.header),
+    path('dayPhase', views.dayPhase),
+    path('nightPhase', views.nightPhase),
     path('host', views.createGame),
     path('game/<int:gameID>', views.game),
     path('game/<int:gameID>/join', views.joinGame),

@@ -61,162 +61,162 @@ class GameManager(models.Manager):
             role.save()
         return
 
-    def renderGamePhase(self, gameID):
-        game = Game.objects.get(id=gameID)
-        turn = game.current_turn
-        phase = game.current_phase
-        roles = game.roles.exclude(player=game.host)
-        aliveRoles = game.roles.filter(isAlive=True)
-        htmlArr = [] # this is where we will append all html to send to template for form inputs
-        if phase == "Night": # determining form inputs to send to template
-            if turn == 0: # initial game setup for special roles
-                #night of turn 0
-                if len(roles.filter(role_name="Cupid")) > 0:
-                    htmlArr.append("<div class='form-group row align-items-center'>")
-                    htmlArr.append("<label for='lover1' class='control-label col-md-5'>Lover 1</label>")
-                    htmlArr.append("<select name='lover1' class='form-control col-md-7'>")
-                    for role in aliveRoles.exclude(role_name="Cupid"):
-                        htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
-                    htmlArr.append("</select>")
-                    htmlArr.append("<select name='lover2'>")
-                    for role in aliveRoles.exclude(role_name="Cupid"):
-                        htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
-                    htmlArr.append("</select>")
-                if len(roles.filter(role_name="Wild Child")) > 0:
-                    htmlArr.append("<select name='role_model'>")
-                    for role in aliveRoles.exclude(role_name="Wild Child"):
-                        htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
-                    htmlArr.append("</select>")
-            # all nights
-            if len(aliveRoles.filter(role_name="Werewolf")) == 0 and len(aliveRoles.filter(role_name="Accursed One")) == 0:
-                # logic for vill WIN
-            if (len(aliveRoles.filter(role_name="Werewolf")) + len(aliveRoles.filter(role_name="Accursed One"))) == len(aliveRoles.all()): 
-                # werewolf win logic
-            if len(aliveRoles.filter(role_name='Werewolf')) > 0:
-                # werewolf logic
-                    # who the target??
-            if len(aliveRoles.filter(role_name='Accursed One')) > 0:
-                # accursed logic
-                    # turn or not
-            if len(aliveRoles.filter(role_name='Little Child')) > 0:
-                # little
-                    # caught or not
-            if len(aliveRoles.filter(role_name='Seer')) > 0:
-                # seer
-                    # target check
-            if len(aliveRoles.filter(role_name='Witch')) > 0:
-                # witch
-                    # check ammo:
-                        # if use potion?:
-                        # posion use or not: 
-                            # who?
-            if len(aliveRoles.filter(role_name='Defender')) > 0:
-                # defender
-                    # check ammo
-                        # does role's ID NOT match ID in stored in sec/ammo (stored in defender's Role.primary_ammo as ID of target)
-                            # defend who?
-                            # set sec/ammo to defended's ID
-            if len(aliveRoles.filter(role_name='Gypsy')) > 0:
-                # gypsy
-                    # check ammo
-                        # adjust ammo
-            # increase turn counter
-            # change phase to day
+    # def renderGamePhase(self, gameID):
+    #     game = Game.objects.get(id=gameID)
+    #     turn = game.current_turn
+    #     phase = game.current_phase
+    #     roles = game.roles.exclude(player=game.host)
+    #     aliveRoles = game.roles.filter(isAlive=True)
+    #     htmlArr = [] # this is where we will append all html to send to template for form inputs
+    #     if phase == "Night": # determining form inputs to send to template
+    #         if turn == 0: # initial game setup for special roles
+    #             #night of turn 0
+    #             if len(roles.filter(role_name="Cupid")) > 0:
+    #                 htmlArr.append("<div class='form-group row align-items-center'>")
+    #                 htmlArr.append("<label for='lover1' class='control-label col-md-5'>Lover 1</label>")
+    #                 htmlArr.append("<select name='lover1' class='form-control col-md-7'>")
+    #                 for role in aliveRoles.exclude(role_name="Cupid"):
+    #                     htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
+    #                 htmlArr.append("</select>")
+    #                 htmlArr.append("<select name='lover2'>")
+    #                 for role in aliveRoles.exclude(role_name="Cupid"):
+    #                     htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
+    #                 htmlArr.append("</select>")
+    #             if len(roles.filter(role_name="Wild Child")) > 0:
+    #                 htmlArr.append("<select name='role_model'>")
+    #                 for role in aliveRoles.exclude(role_name="Wild Child"):
+    #                     htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
+    #                 htmlArr.append("</select>")
+    #         # all nights
+    #         if len(aliveRoles.filter(role_name="Werewolf")) == 0 and len(aliveRoles.filter(role_name="Accursed One")) == 0:
+    #             # logic for vill WIN
+    #         if (len(aliveRoles.filter(role_name="Werewolf")) + len(aliveRoles.filter(role_name="Accursed One"))) == len(aliveRoles.all()): 
+    #             # werewolf win logic
+    #         if len(aliveRoles.filter(role_name='Werewolf')) > 0:
+    #             # werewolf logic
+    #                 # who the target??
+    #         if len(aliveRoles.filter(role_name='Accursed One')) > 0:
+    #             # accursed logic
+    #                 # turn or not
+    #         if len(aliveRoles.filter(role_name='Little Child')) > 0:
+    #             # little
+    #                 # caught or not
+    #         if len(aliveRoles.filter(role_name='Seer')) > 0:
+    #             # seer
+    #                 # target check
+    #         if len(aliveRoles.filter(role_name='Witch')) > 0:
+    #             # witch
+    #                 # check ammo:
+    #                     # if use potion?:
+    #                     # posion use or not: 
+    #                         # who?
+    #         if len(aliveRoles.filter(role_name='Defender')) > 0:
+    #             # defender
+    #                 # check ammo
+    #                     # does role's ID NOT match ID in stored in sec/ammo (stored in defender's Role.primary_ammo as ID of target)
+    #                         # defend who?
+    #                         # set sec/ammo to defended's ID
+    #         if len(aliveRoles.filter(role_name='Gypsy')) > 0:
+    #             # gypsy
+    #                 # check ammo
+    #                     # adjust ammo
+    #         # increase turn counter
+    #         # change phase to day
 
-        if phase == "Day":
+    #     if phase == "Day":
         
-            # form for who the villagers vote to kill
-                #calculate/reveal dead logic for vote:
-                    #if angel is killed and it's day 1, angel wins
-                    #if hunter is killed
-                    #if village idiot was killed (and check village idiot ammo)
-                    #if lover was killed
-                    #if role model was killed
-                    #if elder was killed (check ammo)
+    #         # form for who the villagers vote to kill
+    #             #calculate/reveal dead logic for vote:
+    #                 #if angel is killed and it's day 1, angel wins
+    #                 #if hunter is killed
+    #                 #if village idiot was killed (and check village idiot ammo)
+    #                 #if lover was killed
+    #                 #if role model was killed
+    #                 #if elder was killed (check ammo)
 
-    def calcGamePhase(request, gameID, postData):
-        game = Game.objects.get(id=gameID)
-        turn = game.current_turn
-        phase = game.current_phase
-        roles = game.roles.exclude(player=game.host)
-        aliveRoles = game.roles.filter(isAlive=True)
+    # def calcGamePhase(request, gameID, postData):
+    #     game = Game.objects.get(id=gameID)
+    #     turn = game.current_turn
+    #     phase = game.current_phase
+    #     roles = game.roles.exclude(player=game.host)
+    #     aliveRoles = game.roles.filter(isAlive=True)
         
-        if phase == "Day":
-        # calculate/reveal dead logic
-            #check who was chosen to be killed
-            wwTarget = Role.objects.get(id=postData['wwTargetID'])
-            # initialize life savers
-            targetSwitched = False
-            witchUsedPotion = False
-            littleChildCaught = False
-            defTarget = None
+    #     if phase == "Day":
+    #     # calculate/reveal dead logic
+    #         #check who was chosen to be killed
+    #         wwTarget = Role.objects.get(id=postData['wwTargetID'])
+    #         # initialize life savers
+    #         targetSwitched = False
+    #         witchUsedPotion = False
+    #         littleChildCaught = False
+    #         defTarget = None
             
-            #check for previously infected tetanus here
-            tetanusList = Role.objects.filter(role_notes="Tetanus")
-            if len(tetanusList) > 0: # we know one is infected
-                tetanusList[0].isAlive = False
+    #         #check for previously infected tetanus here
+    #         tetanusList = Role.objects.filter(role_notes="Tetanus")
+    #         if len(tetanusList) > 0: # we know one is infected
+    #             tetanusList[0].isAlive = False
             
-            #check if accursed one switched them to werewolf
-            if 'targetSwitched' in postData:
-                targetSwitched = bool(postData['targetSwitched'])
-            #check if defender saved
-            if 'defTargetID' in postData:
-                defTarget = Role.objects.get(id=postData['defTargetID'])
-                defender = aliveRoles.filter(role_name="Defender")[0]
-                defender.primary_ammo = defTarget.id # set 'primary_ammo' to be id of defender's target
+    #         #check if accursed one switched them to werewolf
+    #         if 'targetSwitched' in postData:
+    #             targetSwitched = bool(postData['targetSwitched'])
+    #         #check if defender saved
+    #         if 'defTargetID' in postData:
+    #             defTarget = Role.objects.get(id=postData['defTargetID'])
+    #             defender = aliveRoles.filter(role_name="Defender")[0]
+    #             defender.primary_ammo = defTarget.id # set 'primary_ammo' to be id of defender's target
 
-            #check if witch saved
-            if 'witchUsedPotion' in postData:
-                witchUsedPotion = bool(postData['witchUsedPotion'])
-            #check if witch killed
-            if 'witchPoisonTargetID' in postData:
-                witchPoisonTargetID = postData['witchPoisonTargetID']
-                if witchPoisonTargetID != 0:
-                    witchPoisonTarget = Role.objects.get(id=witchPoisonTargetID)
-                    # kill witch poison target logic
-            #check if little child was spotted
-            if 'littleChildCaught' in postData:
-                littleChildCaught = bool(postData['littleChildCaught'])
-                if littleChildCaught == True:
-                    wwTarget = Role.objects.filter(role_name="Little Child")[0]
-            if targetSwitched == True: # Accursed one turns/switches the target instead of killing
-                wwTarget.role_notes = "Role before being turned: " + wwTarget.role_name
-                wwTarget.role_name = "Werewolf"
-                wwTarget = None
-            if defTarget == wwTarget:
-                wwTarget = None
-            if wwTarget.role_name == "Elder":
-                if wwTarget.primary_ammo == 1:
-                    wwTarget.primary_ammo = 0
-                    wwTarget = None
-            if witchUsedPotion == True and targetSwitched == False:
-                Role.objects.filter(role_name="Witch")[0].primary_ammo = 0
-                wwTarget = None
-            if wwTarget != None: # confirm someone is dying
-                if wwTarget.role_name == "Hunter":
-                    # hunter kill extra form logic
-                if wwTarget.role_name == "Role Model":
-                    wildChildList = aliveRoles.filter(role_name="Wild Child")
-                    if len(wildChildList) > 0:
-                        wildChildList[0].role_notes = "Role before being turned: Wild Child"
-                        wildChildList[0].role_name = "Werewolf"
-                if wwTarget.role_name == "Lover":
-                    loverList = aliveRoles.filter(secondary_role_name="Lover")
-                    if len(loverList) > 0:
-                        loverList[0].isAlive = False
-                        loverList[1].isAlive = False
-                if wwTarget.role_name == "Knight with the Rusty Sword":
-                    # infect werewolf with tetanus logic
+    #         #check if witch saved
+    #         if 'witchUsedPotion' in postData:
+    #             witchUsedPotion = bool(postData['witchUsedPotion'])
+    #         #check if witch killed
+    #         if 'witchPoisonTargetID' in postData:
+    #             witchPoisonTargetID = postData['witchPoisonTargetID']
+    #             if witchPoisonTargetID != 0:
+    #                 witchPoisonTarget = Role.objects.get(id=witchPoisonTargetID)
+    #                 # kill witch poison target logic
+    #         #check if little child was spotted
+    #         if 'littleChildCaught' in postData:
+    #             littleChildCaught = bool(postData['littleChildCaught'])
+    #             if littleChildCaught == True:
+    #                 wwTarget = Role.objects.filter(role_name="Little Child")[0]
+    #         if targetSwitched == True: # Accursed one turns/switches the target instead of killing
+    #             wwTarget.role_notes = "Role before being turned: " + wwTarget.role_name
+    #             wwTarget.role_name = "Werewolf"
+    #             wwTarget = None
+    #         if defTarget == wwTarget:
+    #             wwTarget = None
+    #         if wwTarget.role_name == "Elder":
+    #             if wwTarget.primary_ammo == 1:
+    #                 wwTarget.primary_ammo = 0
+    #                 wwTarget = None
+    #         if witchUsedPotion == True and targetSwitched == False:
+    #             Role.objects.filter(role_name="Witch")[0].primary_ammo = 0
+    #             wwTarget = None
+    #         if wwTarget != None: # confirm someone is dying
+    #             if wwTarget.role_name == "Hunter":
+    #                 # hunter kill extra form logic
+    #             if wwTarget.role_name == "Role Model":
+    #                 wildChildList = aliveRoles.filter(role_name="Wild Child")
+    #                 if len(wildChildList) > 0:
+    #                     wildChildList[0].role_notes = "Role before being turned: Wild Child"
+    #                     wildChildList[0].role_name = "Werewolf"
+    #             if wwTarget.role_name == "Lover":
+    #                 loverList = aliveRoles.filter(secondary_role_name="Lover")
+    #                 if len(loverList) > 0:
+    #                     loverList[0].isAlive = False
+    #                     loverList[1].isAlive = False
+    #             if wwTarget.role_name == "Knight with the Rusty Sword":
+    #                 # infect werewolf with tetanus logic
 
-                wwTarget.isAlive = False # actually kill the target
+    #             wwTarget.isAlive = False # actually kill the target
             
                    
-            #check if angel killed and it's day 2, angel wins
-            if game.turn == 2:
-                angelList = aliveRoles.filter(role_name="Angel")
-                if len(angelList) > 0:
-                    if angelList[0] == wwTarget:
-                        # logic for angel winning
+    #         #check if angel killed and it's day 2, angel wins
+    #         if game.turn == 2:
+    #             angelList = aliveRoles.filter(role_name="Angel")
+    #             if len(angelList) > 0:
+    #                 if angelList[0] == wwTarget:
+    #                     # logic for angel winning
             
 
 

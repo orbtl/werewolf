@@ -25,6 +25,25 @@ def header(request): #partial render header
     }
     return render(request, 'partial/header.html', context)
 
+def nightPhase(request):
+    context = {
+        'formDict': {
+            'lover1': ['blah', 'blah2'],
+            'lover2': ['whoa', 'omg'],
+        },
+    }
+    print(context['formDict'])
+    return render(request, 'partial/gameFormNight.html', context)
+
+def dayPhase(request):
+    context = {
+        'formDict': {
+            'lover1': ['day', 'day2'],
+            'lover2': ['whoa', 'omg'],
+        },
+    }
+    return render(request, 'partial/gameFormNight.html', context)
+
 def game(request, gameID): # game page
     if 'userID' not in request.session or request.session['userID'] == None:
         messages.error(request, "You must log in to view that page")

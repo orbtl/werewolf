@@ -133,6 +133,12 @@
                                     </div>
                                     {% endif %}
                                 </form>
+                            {% else %} <!--If game has started-->
+                                {% if game.current_phase == "Night" %}
+                                    <div id="nightPhaseDiv"></div>
+                                {% else %} <!--phase == "Day"-->
+                                    <div id="dayPhaseDiv"></div>
+                                {% endif %}
                             {% endif %} <!--End pre-game lobby config card for host-->
                         {% else %} <!--Show players game page-->
                             {% if game.started == False %} <!--players pre-game lobby current settings page-->
