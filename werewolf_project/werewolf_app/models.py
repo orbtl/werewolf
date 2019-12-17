@@ -311,10 +311,12 @@ class GameManager(models.Manager):
             if voteTarget.role_name == "Village Idiot":
                 voteTarget.primary_ammo = 0 # use this to store that they were identified as the idiot and will show up on player list, and not be able to vote
                 voteTarget.save()
+                voteTarget = None
             # kill the target
-            voteTarget.isAlive = False
-            voteTarget.turn_died = game.current_turn
-            voteTarget.save()
+            if voteTarget != None:
+                voteTarget.isAlive = False
+                voteTarget.turn_died = game.current_turn
+                voteTarget.save()
             
            
             #checking if Hunter died during this calculation

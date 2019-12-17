@@ -327,6 +327,9 @@
                                                     {% else %}
                                                         ???
                                                     {% endif %}
+                                                    {% if user == game.host %}
+                                                        , {{role.secondary_role_name}}
+                                                    {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if user == game.host %}
