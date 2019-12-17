@@ -1,6 +1,9 @@
+{% load static %}
 <div class="row">
-    <div class="col-md-3">(img placeholder)</div>
-    <div class="col-md-6">
+    <div class="col-md-4">
+        <img style="width: 200px; margin-left: -25px;" src="{% static 'img/ribbon.png' %}" alt="dope ribbon wow amazing victory">
+    </div>
+    <div class="col-md-8 mt-5">
         <div class="row">
             <h4>Congrats,</h4>
         </div>
@@ -8,16 +11,10 @@
             <h1>{{game.winning_team}}</h1>
         </div>
     </div>
-    <div class="col-md-3">
-        <p>Host: {{game.host.username}}</p>
-        <p>Duration: placeholder</p>
-        <p>Total Turns: {{game.current_turn}}</p>
-        <p>Played On: {{game.created_at}}</p>
-    </div>
 </div>
-<div class="row">
+<div class="row mt-2 border-top pt-3">
     <div class="col-md-6">
-        <h5>Special Characters:</h5>
+        <h5>Game Characters:</h5>
         <ul>
             {% for role in game.roles.all %}
                 {% if role.role_name != "Werewolf" and role.role_name != "Villager" and role.role_name != "host" %}
@@ -25,5 +22,34 @@
                 {% endif %}
             {% endfor %}
         </ul>
+    </div>
+    <div class="col-md-6">
+        <h5>Game Info:</h5>
+        <ul>
+            <li>Host: {{game.host.username}}</li>
+            <li>Duration: placeholder</li>
+            <li>Total Turns: {{game.current_turn}}</li>
+            <li>Played On: {{game.created_at}}</li>
+        </ul>
+    </div>
+</div>
+<div class="row border-top pt-3">
+    <div class="col-md-12">
+        <h4>Game Stats:</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            INSERT GRAPH HERE WOWWWWWWW
+        </div>
+        <div class="col-md-7">
+            <ul>
+                <li>
+                    Average Deaths/Turn: placeholder
+                </li>
+                <li>
+                    Average Player Lifespan: placeholder
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
