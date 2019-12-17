@@ -4,3 +4,8 @@
 -Need to implement lovers seeing who else is their lover once chosen by cupid
 -Add name property to game model and implement showing the name for game differentiation
 -check defender to make sure primary ammo role id check is working
+-show secondary roles in player list
+-program witch functionality (killing someone)
+-actually get post-game page to show information about the game
+-accursed one needs to have only 1 ammo (check all special characters too)
+-never actually set lovers to secondary_role_name even though logic to check for them is there

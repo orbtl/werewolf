@@ -144,6 +144,20 @@ class GameManager(models.Manager):
         angelWon = False
         for role in aliveRoles:
             oldAliveRoles.append(role)
+
+        # store initializing of secondary roles
+        if 'lover1' in postData:
+            loverToSet1 = Role.objects.get(id=postData['lover1'])
+            loverToSet2 = Role.objects.get(id=postData['lover2'])
+            loverToSet1.secondary_role_name = "Lover"
+            loverToSet2.secondary_role_name = "Lover"
+            loverToSet1.save()
+            loverToSet2.save()
+        
+        if 'role_model' in postData:
+            roleModel = Role.objects.get(id=postData['role_model'])
+            roleModel.secondary_role_name = "Role Model"
+            roleModel.save()
         
         if phase == "Night":
         # calculate/reveal dead logic
@@ -208,7 +222,6 @@ class GameManager(models.Manager):
                 witch.save()
                 wwTarget = None
             if wwTarget != None: # confirm someone is dying
-                print("someone is dying")
                 if wwTarget.secondary_role_name == "Role Model":
                     wildChildList = aliveRoles.filter(role_name="Wild Child")
                     if len(wildChildList) > 0:
@@ -277,10 +290,10 @@ class GameManager(models.Manager):
                 loverList = aliveRoles.filter(secondary_role_name="Lover")
                 if len(loverList) > 0:
                     loverList[0].isAlive = False
-                    lowerList[0].turn_died = game.current_turn
+                    loverList[0].turn_died = game.current_turn
                     loverList[0].save()
                     loverList[1].isAlive = False
-                    lowerList[1].turn_died = game.current_turn
+                    loverList[1].turn_died = game.current_turn
                     loverList[1].save()
             # elder logic
             if voteTarget.role_name == "Elder":
@@ -330,10 +343,10 @@ class GameManager(models.Manager):
                 loverList = aliveRoles.filter(secondary_role_name="Lover")
                 if len(loverList) > 0:
                     loverList[0].isAlive = False
-                    lowerList[0].turn_died = game.current_turn
+                    loverList[0].turn_died = game.current_turn
                     loverList[0].save()
                     loverList[1].isAlive = False
-                    lowerList[1].turn_died = game.current_turn
+                    loverList[1].turn_died = game.current_turn
                     loverList[1].save()
             hunterTarget.isAlive = False
             hunterTarget.turn_died = game.current_turn
@@ -351,9 +364,7 @@ class GameManager(models.Manager):
             game.ended = True
             game.winning_team = "Angel wins it for the villagers!"
         badGuys = len(game.roles.filter(role_name="Werewolf").filter(isAlive=True)) + len(game.roles.filter(role_name="Accursed One").filter(isAlive=True))
-        print('badguys: ', badGuys)
         playersStillAlive = len(game.roles.exclude(player=game.host).filter(isAlive=True))
-        print('playerstillalive: ', playersStillAlive)
         if badGuys == playersStillAlive:
             game.ended = True
             game.winning_team = "Werewolves Win!"
