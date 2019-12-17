@@ -3,8 +3,11 @@
     <div class="form-group row align-items-center">
         <label for="lover1" class="control-label col-md-5">Lover 1</label>
         <select class="form-control col-md-7" name="lover1">
-            <option value="1">player1</option>
-            <option value="2">player2</option>
+            {% for role in aliveRoles %}
+                {% if role.role_name != "Cupid" %}
+                    <option value="{{role.id}}">{{role.player.username}}</option>
+                {% endif %}
+            {% endfor %}
         </select>
     </div>
     {% endif %}

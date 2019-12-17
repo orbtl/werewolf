@@ -25,17 +25,16 @@ def header(request): #partial render header
     }
     return render(request, 'partial/header.html', context)
 
-def nightPhase(request):
+def nightPhase(request, gameID):
+    currGame = Game.objects.get(id=gameID)
+    aliveRoles = currGame.roles.filter(isAlive=True)
     context = {
-        'formDict': {
-            'lover1': ['blah', 'blah2'],
-            'lover2': ['whoa', 'omg'],
-        },
+        'formDict': ['lover1', 'lover2'],
+        'aliveRoles': aliveRoles,
     }
-    print(context['formDict'])
     return render(request, 'partial/gameFormNight.html', context)
 
-def dayPhase(request):
+def dayPhase(request, gameID):
     context = {
         'formDict': {
             'lover1': ['day', 'day2'],
