@@ -32,7 +32,6 @@ def nightPhase(request, gameID):
     aliveRoleNames = []
     for role in aliveRoles:
         aliveRoleNames.append(role.role_name)
-    print(aliveRoleNames)
     context = {
         'game': currGame,
         'aliveRoles': aliveRoles,
@@ -55,15 +54,36 @@ def dayPhase(request, gameID):
 def calcPhase(request, gameID, gamePhase):
     hunterKilled = Game.objects.calcKilled(request, gameID, gamePhase, request.POST) #returns true if hunter killed
     if hunterKilled == True:
-        currGame = Game.objects.get(id=gameID)
-        context = {
-            'aliveRoles': currGame.roles.filter(isAlive=True).exclude(player = currGame.host),
-            'gamePhase': gamePhase,
-        }
-        return render(request, 'partial/hunterForm.html', context)
+        return redirect(f'/home/game/{gameID}/gameHunter/{gamePhase}')
     return redirect(f"/home/game/{gameID}")
-    
 
+def gameHunter(request, gameID, gamePhase):
+    if 'userID' not in request.session or request.session['userID'] == None:
+        messages.error(request, "You must log in to view that page")
+        return redirect('/')
+    gameList = Game.objects.filter(id=gameID)
+    if len(gameList) == 0: # prevent errors from users typing in an address of a non-existing game id
+        messages.error(request, "No game with that ID found")
+        return redirect('/home')
+    currUser = User.objects.get(id=request.session['userID'])
+    if currUser not in gameList[0].players.all() and gameList[0].allow_spectators == False and gameList[0].ended == False:
+        messages.error(request, "Spectating is disabled for that game")
+        return redirect('/home')
+    context = {
+        'user': currUser,
+        'game': gameList[0],
+        'gamePhase': gamePhase,
+    }
+    return render(request, 'gamePage.html', context)
+
+def partialHunter(request, gameID, gamePhase):
+    currGame = Game.objects.get(id=gameID)
+    context = {
+        'aliveRoles': currGame.roles.filter(isAlive=True).exclude(player = currGame.host),
+        'game': currGame,
+        'gamePhase': gamePhase,
+    }
+    return render(request, 'partial/hunterForm.html', context)
 
 def game(request, gameID): # game page
     if 'userID' not in request.session or request.session['userID'] == None:

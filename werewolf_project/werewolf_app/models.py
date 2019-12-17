@@ -140,6 +140,10 @@ class GameManager(models.Manager):
         phase = game.current_phase
         roles = game.roles.exclude(player=game.host)
         aliveRoles = game.roles.filter(isAlive=True)
+        oldAliveRoles = []
+        angelWon = False
+        for role in aliveRoles:
+            oldAliveRoles.append(role)
         
         if phase == "Night":
         # calculate/reveal dead logic
@@ -189,17 +193,19 @@ class GameManager(models.Manager):
                 wwTarget = None
             if defTarget == wwTarget:
                 wwTarget = None
-            if wwTarget.role_name == "Elder":
-                if wwTarget.primary_ammo == 1:
-                    wwTarget.primary_ammo = 0
-                    wwTarget.save()
-                    wwTarget = None
+            if wwTarget != None:
+                if wwTarget.role_name == "Elder":
+                    if wwTarget.primary_ammo == 1:
+                        wwTarget.primary_ammo = 0
+                        wwTarget.save()
+                        wwTarget = None
             if witchUsedPotion == True and targetSwitched == False:
                 witch = Role.objects.filter(role_name="Witch")[0]
                 witch.primary_ammo = 0
                 witch.save()
                 wwTarget = None
             if wwTarget != None: # confirm someone is dying
+                print("someone is dying")
                 if wwTarget.secondary_role_name == "Role Model":
                     wildChildList = aliveRoles.filter(role_name="Wild Child")
                     if len(wildChildList) > 0:
@@ -222,11 +228,17 @@ class GameManager(models.Manager):
                 wwTarget.isAlive = False # actually kill the target
                 wwTarget.turn_died = game.current_turn
                 wwTarget.save()
+                
+
 
                 #checking if Hunter died during this calculation
-                hunterList = aliveRoles.filter(role_name="Hunter")
-                if len(hunterList) > 0:
-                    if hunterList[0].isAlive == False:
+                hunter = None
+                for role in oldAliveRoles:
+                    if role.role_name == "Hunter":
+                        hunter = role
+                if hunter != None:
+                    hunter = Role.objects.get(id=hunter.id) # have to update sql object now that it might be dead
+                    if hunter.isAlive == False:
                         game.current_phase = "Hunter"
                         game.save()
                         return True
@@ -237,8 +249,7 @@ class GameManager(models.Manager):
                 angelList = aliveRoles.filter(role_name="Angel")
                 if len(angelList) > 0:
                     if angelList[0] == wwTarget:
-                        pass
-                        # logic for angel winning
+                        angelWon = True
             
             game.current_phase = "Day"
             game.current_turn += 1
@@ -250,7 +261,7 @@ class GameManager(models.Manager):
             # if turn 1 angel logic
             if game.current_turn == 1:
                 if voteTarget.role_name== "Angel":
-                    pass# win game for angel logic
+                    angelWon = True
             # role model logic
             if voteTarget.secondary_role_name == "Role Model":
                 wildChildList = aliveRoles.filter(role_name="Wild Child")
@@ -287,9 +298,13 @@ class GameManager(models.Manager):
             
            
             #checking if Hunter died during this calculation
-            hunterList = aliveRoles.filter(role_name="Hunter")
-            if len(hunterList) > 0:
-                if hunterList[0].isAlive == False:
+            hunter = None
+            for role in oldAliveRoles:
+                if role.role_name == "Hunter":
+                    hunter = role
+            if hunter != None:
+                hunter = Role.objects.get(id=hunter.id) # have to update sql object now that it might be dead
+                if hunter.isAlive == False:
                     game.current_phase = "Hunter"
                     game.save()
                     return True
@@ -299,16 +314,16 @@ class GameManager(models.Manager):
             game.save()
 
         if phase == "Hunter":
-            hunterTarget = postData['hunterTarget']
+            hunterTarget = Role.objects.get(id=postData['hunterTarget'])
             # role model logic
-            if voteTarget.secondary_role_name == "Role Model":
+            if hunterTarget.secondary_role_name == "Role Model":
                 wildChildList = aliveRoles.filter(role_name="Wild Child")
                 if len(wildChildList) > 0:
                     wildChildList[0].role_notes = "Role before being turned: Wild Child"
                     wildChildList[0].role_name = "Werewolf"
                     wildChildList[0].save()
             # lover logic
-            if voteTarget.secondary_role_name == "Lover":
+            if hunterTarget.secondary_role_name == "Lover":
                 loverList = aliveRoles.filter(secondary_role_name="Lover")
                 if len(loverList) > 0:
                     loverList[0].isAlive = False
@@ -317,6 +332,9 @@ class GameManager(models.Manager):
                     loverList[1].isAlive = False
                     lowerList[1].turn_died = game.current_turn
                     loverList[1].save()
+            hunterTarget.isAlive = False
+            hunterTarget.turn_died = game.current_turn
+            hunterTarget.save()
             if postData['prevPhase'] == "Day":
                 game.current_phase = "Night"
                 game.save()
@@ -325,11 +343,19 @@ class GameManager(models.Manager):
                 game.current_turn += 1
                 game.save()
         
-        return False
         # calculate if game is over
-        # game.current_phase = "Day"
-        # game.current_turn += 1
-        # game.save()
+        if angelWon == True:
+            game.ended = True
+            game.winning_team = "Angel wins it for the villagers!"
+        badGuys = len(game.roles.filter(role_name="Werewolf")) + len(game.roles.filter(role_name="Accursed One"))
+        playersStillAlive = len(game.roles.exclude(player=game.host).filter(isAlive=True))
+        if badGuys == playersStillAlive:
+            game.ended = True
+            game.winning_team = "Werewolves Win!"
+        if badGuys == 0:
+            game.ended = True
+            game.winning_team = "Villagers Win!"
+        return False
             
 
 

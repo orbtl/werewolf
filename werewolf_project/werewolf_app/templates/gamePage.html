@@ -15,6 +15,7 @@
 <body>
     <div class="container">
         <input id="gameIDInput" type="hidden" value="{{game.id}}"> <!--This is to send partial htmls the game id-->
+        <input id="hunterPrevPhase" type="hidden" value="{{gamePhase}}"> <!-- This is to send partial htmls the prev phase for hunter rendering-->
         <div id="header"></div>
         <div class="row text-center">
             <h1 class="col-md-12">
@@ -137,8 +138,10 @@
                             {% else %} <!--If game has started-->
                                 {% if game.current_phase == "Night" %}
                                     <div id="nightPhaseDiv"></div>
-                                {% else %} <!--phase == "Day"-->
+                                {% elif game.current_phase == "Day" %} <!--phase == "Day"-->
                                     <div id="dayPhaseDiv"></div>
+                                {% elif game.current_phase == "Hunter" %} <!--Phase == "Hunter"-->
+                                    <div id="hunterPhaseDiv"></div>
                                 {% endif %}
                             {% endif %} <!--End pre-game lobby config card for host-->
                         {% else %} <!--Show players game page-->
