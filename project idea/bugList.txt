@@ -6,6 +6,7 @@
 -add last_phase_description to game model and show it to host to remind of the events that happened i nthe last phase
 -Tidy up current game list with scroll/margins
 -check on secondary roles showing at the right times?
+- need to make old game list (and user profile list) below main page
 -spectate is hella borked
 -show secondary roles to other secondary role players?
 -partial html template - update seer information once seer functionality is programmed

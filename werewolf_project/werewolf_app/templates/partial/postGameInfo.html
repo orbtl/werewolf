@@ -16,11 +16,50 @@
     <div class="col-md-6">
         <h5>Game Characters:</h5>
         <ul>
-            {% for role in game.roles.all %}
-                {% if role.role_name != "Werewolf" and role.role_name != "Villager" and role.role_name != "host" %}
-                    <li>{{role.role_name}}</li>
-                {% endif %}
-            {% endfor %}
+            <li>Simple Villagers: {{num_villagers}}</li>
+            <li>Werewolves: {{num_ww}}</li>
+            {% if game.has_village_idiot == True %}
+                <li>Village Idiot</li>
+            {% endif %}
+            {% if game.has_cupid == True %}
+                <li>Cupid</li>
+            {% endif %}
+            {% if game.has_twins == True %}
+                <li>Twins</li>
+            {% endif %}
+            {% if game.has_accursed_one == True %}
+                <li>Accursed One</li>
+            {% endif %}
+            {% if game.has_seer == True %}
+                <li>Seer</li>
+            {% endif %}
+            {% if game.has_witch == True %}
+                <li>Witch</li>
+            {% endif %}
+            {% if game.has_defender == True %}
+                <li>Defender</li>
+            {% endif %}
+            {% if game.has_hunter == True %}
+                <li>Hunter</li>
+            {% endif %}
+            {% if game.has_wild_child == True %}
+                <li>Wild Child</li>
+            {% endif %}
+            {% if game.has_little_child == True %}
+                <li>Little Child</li>
+            {% endif %}
+            {% if game.has_rusty_knight == True %}
+                <li>Knight with the Rusty Sword</li>
+            {% endif %}
+            {% if game.has_elder == True %}
+                <li>Elder</li>
+            {% endif %}
+            {% if game.has_angel == True %}
+                <li>Angel</li>
+            {% endif %}
+            {% if game.has_gypsy == True %}
+                <li>Gypsy</li>
+            {% endif %}     
         </ul>
     </div>
     <div class="col-md-6">
@@ -34,7 +73,7 @@
     </div>
 </div>
 <div class="row border-top pt-3">
-    <div class="col-md-12">
+    <div class="col-md-12 text-center">
         <h4>Game Stats:</h4>
     </div>
     <div class="row">

@@ -128,9 +128,13 @@ def postGameInfo(request, gameID):
         return redirect('/')
     user = User.objects.get(id=request.session['userID'])
     game = Game.objects.get(id=gameID)
+    num_villagers = len(game.roles.filter(role_name="Villager"))
+    num_ww = len(game.roles.filter(role_name="Werewolf"))
     context = {
         'user': user,
         'game': game,
+        'num_villagers': num_villagers,
+        'num_ww': num_ww,
     }
     return render(request, "partial/postGameInfo.html", context)
 
