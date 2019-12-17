@@ -1,7 +1,8 @@
 {% load static %}
 <div class="row mb-3">
     <div class="col-md-12 align-middle d-flex align-items-center">
-        <img style="width: 100px;" src="{% static 'img/villager.png' %}" alt="villager image">
+        {% static "" as baseUrl %}
+        <img style="width: 100px;" src="{{baseUrl}}img/{{playerRole.role_name}}.png" alt="villager image">
         <h1 class="d-inline ml-3">{{playerRole.role_name}}</h1>
     </div>
 </div>
@@ -27,7 +28,7 @@
                     {% endif %}
                 {% endfor %}
         {% endif %}
-        {% if playerRole.secondary_role_name == "Lover" %} <!--Lovers-->
+        {% if playerRole.secondary_role_name == "Lover" and playerRole.game.current_turn >= 1 %} <!--Lovers-->
             <p>Your lover is:</p>
                 {% for role in roles %}
                     {% if role.secondary_role_name == "Lover" and role != playerRole %}
