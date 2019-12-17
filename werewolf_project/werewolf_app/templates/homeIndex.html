@@ -89,6 +89,9 @@
                                         {% if game.allow_spectators == True %}
                                             <a href="/home/game/{{game.id}}" class="btn btn-sm btn-secondary">Spectate</a>
                                         {% endif %}
+                                        {% if game.host.id == user.id %}
+                                            <a href="/home/game/{{game.id}}/delete" class="btn btn-sm btn-danger">Delete</a> <!--For debugging etc-->
+                                        {% endif %}
                                     </li>
                                 {% endif %}
                             {% endfor %}

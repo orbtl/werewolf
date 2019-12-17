@@ -1,5 +1,5 @@
 By EOD Monday:
-    -In-game page FUNCTIONALITY done (show roles to players)
+    (done)-In-game page FUNCTIONALITY done (show roles to players)
         -big if check for if games in progress to show game info
         (done)-if not on player list, don't show game info
         (done)-(for spectate) don't allow players to spectate
