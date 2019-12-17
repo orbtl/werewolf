@@ -103,6 +103,24 @@ def game(request, gameID): # game page
     }
     return render(request, 'gamePage.html', context)
 
+def playerInfo(request, gameID):
+    if 'userID' not in request.session or request.session['userID'] == None:
+        messages.error(request, "You must log in to view that page")
+        return redirect('/')
+    user = User.objects.get(id=request.session['userID'])
+    game = Game.objects.get(id=gameID)
+    playerRole = Role.objects.filter(player=user, game=game)
+    if len(playerRole) == 0:
+        messages.error(request, "Role not found for your account in that game")
+        return redirect('/home')
+    roleInfo = Game.objects.roleDescription(playerRole[0])
+    context = {
+        'playerRole': playerRole[0],
+        'roles': Role.objects.filter(game=game),
+        'roleInfo': roleInfo,
+    }
+    return render(request, 'partial/playerInfo.html', context)
+    #partial render logic
 
 def createGame(request):
     if 'userID' not in request.session or request.session['userID'] == None:

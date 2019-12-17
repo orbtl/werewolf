@@ -1,0 +1,110 @@
+{% load static %}
+<div class="row mb-3">
+    <div class="col-md-12 align-middle d-flex align-items-center">
+        <img style="width: 100px;" src="{% static 'img/villager.png' %}" alt="villager image">
+        <h1 class="d-inline ml-3">{{playerRole.role_name}}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        {{roleInfo}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 offset-md-1"> <!--Ammo info-->
+        {% if playerRole.role_name == "Village Idiot" %}
+            {% if playerRole.primary_ammo == 1 %}
+                <p>You have not been outed as the village idiot yet</p>
+            {% else %}
+                <p>You have been identified as the village idiot and are no longer allowed to vote during the day phase!</p>
+            {% endif %}
+        {% endif %}
+        {% if playerRole.role_name == "Cupid" and role.game.current_turn >= 1 %} <!--Cupid hasn't selected anyone yet turn 0-->
+            <p>The two lovers you selected are:</p>
+                {% for role in roles %}
+                    {% if role.secondary_role_name == "Lover" %}
+                        <p>{{role.player.username}}</p>
+                    {% endif %}
+                {% endfor %}
+        {% endif %}
+        {% if playerRole.secondary_role_name == "Lovers" and role.game.current_turn >= 1 %} <!--Lovers-->
+            <p>Your lover is:</p>
+                {% for role in roles %}
+                    {% if role.secondary_role_name == "Lover" and role != playerRole %}
+                        <p>{{role.player.username}}</p>
+                    {% endif %}
+                {% endfor %}
+        {% endif %}
+        {% if playerRole.role_name == "Twin" %}
+            <p>Your twin (who you know is surely not a werewolf) is:</p>
+                {% for role in roles %}
+                    {% if role.role_name == "Twin" and role != playerRole %}
+                        <p>{{role.player.username}}</p>
+                    {% endif %}
+                {% endfor %}
+        {% endif %}
+        {% if playerRole.role_name == "Accursed One" %}
+            {% if playerRole.primary_ammo == 1 %}
+                <p>You still have the ability to turn one victim into a werewolf</p>
+            {% else %}
+                <p>You have already used your ability to turn the following victim into a werewolf:</p>
+                    {% for role in roles %}
+                        {% if role.role_name == "Werewolf" %}
+                            {% if role.role_notes|slice:":4" == "Role" %}
+                                <p>{{role.player.username}}</p>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+            {% endif %}
+        {% endif %}
+        <!--need seer here-->
+        {% if playerRole.role_name == "Witch" %}
+            {% if playerRole.primary_ammo == 1 %}
+                <p>Your potion to save the victim is still available</p>
+            {% else %}
+                <p>You have already used your saving potion</p>
+            {% endif %}
+            {% if playerRole.secondary_ammo == 1 %}
+                <p>Your deadly poison is still available</p>
+            {% else %}
+                <p>You have already savagely poisoned someone in their sleep!</p>
+            {% endif %}
+        {% endif %}
+        {% if playerRole.role_name == "Defender" %}
+            {% if playerRole.primary_ammo != 1 %} <!--at default of 1 the defender hasn't defended anyone yet-->
+                {% if playerRole.primary_ammo == playerRole.id %}
+                    <p>You can't save yourself all game!  Help someone else out for a change!</p>    
+                {% else %}
+                    {% for role in roles %}
+                        {% if role.id == playerRole.primary_ammo %}
+                            <p>You may not defend {{role.player.username}} again this turn</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% if playerRole.role_name == "Wild Child" %}
+            {% if playerRole.game.current_turn >= 1 %}
+                {% for role in roles %}
+                    {% if role.secondary_role_name == "Role Model" %}
+                        <p>Your Role Model is {{role.player.username}}.  If they die, you become a werewolf!</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+        {% if playerRole.role_name == "Elder" %}
+            {% if playerRole.primary_ammo == 1 %}
+                <p>You can still outlive one werewolf attack due to your immense wisdom.</p>
+            {% else %}
+                <p>You have already used up your werewolf escape... WATCH OUT!</p>
+            {% endif %}
+        {% endif %}
+        {% if playerRole.role_name == "Gypsy" %}
+            {% if playerRole.primary_ammo >= 1 %}
+                <p>You may confer with the dead {{playerRole.primary_ammo}} more times.</p>
+            {% else %}
+                <p>You have used all of your psychic power!  You may need a lifetime to regenerate...</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

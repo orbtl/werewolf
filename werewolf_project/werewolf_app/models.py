@@ -3,6 +3,10 @@ from login_app.models import User
 import random
 
 class GameManager(models.Manager):
+    def roleDescription(self, role):
+        return "placeholder for where role info wil go wowowowowowowo blah blah blah blah blabhlabhlahblisash lea hrliesa lirsa rliesahr lisali"
+
+
     def count_special_roles(self, postData):
         #for total special roles we skip accursed_one because the number is taken out of num_werewolves.  We add twins twice because it creates two special role players
         total_special_roles = (int(postData['num_werewolves']) + int(postData['seer']) + int(postData['witch']) + int(postData['cupid']) + int(postData['defender']) + int(postData['hunter']) + int(postData['twins']) + int(postData['twins']) + int(postData['village_idiot']) + int(postData['wild_child']) + int(postData['little_child']) + int(postData['rusty_knight']) + int(postData['elder']) + int(postData['angel']) + int(postData['gypsy']))
@@ -136,9 +140,7 @@ class GameManager(models.Manager):
 
     def calcKilled(self, request, gameID, gamePhase, postData):
         game = Game.objects.get(id=gameID)
-        turn = game.current_turn
         phase = game.current_phase
-        roles = game.roles.exclude(player=game.host)
         aliveRoles = game.roles.filter(isAlive=True)
         oldAliveRoles = []
         angelWon = False
@@ -196,7 +198,9 @@ class GameManager(models.Manager):
                 witchPoisonTargetID = postData['witchPoisonTargetID']
                 if witchPoisonTargetID != '0':
                     witchPoisonTarget = Role.objects.get(id=witchPoisonTargetID)
-                    # kill witch poison target logic
+                    witchPoisonTarget.isAlive = False
+                    witchPoisonTarget.turn_died = game.current_turn
+                    witchPoisonTarget.save()
             #check if little child was spotted
             if 'littleChildCaught' in postData:
                 if postData['littleChildCaught'] == "True":
@@ -225,7 +229,7 @@ class GameManager(models.Manager):
                 if wwTarget.secondary_role_name == "Role Model":
                     wildChildList = aliveRoles.filter(role_name="Wild Child")
                     if len(wildChildList) > 0:
-                        wildChildList[0].role_notes = "Role before being turned: Wild Child"
+                        wildChildList[0].role_notes = "Wild Child - Your Role before being turned"
                         wildChildList[0].role_name = "Werewolf"
                         wildChildList[0].save()
                 if wwTarget.secondary_role_name == "Lover":

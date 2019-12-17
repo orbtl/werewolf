@@ -260,7 +260,10 @@
                                         {{game.allow_spectators}}
                                     </div>
                                 </div>
-                            {% endif %} <!--End players pre-game lobby current settings page-->
+                            {% else %} <!--End players pre-game lobby current settings page-->
+                            <!--Start in-game players info page-->
+                                <div id="playerInfoDiv"></div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -352,5 +355,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>
