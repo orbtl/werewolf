@@ -164,7 +164,8 @@ class GameManager(models.Manager):
             
             #check if accursed one switched them to werewolf
             if 'targetSwitched' in postData:
-                targetSwitched = bool(postData['targetSwitched'])
+                if postData['targetSwitched'] == "True":
+                    targetSwitched = True
             #check if defender saved
             if 'defTargetID' in postData:
                 defTarget = Role.objects.get(id=postData['defTargetID'])
@@ -174,7 +175,8 @@ class GameManager(models.Manager):
 
             #check if witch saved
             if 'witchUsedPotion' in postData:
-                witchUsedPotion = bool(postData['witchUsedPotion'])
+                if postData['witchUsedPotion'] == "True":
+                    witchUsedPotion = True
             #check if witch killed
             if 'witchPoisonTargetID' in postData:
                 witchPoisonTargetID = postData['witchPoisonTargetID']
@@ -183,7 +185,8 @@ class GameManager(models.Manager):
                     # kill witch poison target logic
             #check if little child was spotted
             if 'littleChildCaught' in postData:
-                littleChildCaught = bool(postData['littleChildCaught'])
+                if postData['littleChildCaught'] == "True":
+                    littleChildCaught = True
                 if littleChildCaught == True:
                     wwTarget = Role.objects.filter(role_name="Little Child")[0]
             if targetSwitched == True: # Accursed one turns/switches the target instead of killing
@@ -347,14 +350,17 @@ class GameManager(models.Manager):
         if angelWon == True:
             game.ended = True
             game.winning_team = "Angel wins it for the villagers!"
-        badGuys = len(game.roles.filter(role_name="Werewolf")) + len(game.roles.filter(role_name="Accursed One"))
+        badGuys = len(game.roles.filter(role_name="Werewolf").filter(isAlive=True)) + len(game.roles.filter(role_name="Accursed One").filter(isAlive=True))
+        print('badguys: ', badGuys)
         playersStillAlive = len(game.roles.exclude(player=game.host).filter(isAlive=True))
+        print('playerstillalive: ', playersStillAlive)
         if badGuys == playersStillAlive:
             game.ended = True
             game.winning_team = "Werewolves Win!"
         if badGuys == 0:
             game.ended = True
             game.winning_team = "Villagers Win!"
+        game.save()
         return False
             
 
