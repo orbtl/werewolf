@@ -1,0 +1,14 @@
+<form action="/home/game/{{game.id}}/calcPhaseDay" method="post" class="form-horizontal">
+    {% csrf_token %}
+    <div class="form-group row align-items-center">
+        <label for="voteTarget" class="control-label col-md-5">Who Was Voted to be Killed?</label>
+        <select class="form-control col-md-7" name="voteTarget">
+            {% for role in aliveRoles %}
+                <option value="{{role.id}}">{{role.player.username}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group row align-items-center justify-content-end">
+        <button type="submit" class="btn btn-success">Submit Day Phase</button>
+    </div>
+</form>

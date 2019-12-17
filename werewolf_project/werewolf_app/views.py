@@ -44,13 +44,13 @@ def nightPhase(request, gameID):
     return render(request, 'partial/gameFormNight.html', context)
 
 def dayPhase(request, gameID):
+    currGame = Game.objects.get(id=gameID)
+    aliveRoles = currGame.roles.filter(isAlive=True).exclude(player = currGame.host)
     context = {
-        'formDict': {
-            'lover1': ['day', 'day2'],
-            'lover2': ['whoa', 'omg'],
-        },
+        'game': currGame,
+        'aliveRoles': aliveRoles,
     }
-    return render(request, 'partial/gameFormNight.html', context)
+    return render(request, 'partial/gameFormDay.html', context)
 
 def calcPhaseNight(request, gameID):
     # fix this
