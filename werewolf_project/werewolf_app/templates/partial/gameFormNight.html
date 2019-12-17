@@ -37,8 +37,8 @@
         {% endif %}
     {% endif %} <!--Now for all turns-->
     <div class="form-group row align-items-center">
-        <label for="wwTarget" class="control-label col-md-5">Werewolf Kill Target</label>
-        <select class="form-control col-md-7" name="wwTarget">
+        <label for="wwTargetID" class="control-label col-md-5">Werewolf Kill Target</label>
+        <select class="form-control col-md-7" name="wwTargetID">
             {% for role in aliveRoles %}
                 {% if role.role_name != "Werewolf" and role.role_name != "Accursed One" %}
                     <option value="{{role.id}}">{{role.player.username}}</option>

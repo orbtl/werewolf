@@ -61,6 +61,7 @@ def calcPhase(request, gameID, gamePhase):
             'gamePhase': gamePhase,
         }
         return render(request, 'partial/hunterForm.html', context)
+    return redirect(f"/home/game/{gameID}")
     
 
 
