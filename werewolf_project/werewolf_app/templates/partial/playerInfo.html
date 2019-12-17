@@ -27,7 +27,7 @@
                     {% endif %}
                 {% endfor %}
         {% endif %}
-        {% if playerRole.secondary_role_name == "Lovers" and role.game.current_turn >= 1 %} <!--Lovers-->
+        {% if playerRole.secondary_role_name == "Lover" %} <!--Lovers-->
             <p>Your lover is:</p>
                 {% for role in roles %}
                     {% if role.secondary_role_name == "Lover" and role != playerRole %}

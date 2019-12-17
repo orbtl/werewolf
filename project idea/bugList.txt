@@ -13,3 +13,4 @@
 -implement tetanus functionality
 -maybe have helpful info box at the bottom of host's game page to show reminders about certain roles, like village idiot no longer being able to vote
 -partial html template - update seer information once seer functionality is programmed
+-add last_phase_description to game model and show it to host to remind of the events that happened i nthe last phase

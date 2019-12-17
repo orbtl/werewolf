@@ -65,78 +65,6 @@ class GameManager(models.Manager):
             role.save()
         return
 
-    # def renderGamePhase(self, gameID):
-    #     game = Game.objects.get(id=gameID)
-    #     turn = game.current_turn
-    #     phase = game.current_phase
-    #     roles = game.roles.exclude(player=game.host)
-    #     aliveRoles = game.roles.filter(isAlive=True)
-    #     htmlArr = [] # this is where we will append all html to send to template for form inputs
-    #     if phase == "Night": # determining form inputs to send to template
-    #         if turn == 0: # initial game setup for special roles
-    #             #night of turn 0
-    #             if len(roles.filter(role_name="Cupid")) > 0:
-    #                 htmlArr.append("<div class='form-group row align-items-center'>")
-    #                 htmlArr.append("<label for='lover1' class='control-label col-md-5'>Lover 1</label>")
-    #                 htmlArr.append("<select name='lover1' class='form-control col-md-7'>")
-    #                 for role in aliveRoles.exclude(role_name="Cupid"):
-    #                     htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
-    #                 htmlArr.append("</select>")
-    #                 htmlArr.append("<select name='lover2'>")
-    #                 for role in aliveRoles.exclude(role_name="Cupid"):
-    #                     htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
-    #                 htmlArr.append("</select>")
-    #             if len(roles.filter(role_name="Wild Child")) > 0:
-    #                 htmlArr.append("<select name='role_model'>")
-    #                 for role in aliveRoles.exclude(role_name="Wild Child"):
-    #                     htmlArr.append(f"<option value='{role.id}'>{role.player.username}</option>")
-    #                 htmlArr.append("</select>")
-    #         # all nights
-    #         if len(aliveRoles.filter(role_name="Werewolf")) == 0 and len(aliveRoles.filter(role_name="Accursed One")) == 0:
-    #             # logic for vill WIN
-    #         if (len(aliveRoles.filter(role_name="Werewolf")) + len(aliveRoles.filter(role_name="Accursed One"))) == len(aliveRoles.all()): 
-    #             # werewolf win logic
-    #         if len(aliveRoles.filter(role_name='Werewolf')) > 0:
-    #             # werewolf logic
-    #                 # who the target??
-    #         if len(aliveRoles.filter(role_name='Accursed One')) > 0:
-    #             # accursed logic
-    #                 # turn or not
-    #         if len(aliveRoles.filter(role_name='Little Child')) > 0:
-    #             # little
-    #                 # caught or not
-    #         if len(aliveRoles.filter(role_name='Seer')) > 0:
-    #             # seer
-    #                 # target check
-    #         if len(aliveRoles.filter(role_name='Witch')) > 0:
-    #             # witch
-    #                 # check ammo:
-    #                     # if use potion?:
-    #                     # posion use or not: 
-    #                         # who?
-    #         if len(aliveRoles.filter(role_name='Defender')) > 0:
-    #             # defender
-    #                 # check ammo
-    #                     # does role's ID NOT match ID in stored in sec/ammo (stored in defender's Role.primary_ammo as ID of target)
-    #                         # defend who?
-    #                         # set sec/ammo to defended's ID
-    #         if len(aliveRoles.filter(role_name='Gypsy')) > 0:
-    #             # gypsy
-    #                 # check ammo
-    #                     # adjust ammo
-    #         # increase turn counter
-    #         # change phase to day
-
-    #     if phase == "Day":
-        
-    #         # form for who the villagers vote to kill
-    #             #calculate/reveal dead logic for vote:
-    #                 #if angel is killed and it's day 1, angel wins
-    #                 #if hunter is killed
-    #                 #if village idiot was killed (and check village idiot ammo)
-    #                 #if lover was killed
-    #                 #if role model was killed
-    #                 #if elder was killed (check ammo)
 
     def calcKilled(self, request, gameID, gamePhase, postData):
         game = Game.objects.get(id=gameID)
@@ -158,7 +86,7 @@ class GameManager(models.Manager):
         
         if 'role_model' in postData:
             roleModel = Role.objects.get(id=postData['role_model'])
-            roleModel.secondary_role_name = "Role Model"
+            roleModel.isRoleModel = True
             roleModel.save()
         
         if phase == "Night":
@@ -226,7 +154,7 @@ class GameManager(models.Manager):
                 witch.save()
                 wwTarget = None
             if wwTarget != None: # confirm someone is dying
-                if wwTarget.secondary_role_name == "Role Model":
+                if wwTarget.isRoleModel == True:
                     wildChildList = aliveRoles.filter(role_name="Wild Child")
                     if len(wildChildList) > 0:
                         wildChildList[0].role_notes = "Wild Child - Your Role before being turned"
@@ -283,7 +211,7 @@ class GameManager(models.Manager):
                 if voteTarget.role_name== "Angel":
                     angelWon = True
             # role model logic
-            if voteTarget.secondary_role_name == "Role Model":
+            if voteTarget.isRoleModel == True:
                 wildChildList = aliveRoles.filter(role_name="Wild Child")
                 if len(wildChildList) > 0:
                     wildChildList[0].role_notes = "Role before being turned: Wild Child"
@@ -338,7 +266,7 @@ class GameManager(models.Manager):
         if phase == "Hunter":
             hunterTarget = Role.objects.get(id=postData['hunterTarget'])
             # role model logic
-            if hunterTarget.secondary_role_name == "Role Model":
+            if hunterTarget.isRoleModel == True:
                 wildChildList = aliveRoles.filter(role_name="Wild Child")
                 if len(wildChildList) > 0:
                     wildChildList[0].role_notes = "Role before being turned: Wild Child"
@@ -510,60 +438,6 @@ class Role(models.Model):
     isActivePlayer = models.BooleanField(default=True) # to deal with players being kicked?
     role_name = models.CharField(max_length=45, null=True) #Name of Role, choose from:
     secondary_role_name = models.CharField(max_length=45, null=True) # Need this for roles like Lover that can be used in conjunction with other roles like werewolf
+    isRoleModel = models.BooleanField(default=False) #store if role is wild child's role model
     #role_name options: cupid,lover,werewolf,villager,village_idiot,twin,accursed_one,seer,witch,defender,hunter,wild_child,role_model,little_child,rusty_knight,elder,angel,gypsy
     
-
-
-
-
-
-
-
-
-
-
-
-
-    ### this was the old setup of relationships
-    # werewolves = models.ManyToManyField(User, related_name="games_werewolf")
-    # villagers = models.ManyToManyField(User, related_name="games_villager")
-    # village_idiot = models.ForeignKey(User, related_name="games_village_idiot", on_delete=models.SET_NULL, null=True)
-    # cupid = models.ForeignKey(User, related_name="games_cupid", on_delete=models.SET_NULL, null=True)
-    # lovers = models.ManyToManyField(User, related_name="games_lover")
-    # twins = models.ManyToManyField(User, related_name="games_twin")
-    # accursed_one = models.ForeignKey(User, related_name="games_accursed_one", on_delete=models.SET_NULL, null=True)
-    # seer = models.ForeignKey(User, related_name="games_seer", on_delete=models.SET_NULL, null=True)
-    # witch = models.ForeignKey(User, related_name="games_witch", on_delete=models.SET_NULL, null=True)
-    # defender = models.ForeignKey(User, related_name="games_defender", on_delete=models.SET_NULL, null=True)
-    # hunter = models.ForeignKey(User, related_name="games_hunter", on_delete=models.SET_NULL, null=True)
-    # wild_child = models.ForeignKey(User, related_name="games_wild_child", on_delete=models.SET_NULL, null=True)
-    # role_model = models.ForeignKey(User, related_name="games_role_model", on_delete=models.SET_NULL, null=True) # this is purely for the wild_child
-    # little_child = models.ForeignKey(User, related_name="games_little_child", on_delete=models.SET_NULL, null=True)
-    # rusty_knight = models.ForeignKey(User, related_name="games_rusty_knight", on_delete=models.SET_NULL, null=True) # knight with the rusty sword
-    # elder = models.ForeignKey(User, related_name="games_elder", on_delete=models.SET_NULL, null=True)
-    # angel = models.ForeignKey(User, related_name="games_angel", on_delete=models.SET_NULL, null=True)
-    # gypsy = models.ForeignKey(User, related_name="games_gypsy", on_delete=models.SET_NULL, null=True)
-    
-    # Thought about doing this with another model called "Role" so each player has a role for each game they are in
-    # When put in practice it meant every role just had one User and one Game associated with it
-    # So this seemed unnecessary.  Went with ManyToMany relationships and OneToMany relationships
-    # Instead of going with OneToMany and OneToOne relationships with the Role class addition
-
-    # ROLES:
-    # cupid
-    # lovers
-    # werewolves
-    # villagers
-    # village_idiot
-    # twins
-    # accursed_one
-    # seer
-    # witch
-    # defender
-    # hunter
-    # wild_child
-    # little_child
-    # rusty_knight
-    # elder
-    # angel
-    # gypsy
