@@ -1,21 +1,123 @@
-<form class="form-horizontal">
-    {% if 'lover1' in formDict %}
+<form action="/home/game/{{game.id}}/calcPhaseNight" method="post" class="form-horizontal">
+    {% csrf_token %}
+    {% if game.current_turn == 0 %}
+        {% if 'Cupid' in aliveRoleNames %}
+            <div class="form-group row align-items-center">
+                <label for="lover1" class="control-label col-md-5">Cupid's Lover 1</label>
+                <select class="form-control col-md-7" name="lover1">
+                    {% for role in aliveRoles %}
+                        {% if role.role_name != "Cupid" %}
+                            <option value="{{role.id}}">{{role.player.username}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="lover2" class="control-label col-md-5">Cupid's Lover 2</label>
+                <select class="form-control col-md-7" name="lover2">
+                    {% for role in aliveRoles %}
+                        {% if role.role_name != "Cupid" %}
+                            <option value="{{role.id}}">{{role.player.username}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+        {% if 'Wild Child' in aliveRoleNames %}
+            <div class="form-group row align-items-center">
+                <label for="role_model" class="control-label col-md-5">Wild Child's Role Model</label>
+                <select class="form-control col-md-7" name="role_model">
+                    {% for role in aliveRoles %}
+                        {% if role.role_name != "Wild Child" %}
+                            <option value="{{role.id}}">{{role.player.username}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+    {% endif %} <!--Now for all turns-->
     <div class="form-group row align-items-center">
-        <label for="lover1" class="control-label col-md-5">Lover 1</label>
-        <select class="form-control col-md-7" name="lover1">
+        <label for="wwTarget" class="control-label col-md-5">Werewolf Kill Target</label>
+        <select class="form-control col-md-7" name="wwTarget">
             {% for role in aliveRoles %}
-                {% if role.role_name != "Cupid" %}
+                {% if role.role_name != "Werewolf" and role.role_name != "Accursed One" %}
                     <option value="{{role.id}}">{{role.player.username}}</option>
                 {% endif %}
             {% endfor %}
         </select>
     </div>
+    {% if "Accursed One" in aliveRoleNames %}
+        <div class="form-group row align-items-center">
+            <label class="control-label col-md-8">Did Accursed One Turn the Target?</label>
+            <label class="form-check-label col-md-2">
+                <input type="radio" class="form-check-input" name="targetSwitched" value="True">Yes
+            </label>
+            <label class="form-check-label col-md-2">
+                <input type="radio" class="form-check-input" name="targetSwitched" value="False" checked="">No
+            </label>
+        </div>
     {% endif %}
-    <div class="form-group row align-items-center">
-        <label for="lover2" class="control-label col-md-5">Lover 2</label>
-        <select class="form-control col-md-7" name="lover2">
-            <option value="1">player1</option>
-            <option value="2">player2</option>
-        </select>
+    {% if "Little Child" in aliveRoleNames %}
+        <div class="form-group row align-items-center">
+            <label class="control-label col-md-8">Did Little Child get caught?</label>
+            <label class="form-check-label col-md-2">
+                <input type="radio" class="form-check-input" name="littleChildCaught" value="True">Yes
+            </label>
+            <label class="form-check-label col-md-2">
+                <input type="radio" class="form-check-input" name="littleChildCaught" value="False" checked="">No
+            </label>
+        </div>
+    {% endif %}
+    {% if "Witch" in aliveRoleNames %}
+        {% if witch.0.primary_ammo == 1 %}
+            <div class="form-group row align-items-center">
+                <label class="control-label col-md-8">Did Witch use Potion?</label>
+                <label class="form-check-label col-md-2">
+                    <input type="radio" class="form-check-input" name="witchUsedPotion" value="True">Yes
+                </label>
+                <label class="form-check-label col-md-2">
+                    <input type="radio" class="form-check-input" name="witchUsedPotion" value="False" checked="">No
+                </label>
+            </div>
+        {% endif %}
+        {% if witch.0.secondary_ammo == 1 %}
+            <div class="form-group row align-items-center">
+                <label for="witchPoisonTargetID" class="control-label col-md-5">Did Witch use Poison?</label>
+                <select class="form-control col-md-7" name="witchPoisonTargetID">
+                    <option value=0>Did Not Poison</option>
+                    {% for role in aliveRoles %}
+                        {% if role.role_name != "Witch" %}
+                            <option value="{{role.id}}">{{role.player.username}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if "Defender" in aliveRoleNames %}   
+        <div class="form-group row align-items-center">
+            <label for="defTargetID" class="control-label col-md-5">Who did Defender Defend?</label>
+            <select class="form-control col-md-7" name="defTargetID">
+                {% for role in aliveRoles %}
+                    {% if defender.0.primary_ammo != role.id %}
+                        <option value="{{role.id}}">{{role.player.username}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
+    {% if "Gypsy" in aliveRoleNames %}
+        <div class="form-group row align-items-center">
+            <label class="control-label col-md-8">Did Gypsy Question the Dead?</label>
+            <label class="form-check-label col-md-2">
+                <input type="radio" class="form-check-input" name="gypsyQuestioned" value="True">Yes
+            </label>
+            <label class="form-check-label col-md-2">
+                <input type="radio" class="form-check-input" name="gypsyQuestioned" value="False" checked="">No
+            </label>
+        </div>
+    {% endif %}
+    <div class="form-group row align-items-center justify-content-end">
+        <button type="submit" class="btn btn-success">Submit Night Phase</button>
     </div>
 </form>

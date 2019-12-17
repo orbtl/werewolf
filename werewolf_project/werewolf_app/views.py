@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from .models import User, Game, Role
 import random #for random key generation
@@ -27,10 +27,19 @@ def header(request): #partial render header
 
 def nightPhase(request, gameID):
     currGame = Game.objects.get(id=gameID)
-    aliveRoles = currGame.roles.filter(isAlive=True)
+
+    aliveRoles = currGame.roles.filter(isAlive=True).exclude(player = currGame.host)
+    aliveRoleNames = []
+    for role in aliveRoles:
+        aliveRoleNames.append(role.role_name)
+    print(aliveRoleNames)
     context = {
-        'formDict': ['lover1', 'lover2'],
+        'game': currGame,
         'aliveRoles': aliveRoles,
+        'aliveRoleNames': aliveRoleNames,
+        'witch': aliveRoles.filter(role_name="Witch"),
+        'defender': aliveRoles.filter(role_name="Defender"),
+        'gypsy': aliveRoles.filter(role_name="Gypsy"),
     }
     return render(request, 'partial/gameFormNight.html', context)
 
@@ -42,6 +51,11 @@ def dayPhase(request, gameID):
         },
     }
     return render(request, 'partial/gameFormNight.html', context)
+
+def calcPhaseNight(request, gameID):
+    # fix this
+    return HttpResponse(request.POST)
+
 
 def game(request, gameID): # game page
     if 'userID' not in request.session or request.session['userID'] == None:
