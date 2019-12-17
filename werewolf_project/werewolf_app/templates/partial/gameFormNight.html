@@ -1,4 +1,4 @@
-<form action="/home/game/{{game.id}}/calcPhaseNight" method="post" class="form-horizontal">
+<form action="/home/game/{{game.id}}/calcPhase/Night" method="post" class="form-horizontal">
     {% csrf_token %}
     {% if game.current_turn == 0 %}
         {% if 'Cupid' in aliveRoleNames %}

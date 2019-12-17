@@ -1,0 +1,17 @@
+<form action="/home/game/{{game.id}}/calcPhase/Hunter" method="post" class="form-horizontal">
+    {% csrf_token %}
+    <div class="form-group row align-items-center">
+        <input type="hidden" name="prevPhase" value="{{gamePhase}}">
+        <label for="hunterTarget" class="control-label col-md-5">Who Did the Hunter Kill?</label>
+        <select class="form-control col-md-7" name="hunterTarget">
+            {% for role in aliveRoles %}
+                {% if role.role_name != "Hunter" %}
+                    <option value="{{role.id}}">{{role.player.username}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group row align-items-center justify-content-end">
+        <button type="submit" class="btn btn-success">Submit Hunter Target</button>
+    </div>
+</form>

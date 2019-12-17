@@ -52,9 +52,16 @@ def dayPhase(request, gameID):
     }
     return render(request, 'partial/gameFormDay.html', context)
 
-def calcPhaseNight(request, gameID):
-    # fix this
-    return HttpResponse(request.POST)
+def calcPhase(request, gameID, gamePhase):
+    hunterKilled = Game.objects.calcKilled(request, gameID, gamePhase, request.POST) #returns true if hunter killed
+    if hunterKilled == True:
+        currGame = Game.objects.get(id=gameID)
+        context = {
+            'aliveRoles': currGame.roles.filter(isAlive=True).exclude(player = currGame.host),
+            'gamePhase': gamePhase,
+        }
+        return render(request, 'partial/hunterForm.html', context)
+    
 
 
 def game(request, gameID): # game page
