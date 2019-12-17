@@ -212,7 +212,7 @@ class GameManager(models.Manager):
                         for ww in wwList: wwArr.append(ww)
                     if len(aoList) > 0:
                         wwArr.append(aoList[0])
-                    randIndex = random.randint(0, len(wwArr), 1)
+                    randIndex = random.randrange(0, len(wwArr), 1)
                     wwArr[randIndex].hasTetanus = True
                     wwArr[randIndex].save()
 
