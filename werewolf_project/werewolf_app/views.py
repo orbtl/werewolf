@@ -122,6 +122,18 @@ def playerInfo(request, gameID):
     return render(request, 'partial/playerInfo.html', context)
     #partial render logic
 
+def postGameInfo(request, gameID):
+    if 'userID' not in request.session or request.session['userID'] == None:
+        messages.error(request, "You must log in to view that page")
+        return redirect('/')
+    user = User.objects.get(id=request.session['userID'])
+    game = Game.objects.get(id=gameID)
+    context = {
+        'user': user,
+        'game': game,
+    }
+    return render(request, "partial/postGameInfo.html", context)
+
 def createGame(request):
     if 'userID' not in request.session or request.session['userID'] == None:
         messages.error(request, "You must log in to view that page")

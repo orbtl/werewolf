@@ -1,4 +1,3 @@
--implement tetanus functionality
 -game settings page for players shows correct settings but we need to fix it showing True/False instead of maybe 1 or 0 (or maybe show greyed out checkboxes???)
 -spectators can't see roles of players
 -actually get post-game page to show information about the game
@@ -6,7 +5,9 @@
 -maybe have helpful info box at the bottom of host's game page to show reminders about certain roles, like village idiot no longer being able to vote
 -add last_phase_description to game model and show it to host to remind of the events that happened i nthe last phase
 -Tidy up current game list with scroll/margins
+-check on secondary roles showing at the right times?
 -spectate is hella borked
+-show secondary roles to other secondary role players?
 -partial html template - update seer information once seer functionality is programmed
 -add input for who seer checked, append string to role notes maybe to store info on who they checked and show it for the player
 -Add name property to game model and implement showing the name for game differentiation

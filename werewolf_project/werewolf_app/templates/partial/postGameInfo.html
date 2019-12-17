@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-3">(img placeholder)</div>
+    <div class="col-md-6">
+        <div class="row">
+            <h4>Congrats,</h4>
+        </div>
+        <div class="row">
+            <h1>{{game.winning_team}}</h1>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <p>Host: {{game.host.username}}</p>
+        <p>Duration: placeholder</p>
+        <p>Total Turns: {{game.current_turn}}</p>
+        <p>Played On: {{game.created_at}}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h5>Special Characters:</h5>
+        <ul>
+            {% for role in game.roles.all %}
+                {% if role.role_name != "Werewolf" and role.role_name != "Villager" and role.role_name != "host" %}
+                    <li>{{role.role_name}}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>

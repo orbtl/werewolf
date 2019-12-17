@@ -6,4 +6,5 @@ $(document).ready(function(){
     $('#dayPhaseDiv').load('/home/game/' + gameID + '/dayPhase');
     $('#hunterPhaseDiv').load('/home/game/' + gameID + '/hunterPhase/' + prevPhase);
     $('#playerInfoDiv').load('/home/game/' + gameID + '/playerInfo');
+    $('#postGameInfo').load('/home/game/' + gameID + '/postGameInfo');
 })
