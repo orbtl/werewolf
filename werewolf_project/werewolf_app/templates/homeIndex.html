@@ -42,22 +42,11 @@
                         <h3>Personal Stats</h3>
                     </div>
                     <div class="card-body">
-                        personal stats here
-                        <br>
-                        blah
-                        <br>
-                        blah
-                        <br>
-                        blah
-                        <br>
-                        blah
-                        <br>
-                        blah
-                        <br>
-                        blah
-                        <br>
-                        blah
-
+                        <p>User: {{user.username}}</p>
+                        <p>Total Wins: {{userStats.totalWins}} ({{userStats.totalWinrate}}%)</p>
+                        <p>Werewolf Wins: {{userStats.wwWins}} ({{userStats.wwWinrate}}%)</p>
+                        <p>Villager Wins: {{userStats.vilWins}} ({{userStats.vilWinrate}}%)</p>
+                        <p>Average Lifespan: {{userStats.avgLifeSpan}}</p>
                     </div>
                 </div>
             </div>

@@ -14,9 +14,11 @@ def homeIndex(request): # Main Home Page
     if 'userID' not in request.session or request.session['userID'] == None:
         messages.error(request, "You must log in to view that page")
         return redirect('/')
+    user = User.objects.get(id=request.session['userID'])
     context = {
-        'user': User.objects.get(id=request.session['userID']),
+        'user': user,
         'games': Game.objects.all(),
+        'userStats': Game.objects.calcStats(user),
     }
     return render(request, 'homeIndex.html', context)
 
