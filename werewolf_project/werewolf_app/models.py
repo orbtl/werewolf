@@ -5,21 +5,56 @@ import random
 class GameManager(models.Manager):
     def calcStats(self, profileUser):
         stats = {}
-        rolesPlayed = Role.objects.filter(player=profileUser).exclude(role_name="host")
+        rolesPlayed = Role.objects.filter(player=profileUser).exclude(role_name="host").exclude(game__ended=False)
         lifeSum = 0
         for role in rolesPlayed:
             if role.isAlive == True:
                 lifeSum += role.game.current_turn
             else:
                 lifeSum += role.turn_died
-        stats['avgLifeSpan'] = (lifeSum / len(rolesPlayed))
-        stats['totalWins'] = len(profileUser.games_won.all())
-        stats['totalWinrate'] = int((stats['totalWins'] / len(rolesPlayed)) * 100)
-        stats['wwWins'] = (len(profileUser.games_won.filter(winning_team__icontains="Werewol")))
-        stats['wwWinrate'] = int((stats['wwWins'] / (len(rolesPlayed.filter(role_name="Werewolf")) + len(rolesPlayed.filter(role_name="Accursed One")))) * 100)
-        stats['vilWins'] = (len(profileUser.games_won.exclude(winning_team__icontains="Werewol")))
-        stats['vilWinrate'] = int(stats['vilWins'] / (len(rolesPlayed.exclude(role_name="Werewolf").exclude(role_name="Accursed One"))) * 100)
-        return stats
+        if len(rolesPlayed) == 0: # can't divide by 0
+            stats['avgLifeSpan'] = "N/A"
+            stats['totalWinrate'] = "N/A"
+            stats['vilWinrate'] = "N/A"
+            stats['totalWins'] = "0"
+            stats['wwWins'] = "0"
+            stats['wwWinrate'] = "N/A"
+            stats['vilWins'] = "0"
+            return stats
+        else:
+            stats['avgLifeSpan'] = (lifeSum / len(rolesPlayed))
+            stats['totalWins'] = len(profileUser.games_won.all())
+            stats['totalWinrate'] = int((stats['totalWins'] / len(rolesPlayed)) * 100)
+            wwGamesPlayed = (len(rolesPlayed.filter(role_name="Werewolf")) + len(rolesPlayed.filter(role_name="Accursed One")))
+            if wwGamesPlayed == 0:
+                stats['wwWins'] = "0"
+                stats['wwWinrate'] = "N/A"
+            else:
+                stats['wwWins'] = (len(profileUser.games_won.filter(winning_team__icontains="Werewol")))
+                stats['wwWinrate'] = int((stats['wwWins'] / wwGamesPlayed) * 100)
+            vilGamesPlayed = (len(rolesPlayed.exclude(role_name="Werewolf").exclude(role_name="Accursed One")))
+            if vilGamesPlayed == 0:
+                stats['vilWins'] = "0"
+                stats['vilWinrate'] = "N/A"
+            else:
+                stats['vilWins'] = (len(profileUser.games_won.exclude(winning_team__icontains="Werewol")))
+                stats['vilWinrate'] = int(stats['vilWins'] / vilGamesPlayed * 100)
+            print(stats['wwWins'])
+            print(stats['wwWinrate'])
+            return stats
+
+    def profileGraphStats(self, profileUser):
+        graphInfo = {
+            'x_data': [],
+            'y_data': [],
+        }
+        gamesPlayed = profileUser.games_joined.exclude(host=profileUser).exclude(ended=False)
+        for game in gamesPlayed:
+            graphInfo['x_data'].append(game.updated_at)
+            gamesWonThen = len(profileUser.games_won.filter(updated_at__lte=game.updated_at))
+            gamesPlayedThen = len(gamesPlayed.filter(updated_at__lte=game.updated_at))
+            graphInfo['y_data'].append((gamesWonThen / gamesPlayedThen)*100)
+        return graphInfo
 
     def roleDescription(self, role):
         desc = ""

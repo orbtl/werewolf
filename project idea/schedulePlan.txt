@@ -11,8 +11,8 @@ By EOD Monday:
 By EOD Tuesday:
     (done)-Storing each game's data in the database
     (COME ONNNNNNNNNNNNNNNNNNNNNN)-Storing each turn's data in the database
-    -Implement game page for post-game stats/info
-    -Implement user profile page with user stats
+    (need more stats)-Implement game page for post-game stats/info
+    (need graph and past games)-Implement user profile page with user stats
 
 By EOD Wednesday:
     -implement leaderboard

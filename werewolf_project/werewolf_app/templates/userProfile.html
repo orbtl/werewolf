@@ -13,6 +13,7 @@
     <title>{{profileUser.username}}'s Profile</title>
 </head>
 <body>
+    <input type="hidden" id="profileUserID" value="{{profileUser.id}}">
     <div class="container">
         <div id="header"></div>
         <div class="row pt-1 pb-1">
@@ -41,10 +42,7 @@
                     <h3 class="col-md-12 text-center">Winrate</h3>
                 </div>
                 <div class="card-body">
-                    graph goes here
-                   blah
-                   blah
-                   bleh    
+                    <div id="profileGraphDiv"></div>
                 </div>
             </div>
             <div class="col-md-6 card">

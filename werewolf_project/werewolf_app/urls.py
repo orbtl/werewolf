@@ -8,6 +8,7 @@ urlpatterns = [
     path('game/<int:gameID>/nightPhase', views.nightPhase),
     path('host', views.createGame),
     path('users/<int:profileUserID>', views.userProfile),
+    path('users/<int:profileUserID>/graph', views.renderGraph),
     path('game/<int:gameID>', views.game),
     path('game/<int:gameID>/join', views.joinGame),
     path('game/<int:gameID>/update', views.updateGame),

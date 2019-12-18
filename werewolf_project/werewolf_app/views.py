@@ -77,14 +77,16 @@ def gameHunter(request, gameID, gamePhase):
     }
     return render(request, 'gamePage.html', context)
 
-def renderGraph(request):
-    
-
-    graphic = makeGraph()
+def renderGraph(request, profileUserID):
+    profileUser = User.objects.get(id=profileUserID)
+    graphInfo = Game.objects.profileGraphStats(profileUser)
+    x_data = graphInfo['x_data']
+    y_data = graphInfo['y_data']
+    graphic = makeGraph(x_data, y_data)
     context = {
         'graphic': graphic,
     }
-    return render(request, 'graph.html', context)
+    return render(request, 'partial/graph.html', context)
 
 def partialHunter(request, gameID, gamePhase):
     currGame = Game.objects.get(id=gameID)
