@@ -33,7 +33,7 @@ def indexGraph(x_data, y_dataW, y_dataV):
             b=0,
             r=0,
             pad=0,
-        ), width=380, height=295,
+        ), width=358, height=295,
     )
     plt_div = plot(fig, output_type="div")
     return plt_div
