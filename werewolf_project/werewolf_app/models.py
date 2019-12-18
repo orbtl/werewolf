@@ -22,7 +22,7 @@ class GameManager(models.Manager):
             stats['vilWins'] = "0"
             return stats
         else:
-            stats['avgLifeSpan'] = (lifeSum / len(rolesPlayed))
+            stats['avgLifeSpan'] = round((lifeSum / len(rolesPlayed)),2)
             stats['totalWins'] = len(profileUser.games_won.all())
             stats['totalWinrate'] = int((stats['totalWins'] / len(rolesPlayed)) * 100)
             wwGamesPlayed = (len(rolesPlayed.filter(role_name="Werewolf")) + len(rolesPlayed.filter(role_name="Accursed One")))
