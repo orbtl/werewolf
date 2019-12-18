@@ -7,6 +7,7 @@
 -Tidy up current game list with scroll/margins
 -check on secondary roles showing at the right times?
 - need to make old game list (and user profile list) below main page
+-adjust delete button so it's only possible if game hasn't ended (and double check only for host)
 -spectate is hella borked
 -show secondary roles to other secondary role players?
 -partial html template - update seer information once seer functionality is programmed

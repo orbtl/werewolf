@@ -10,12 +10,31 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     {% load static %}
     <script src="{% static 'js/loadHeader.js' %}?{% now 'U' %}"></script>
-    <title>{{user.username}}'s Profile</title>
+    <title>{{profileUser.username}}'s Profile</title>
 </head>
 <body>
     <div class="container">
         <div id="header"></div>
-        
+        <div class="row border-bottom pt-1 pb-1">
+            <div class="col-md-2">
+                <img style="width:150px;" src="{% static 'img/userImg.png' %}" alt="generic user image">
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <div class="row mr-5">
+                    <h1 class="display-1 mr-5" style="font-family: sans-serif">{{profileUser.username}}</h1>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+                <div class="col-md-12">
+                    <div class="row">
+                        <p>Name: {{profileUser.first_name}} {{profileUser.last_name}}</p>
+                    </div>
+                    <div class="row">
+                        <p>Date Joined: {{profileUser.created_at}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -138,6 +138,19 @@ def postGameInfo(request, gameID):
     }
     return render(request, "partial/postGameInfo.html", context)
 
+def userProfile(request, profileUserID):
+    if 'userID' not in request.session or request.session['userID'] == None:
+        messages.error(request, "You must log in to view that page")
+        return redirect('/')
+    profileUser = User.objects.filter(id=profileUserID)
+    if len(profileUser) == 0:
+        messages.error(request, "That user ID not found")
+        return redirect('/home')
+    context = {
+        'profileUser': profileUser[0],
+    }
+    return render(request, 'userProfile.html', context)
+
 def createGame(request):
     if 'userID' not in request.session or request.session['userID'] == None:
         messages.error(request, "You must log in to view that page")
