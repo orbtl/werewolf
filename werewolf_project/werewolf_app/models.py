@@ -11,7 +11,7 @@ class GameManager(models.Manager):
             top5objs = topUsers # if less than 5 people have at least 1 win we just leave this as is, because it's less than 5 anyways
         top5 = []
         for topUser in top5objs:
-            topUserWinrate = ((len(topUser.games_won.all()) / len(topUser.games_joined.exclude(host=topUser)))*100)
+            topUserWinrate = ((len(topUser.games_won.all()) / len(topUser.games_joined.exclude(host=topUser).exclude(ended=False)))*100)
             print(topUser.username)
             print(topUser.games_won)
             print(topUserWinrate)
