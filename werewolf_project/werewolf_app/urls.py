@@ -19,6 +19,7 @@ urlpatterns = [
     path('game/<int:gameID>/playerInfo', views.playerInfo),
     path('game/<int:gameID>/postGameInfo', views.postGameInfo),
 
+    path('graph', views.renderGraph),
     path('game/<int:gameID>/delete', views.deleteGame),
     path('fakeUserGen', views.fakeUsers), # comment this for production -- generate fake users for debug
     path('game/<int:gameID>/addFakeUsers', views.addFakeUsers), # comment this for production -- add fake users to game

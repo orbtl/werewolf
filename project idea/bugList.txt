@@ -9,6 +9,7 @@
 - need to make old game list (and user profile list) below main page
 -adjust delete button so it's only possible if game hasn't ended (and double check only for host)
 -spectate is hella borked
+-hide class modebar-container 
 -show secondary roles to other secondary role players?
 -partial html template - update seer information once seer functionality is programmed
 -add input for who seer checked, append string to role notes maybe to store info on who they checked and show it for the player

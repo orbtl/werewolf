@@ -465,6 +465,7 @@ class Game(models.Model):
     # Game Relationships:
     host = models.ForeignKey(User, related_name="games_hosted", on_delete=models.SET_NULL, null=True)
     players = models.ManyToManyField(User, related_name="games_joined") # I believe we need this in addition to roles for each player so we can have the players join the lobby before they are assigned roles.  I suppose an alternative owuld be to assign them a role initially by default that would be called something like "noRole" or "lobbyRole" etc
+    winning_players = models.ManyToManyField(User, related_name="games_won") # Keep track of who won what games
     # roles = each role associated with this game
     
 

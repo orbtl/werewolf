@@ -4,6 +4,7 @@ from .models import User, Game, Role
 import random #for random key generation
 import string #for easy random key string generation
 import bcrypt
+from .graph import makeGraph
 
 def randomKey():
     charsAllowed = (string.ascii_uppercase + string.digits)
@@ -75,6 +76,15 @@ def gameHunter(request, gameID, gamePhase):
         'gamePhase': gamePhase,
     }
     return render(request, 'gamePage.html', context)
+
+def renderGraph(request):
+    
+
+    graphic = makeGraph()
+    context = {
+        'graphic': graphic,
+    }
+    return render(request, 'graph.html', context)
 
 def partialHunter(request, gameID, gamePhase):
     currGame = Game.objects.get(id=gameID)
