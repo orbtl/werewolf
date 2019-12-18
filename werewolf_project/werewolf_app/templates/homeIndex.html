@@ -16,7 +16,7 @@
     <div class="container">
         <div id="header"></div>
         <div class="row mb-3">
-            <div class="card-group col-md-12">
+            <div class="card-group col-md-12 overflow-hidden" style="height: 350px;">
                 <div class="card">
                     <div class="card-header text-center">
                         <h3>Leaderboard</h3>
@@ -25,12 +25,16 @@
                         leaderboard table here
                     </div>
                 </div>
-                <div class="card">
+                <div class="card overflow-hidden">
                     <div class="card-header text-center">
                         <h3>Winrate Trends</h3>
                     </div>
-                    <div class="card-body">
-                        <div id="mainIndexGraphDiv"></div>
+                    <div class="card-body overflow-hidden pl-0 pr-0 pb-0 pt-0">
+                        <div class="row overflow-hidden pl-1 pr-1 pb-1 pt-1" style="height: 280px;">
+                            <div class="col-md-12">
+                                <div id="mainIndexGraphDiv"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card">

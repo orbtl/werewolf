@@ -27,8 +27,13 @@ def indexGraph(x_data, y_dataW, y_dataV):
         ),
         yaxis=dict(
             showgrid=False,
-            showticklabels=False,
-        ),
+        ), showlegend=False, margin=dict(
+            l=0,
+            t=0,
+            b=0,
+            r=0,
+            pad=0,
+        ), width=380, height=295,
     )
     plt_div = plot(fig, output_type="div")
     return plt_div
