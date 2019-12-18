@@ -204,6 +204,10 @@ class GameManager(models.Manager):
         aliveRoles = game.roles.filter(isAlive=True)
         oldAliveRoles = []
         angelWon = False
+        if phase != "Hunter":
+            turnPhase = TurnPhase.objects.create(game=game, phase=phase, turn=game.current_turn)
+        else:
+            turnPhase = game.turnPhases.last()
         for role in aliveRoles:
             oldAliveRoles.append(role)
 
@@ -225,6 +229,8 @@ class GameManager(models.Manager):
         # calculate/reveal dead logic
             #check who was chosen to be killed
             wwTarget = Role.objects.get(id=postData['wwTargetID'])
+            turnPhase.wwTarget = wwTarget.player.username
+            turnPhase.save()
             # initialize life savers
             targetSwitched = False
             witchUsedPotion = False
@@ -237,22 +243,31 @@ class GameManager(models.Manager):
                 tetanusList[0].isAlive = False
                 tetanusList[0].turn_died = game.current_turn
                 tetanusList[0].save()
+                turnPhase.tetanus_killed = True
+                turnPhase.tetanus_target = tetanusList[0].username
+                turnPhase.save()
             
             #check if accursed one switched them to werewolf
             if 'targetSwitched' in postData:
                 if postData['targetSwitched'] == "True":
                     targetSwitched = True
+                    turnPhase.target_switched = True
+                    turnPhase.save()
             #check if defender saved
             if 'defTargetID' in postData:
                 defTarget = Role.objects.get(id=postData['defTargetID'])
                 defender = aliveRoles.filter(role_name="Defender")[0]
                 defender.primary_ammo = defTarget.id # set 'primary_ammo' to be id of defender's target
                 defender.save()
+                turnPhase.def_target = defTarget.player.username
+                turnPhase.save()
 
             #check if witch saved
             if 'witchUsedPotion' in postData:
                 if postData['witchUsedPotion'] == "True":
                     witchUsedPotion = True
+                    turnPhase.witchUsedPotion = True
+                    turnPhase.save()
             #check if witch killed
             if 'witchPoisonTargetID' in postData:
                 witchPoisonTargetID = postData['witchPoisonTargetID']
@@ -261,10 +276,15 @@ class GameManager(models.Manager):
                     witchPoisonTarget.isAlive = False
                     witchPoisonTarget.turn_died = game.current_turn
                     witchPoisonTarget.save()
+                    turnPhase.witchUsedPoison = True
+                    turnPhase.witchPoisonTarget = witchPoisonTarget.player.username
+                    turnPhase.save()
             #check if little child was spotted
             if 'littleChildCaught' in postData:
                 if postData['littleChildCaught'] == "True":
                     littleChildCaught = True
+                    turnPhase.littleChildCaught = True
+                    turnPhase.save()
                 if littleChildCaught == True:
                     wwTarget = Role.objects.filter(role_name="Little Child")[0]
             if targetSwitched == True: # Accursed one turns/switches the target instead of killing
@@ -280,6 +300,8 @@ class GameManager(models.Manager):
                         wwTarget.primary_ammo = 0
                         wwTarget.save()
                         wwTarget = None
+                        turnPhase.elder_saved = True
+                        turnPhase.save()
             if witchUsedPotion == True and targetSwitched == False:
                 witch = Role.objects.filter(role_name="Witch")[0]
                 witch.primary_ammo = 0
@@ -292,6 +314,8 @@ class GameManager(models.Manager):
                         wildChildList[0].role_notes = "Wild Child - Your Role before being turned"
                         wildChildList[0].role_name = "Werewolf"
                         wildChildList[0].save()
+                        turnPhase.role_model_killed = True
+                        turnPhase.save()
                 if wwTarget.secondary_role_name == "Lover":
                     loverList = game.roles.filter(secondary_role_name="Lover")
                     if len(loverList) > 0:
@@ -301,6 +325,8 @@ class GameManager(models.Manager):
                         loverList[1].isAlive = False
                         loverList[1].turn_died = game.current_turn
                         loverList[1].save()
+                        turnPhase.lover_killed = True
+                        turnPhase.save()
                 if wwTarget.role_name == "Knight with the Rusty Sword":
                     wwList = aliveRoles.filter(role_name="Werewolf")
                     aoList = aliveRoles.filter(role_name="Accursed One")
@@ -312,11 +338,16 @@ class GameManager(models.Manager):
                     randIndex = random.randrange(0, len(wwArr), 1)
                     wwArr[randIndex].hasTetanus = True
                     wwArr[randIndex].save()
+                    turnPhase.tetanus_infected = True
+                    turnPhase.tetanus_target = wwArr[randIndex].player.username
+                    turnPhase.save()
 
 
                 wwTarget.isAlive = False # actually kill the target
                 wwTarget.turn_died = game.current_turn
                 wwTarget.save()
+                turnPhase.wwNewTarget = wwTarget.player.username
+                turnPhase.save()
                 
 
 
@@ -330,6 +361,8 @@ class GameManager(models.Manager):
                     if hunter.isAlive == False:
                         game.current_phase = "Hunter"
                         game.save()
+                        turnPhase.hunter_killed = True
+                        turnPhase.save()
                         return True
             
                    
@@ -580,7 +613,7 @@ class Game(models.Model):
     winning_players = models.ManyToManyField(User, related_name="games_won") # Keep track of who won what games
     losing_players = models.ManyToManyField(User, related_name="games_lost") # Keep track of who lost what games
     # roles = each role associated with this game
-    
+    # turnPhases = turnPhases associated with this game
 
 
 class Role(models.Model):
@@ -600,3 +633,29 @@ class Role(models.Model):
     hasTetanus = models.BooleanField(default=False) # store if werewolf has tetanus
     #role_name options: cupid,lover,werewolf,villager,village_idiot,twin,accursed_one,seer,witch,defender,hunter,wild_child,role_model,little_child,rusty_knight,elder,angel,gypsy
     
+
+class TurnPhase(models.Model):
+    game = models.ForeignKey(Game, related_name="turnPhases", on_delete=models.CASCADE)
+    turn = models.IntegerField(default=0)
+    phase = models.CharField(max_length=1000, null=True)
+    wwTarget = models.CharField(max_length=1000, default= "There is currently nothing stored in wwTarget")
+    wwNewTarget = models.CharField(max_length=1000, default="There is currently nothing stored in wwNewTarget")
+    vilTarget = models.CharField(max_length=1000, default="There is currently nothing stored in vilTarget")
+    vilNewTarget = models.CharField(max_length=1000, default="There is currently nothing stored in vilNewTarget")
+    target_switched = models.BooleanField(default=False)
+    witchUsedPotion = models.BooleanField(default=False)
+    witchUsedPoison = models.BooleanField(default=False)
+    littleChildCaught = models.BooleanField(default=False)
+    tetanus_infected = models.BooleanField(default=False)
+    tetanus_killed = models.BooleanField(default=False)
+    hunter_killed = models.BooleanField(default=False)
+    lover_killed = models.BooleanField(default=False)
+    elder_saved = models.BooleanField(default=False)
+    role_model_killed = models.BooleanField(default=False)
+    seer_target = models.CharField(max_length=1000, default="There is currently nothing stored in seer")
+    hunter_target = models.CharField(max_length=1000, default="There is currently nothing stored in hunter_target")
+    def_target = models.CharField(max_length=1000, default="There is currently nothing stored in def-target")
+    tetanus_target = models.CharField(max_length=1000, default="There is currently nothing stored in tetanus_target")
+    poison_target = models.CharField(max_length=1000, default="There is currently nothing stored in phase poison_target")
+    ww_alive = models.IntegerField(null=True)
+    v_alive = models.IntegerField(null=True)

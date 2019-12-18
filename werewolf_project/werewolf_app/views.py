@@ -300,7 +300,9 @@ def deleteGame(request, gameID): # remove this functionality for production
 
 def dayPhaseSummary(request, gameID):
     currGame = Game.objects.get(id=gameID)
+    turnPhase = currGame.turnPhases.last()
     context = {
         'game': currGame,
+        'turnPhase': turnPhase,
     }
     return render(request, 'partial/dayPhaseSummary.html', context)
