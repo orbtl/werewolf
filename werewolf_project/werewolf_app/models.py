@@ -341,14 +341,29 @@ class GameManager(models.Manager):
         if angelWon == True:
             game.ended = True
             game.winning_team = "Angel wins it for the villagers!"
+            for role in game.roles.exclude(player = game.host):
+                if role.role_name != "Werewolf" and role.role_name != "Accursed One":
+                    game.winning_players.add(role.player)
+                else:
+                    game.losing_players.add(role.player)
         badGuys = len(game.roles.filter(role_name="Werewolf").filter(isAlive=True)) + len(game.roles.filter(role_name="Accursed One").filter(isAlive=True))
         playersStillAlive = len(game.roles.exclude(player=game.host).filter(isAlive=True))
         if badGuys == playersStillAlive:
             game.ended = True
             game.winning_team = "Werewolves Win!"
+            for role in game.roles.exclude(player = game.host):
+                if role.role_name == "Werewolf" or role.role_name == "Accursed One":
+                    game.winning_players.add(role.player)
+                else:
+                    game.losing_players.add(role.player)
         if badGuys == 0:
             game.ended = True
             game.winning_team = "Villagers Win!"
+            for role in game.roles.exclude(player = game.host):
+                if role.role_name != "Werewolf" and role.role_name != "Accursed One":
+                    game.winning_players.add(role.player)
+                else:
+                    game.losing_players.add(role.player)
         game.save()
         return False
             
@@ -466,6 +481,7 @@ class Game(models.Model):
     host = models.ForeignKey(User, related_name="games_hosted", on_delete=models.SET_NULL, null=True)
     players = models.ManyToManyField(User, related_name="games_joined") # I believe we need this in addition to roles for each player so we can have the players join the lobby before they are assigned roles.  I suppose an alternative owuld be to assign them a role initially by default that would be called something like "noRole" or "lobbyRole" etc
     winning_players = models.ManyToManyField(User, related_name="games_won") # Keep track of who won what games
+    losing_players = models.ManyToManyField(User, related_name="games_lost") # Keep track of who lost what games
     # roles = each role associated with this game
     
 
