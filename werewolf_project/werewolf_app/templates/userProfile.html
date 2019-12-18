@@ -39,10 +39,10 @@
         <div class="row mt-2 pt-1 pb-1">
             <div class="col-md-6 card">
                 <div class="card-header row">
-                    <h3 class="col-md-12 text-center">Winrate</h3>
+                    <h3 class="col-md-12 text-center">Personal Winrate Over Time</h3>
                 </div>
-                <div class="card-body">
-                    <div id="profileGraphDiv"></div>
+                <div class="card-body overflow-hidden" style="height: 300px;">
+                    <div id="profileGraphDiv" style="margin-top: -10px;"></div>
                 </div>
             </div>
             <div class="col-md-6 card">
@@ -50,10 +50,10 @@
                     <h3 class="col-md-12 text-center">Statistics</h3>
                 </div>
                 <div class="card-body">
-                    <p>Total Wins: {{playerStats.totalWins}} ({{playerStats.totalWinrate}}%)</p>
-                    <p>Werewolf Wins: {{playerStats.wwWins}} ({{playerStats.wwWinrate}}%)</p>
-                    <p>Villager Wins: {{playerStats.vilWins}} ({{playerStats.vilWinrate}}%)</p>
-                    <p>Average Lifespan: {{playerStats.avgLifeSpan}} Turns</p>
+                    <p class="h4 mb-3">Total Wins: {{playerStats.totalWins}} ({{playerStats.totalWinrate}}%)</p>
+                    <p class="h4 mb-3">Werewolf Wins: {{playerStats.wwWins}} ({{playerStats.wwWinrate}}%)</p class="h4">
+                    <p class="h4 mb-3">Villager Wins: {{playerStats.vilWins}} ({{playerStats.vilWinrate}}%)</p class="h4">
+                    <p class="h4 mb-3">Average Lifespan: {{playerStats.avgLifeSpan}} Turns</p class="h4">
                 </div>
             </div>
         </div>
