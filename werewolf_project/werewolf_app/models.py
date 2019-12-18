@@ -66,7 +66,7 @@ class GameManager(models.Manager):
         return graphInfo
 
     def mainIndexGraph(self):
-        allDoneGames = Game.objects.filter(ended=True)
+        allDoneGames = Game.objects.filter(ended=True).order_by('updated_at') # need to sort by date so x axis is in order even if games weren't finished in order of their ID
         graphInfo = {
             'x_data': [],
             'y_dataW': [],
@@ -74,9 +74,9 @@ class GameManager(models.Manager):
         }
         for game in allDoneGames:
             graphInfo['x_data'].append(game.updated_at) # x axis of graph is datetime of games
-            wwWonGames = len(allDoneGames.filter(winning_team__icontains="Werewol"))
-            vilWonGames = len(allDoneGames.exclude(winning_team__icontains="Werewol"))
-            totalGameCount = len(allDoneGames)
+            wwWonGames = len(allDoneGames.filter(winning_team__icontains="Werewol").filter(updated_at__lte=game.updated_at))
+            vilWonGames = len(allDoneGames.exclude(winning_team__icontains="Werewol").filter(updated_at__lte=game.updated_at))
+            totalGameCount = len(allDoneGames.filter(updated_at__lte=game.updated_at))
             graphInfo['y_dataW'].append((wwWonGames / totalGameCount) * 100) # %Winrate of werewolves
             graphInfo['y_dataV'].append((vilWonGames / totalGameCount) * 100) # %Winrate of villagers
         return graphInfo

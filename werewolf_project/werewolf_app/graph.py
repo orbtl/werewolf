@@ -20,5 +20,15 @@ def indexGraph(x_data, y_dataW, y_dataV):
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x_data, y=y_dataW, name="Werewolf Winrate", line_color="red"))
     fig.add_trace(go.Scatter(x=x_data, y=y_dataV, name="Villager Winrate", line_color="blue"))
+    fig.update_layout(
+        xaxis=dict(
+            showgrid=False,
+            showticklabels=False,
+        ),
+        yaxis=dict(
+            showgrid=False,
+            showticklabels=False,
+        ),
+    )
     plt_div = plot(fig, output_type="div")
     return plt_div
