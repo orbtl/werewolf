@@ -3,6 +3,24 @@ from login_app.models import User
 import random
 
 class GameManager(models.Manager):
+    def calcStats(self, profileUser):
+        stats = {}
+        rolesPlayed = Role.objects.filter(player=profileUser).exclude(role_name="host")
+        lifeSum = 0
+        for role in rolesPlayed:
+            if role.isAlive == True:
+                lifeSum += role.game.current_turn
+            else:
+                lifeSum += role.turn_died
+        stats['avgLifeSpan'] = (lifeSum / len(rolesPlayed))
+        stats['totalWins'] = len(profileUser.games_won.all())
+        stats['totalWinrate'] = int((stats['totalWins'] / len(rolesPlayed)) * 100)
+        stats['wwWins'] = (len(profileUser.games_won.filter(winning_team__icontains="Werewol")))
+        stats['wwWinrate'] = int((stats['wwWins'] / (len(rolesPlayed.filter(role_name="Werewolf")) + len(rolesPlayed.filter(role_name="Accursed One")))) * 100)
+        stats['vilWins'] = (len(profileUser.games_won.exclude(winning_team__icontains="Werewol")))
+        stats['vilWinrate'] = int(stats['vilWins'] / (len(rolesPlayed.exclude(role_name="Werewolf").exclude(role_name="Accursed One"))) * 100)
+        return stats
+
     def roleDescription(self, role):
         desc = ""
         if role.role_name == "Werewolf":
@@ -340,7 +358,7 @@ class GameManager(models.Manager):
         # calculate if game is over
         if angelWon == True:
             game.ended = True
-            game.winning_team = "Angel wins it for the villagers!"
+            game.winning_team = "Angel wins it for the Villagers!"
             for role in game.roles.exclude(player = game.host):
                 if role.role_name != "Werewolf" and role.role_name != "Accursed One":
                     game.winning_players.add(role.player)

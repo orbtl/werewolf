@@ -52,10 +52,10 @@
                     <h3 class="col-md-12 text-center">Statistics</h3>
                 </div>
                 <div class="card-body">
-                    <p>Total Wins: {{profileUser.games_won.all|length}} (#%)</p>
-                    <p>Werewolf Wins: # (#%)</p>
-                    <p>Villager Wins: # (#%)</p>
-                    <p>Average Lifespan: # Turns</p>
+                    <p>Total Wins: {{playerStats.totalWins}} ({{playerStats.totalWinrate}}%)</p>
+                    <p>Werewolf Wins: {{playerStats.wwWins}} ({{playerStats.wwWinrate}}%)</p>
+                    <p>Villager Wins: {{playerStats.vilWins}} ({{playerStats.vilWinrate}}%)</p>
+                    <p>Average Lifespan: {{playerStats.avgLifeSpan}} Turns</p>
                 </div>
             </div>
         </div>

@@ -156,8 +156,10 @@ def userProfile(request, profileUserID):
     if len(profileUser) == 0:
         messages.error(request, "That user ID not found")
         return redirect('/home')
+    playerStats = Game.objects.calcStats(profileUser[0])
     context = {
         'profileUser': profileUser[0],
+        'playerStats': playerStats,
     }
     return render(request, 'userProfile.html', context)
 
