@@ -8,6 +8,7 @@
 -adjust delete button so it's only possible if game hasn't ended (and double check only for host)
 -add profile link to header
 -validate lovers aren't same person?
+-dates are in wrong time zone
 -hide class modebar-container 
 -check if graph can handle going to user page with 0 games played for dividing by 0
 -show secondary roles to other secondary role players?
