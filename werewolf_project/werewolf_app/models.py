@@ -56,6 +56,15 @@ class GameManager(models.Manager):
             graphInfo['y_data'].append((gamesWonThen / gamesPlayedThen)*100)
         return graphInfo
 
+    def postGameGraph(self, game):
+        graphInfo = {
+            'x_data': [],
+            'y_dataW': [],
+            'y_dataV': [],
+        }
+        #unfinished -- we need to figure out what graph info we're showing and how
+        return graphInfo
+
     def roleDescription(self, role):
         desc = ""
         if role.role_name == "Werewolf":

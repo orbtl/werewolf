@@ -4,7 +4,7 @@ from .models import User, Game, Role
 import random #for random key generation
 import string #for easy random key string generation
 import bcrypt
-from .graph import makeGraph
+from .graph import makeGraph, doubleGraph
 
 def randomKey():
     charsAllowed = (string.ascii_uppercase + string.digits)
@@ -149,6 +149,15 @@ def postGameInfo(request, gameID):
         'num_ww': num_ww,
     }
     return render(request, "partial/postGameInfo.html", context)
+
+def postGameGraph(request, gameID):
+    game = Game.objects.get(id=gameID)
+    graphInfo = Game.objects.postGameGraph(game)
+    graphic = doubleGraph(graphInfo['x_data'], graphInfo['y_dataW'], graphInfo['y_dataV'])
+    context = {
+        'graphic': graphic,
+    }
+    return render(request, 'partial/graph.html', context)
 
 def userProfile(request, profileUserID):
     if 'userID' not in request.session or request.session['userID'] == None:

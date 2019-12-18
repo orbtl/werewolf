@@ -65,38 +65,19 @@
                 <div class="card-body overflow-auto">
                     <div class="row border-bottom">
                         <h6 class="col-md-12 text-center">In Progress</h6>
-                        <p>placeholder existing game</p>
+                        {% for game in profileUser.games_joined.all %}
+                            {% if game.host == profileUser and game.ended == False %}
+                                <p class="col-md-12 text-center"><a href="/home/game/{{game.id}}">ID {{game.id}} | Created at {{game.created_at}}</a></p class="col-md-12 text-center">
+                            {% endif %}
+                        {% endfor %}
                     </div>
                     <div class="row mt-2">
                         <h6 class="col-md-12 text-center">Previous</h6>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
+                        {% for game in profileUser.games_joined.all %}
+                            {% if game.host == profileUser and game.ended == True %}
+                                <p class="col-md-12 text-center"><a href="/home/game/{{game.id}}">ID {{game.id}} | Finished at {{game.updated_at}}</a></p class="col-md-12 text-center">
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -104,28 +85,22 @@
                 <div class="card-header">
                     <h4 class="col-md-12 text-center">Games Joined</h4>
                 </div>
-                <div class="card-body pl-4 overflow-auto">
+                <div class="card-body pl-4 overflow-auto text-center">
                     <div class="row border-bottom ml-1">
                         <h6 class="col-md-12 text-center">In Progress</h6>
-                        <p>placeholder existing game</p>
+                        {% for game in profileUser.games_joined.all %}
+                            {% if game.host != profileUser and game.ended == False %}
+                                <p class="col-md-12 text-center"><a href="/home/game/{{game.id}}">ID {{game.id}} | hosted by {{game.host.username}} | Created at {{game.created_at}}</a></p class="col-md-12 text-center">
+                            {% endif %}
+                        {% endfor %}
                     </div>
                     <div class="row ml-1 mt-2">
                         <h6 class="col-md-12 text-center">Previous</h6>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
-                        <p>placeholder previous game</p>
+                        {% for game in profileUser.games_joined.all %}
+                            {% if game.host != profileUser and game.ended == True %}
+                                <p class="col-md-12 text-center"><a href="/home/game/{{game.id}}">ID {{game.id}}, hosted by {{game.host.username}} | Finished at {{game.updated_at}}</a></p>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
