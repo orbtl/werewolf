@@ -16,25 +16,25 @@
     <div class="container">
         <div id="header"></div>
         <div class="row mb-3">
-            <div class="card-group col-md-12 overflow-hidden" style="height: 350px;">
-                <div class="card overflow-hidden">
+            <div class="card-group col-md-12" style="height: 350px;">
+                <div class="card">
                     <div class="card-header text-center">
                         <h3>Leaderboard</h3>
                     </div>
-                    <div class="card-body pl-0 pr-0 pt-0 pb-0 overflow-hidden">
+                    <div class="card-body pl-0 pr-0 pt-0 pb-0">
                         <table class="table table-striped text-center">
                             <thead>
                                 <tr>
-                                    <th scope="col">User</th>
-                                    <th scope="col">Games Played</th>
-                                    <th scope="col">Winrate</th>
+                                    <th scope="col" style="padding: 5px;">User</th>
+                                    <th scope="col" style="padding: 5px;">Games Played</th>
+                                    <th scope="col" style="padding: 5px;">Winrate</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for entry in top5 %}
                                     <tr>
                                         <td>
-                                            {{entry.topUser.username}}
+                                            <a href="/home/users/{{entry.topUser.id}}">{{entry.topUser.username}}</a>
                                         </td>
                                         <td>
                                             {{entry.topUser.games_won.all|length}}
