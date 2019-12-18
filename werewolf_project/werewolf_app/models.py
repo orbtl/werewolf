@@ -364,7 +364,9 @@ class GameManager(models.Manager):
                         turnPhase.hunter_killed = True
                         turnPhase.save()
                         return True
-            
+            else:
+                turnPhase.wwNewTarget = "No one was killed"
+                turnPhase.save()
                    
             #check if angel killed and it's day 2, angel wins
             if game.current_turn == 2:
@@ -379,7 +381,8 @@ class GameManager(models.Manager):
         
         if phase == "Day":
             voteTarget = Role.objects.get(id=postData['voteTarget'])
-
+            turnPhase.vilTarget = voteTarget.player.username
+            turnPhase.save()
             # if turn 1 angel logic
             if game.current_turn == 1:
                 if voteTarget.role_name== "Angel":
@@ -391,6 +394,8 @@ class GameManager(models.Manager):
                     wildChildList[0].role_notes = "Role before being turned: Wild Child"
                     wildChildList[0].role_name = "Werewolf"
                     wildChildList[0].save()
+                    turnPhase.role_model_killed = True
+                    turnPhase.save()
             # lover logic
             if voteTarget.secondary_role_name == "Lover":
                 loverList = game.roles.filter(secondary_role_name="Lover")
@@ -401,6 +406,8 @@ class GameManager(models.Manager):
                     loverList[1].isAlive = False
                     loverList[1].turn_died = game.current_turn
                     loverList[1].save()
+                    turnPhase.lover_killed = True
+                    turnPhase.save()
             # elder logic
             if voteTarget.role_name == "Elder":
                 villageList = aliveRoles.exclude(role_name="Werewolf").exclude(role_name="Accursed One")
@@ -409,16 +416,25 @@ class GameManager(models.Manager):
                     villager.primary_ammo = 0
                     villager.secondary_ammo = 0
                     villager.save()
+                    turnPhase.elder_voted_off = True
+                    turnPhase.save()
+
             # village idiot logic
             if voteTarget.role_name == "Village Idiot":
                 voteTarget.primary_ammo = 0 # use this to store that they were identified as the idiot and will show up on player list, and not be able to vote
                 voteTarget.save()
                 voteTarget = None
+                turnPhase.village_idiot_voted_off = True
+                turnPhase.save()
             # kill the target
             if voteTarget != None:
                 voteTarget.isAlive = False
                 voteTarget.turn_died = game.current_turn
                 voteTarget.save()
+                turnPhase.vilNewTarget = voteTarget.player.username
+            else:
+                turnPhase.vilNewTarget = "No one was killed"
+            turnPhase.save()
             
            
             #checking if Hunter died during this calculation
@@ -431,6 +447,8 @@ class GameManager(models.Manager):
                 if hunter.isAlive == False:
                     game.current_phase = "Hunter"
                     game.save()
+                    turnPhase.hunter_killed = True
+                    turnPhase.save()
                     return True
         
 
@@ -439,6 +457,8 @@ class GameManager(models.Manager):
 
         if phase == "Hunter":
             hunterTarget = Role.objects.get(id=postData['hunterTarget'])
+            turnPhase.hunter_target = hunterTarget.player.username
+            turnPhase.save()
             # role model logic
             if hunterTarget.isRoleModel == True:
                 wildChildList = aliveRoles.filter(role_name="Wild Child")
@@ -446,6 +466,8 @@ class GameManager(models.Manager):
                     wildChildList[0].role_notes = "Role before being turned: Wild Child"
                     wildChildList[0].role_name = "Werewolf"
                     wildChildList[0].save()
+                    turnPhase.role_model_killed = True
+                    turnPhase.save()
             # lover logic
             if hunterTarget.secondary_role_name == "Lover":
                 loverList = game.roles.filter(secondary_role_name="Lover")
@@ -456,6 +478,8 @@ class GameManager(models.Manager):
                     loverList[1].isAlive = False
                     loverList[1].turn_died = game.current_turn
                     loverList[1].save()
+                    turnPhase.lover_killed = True
+                    turnPhase.save()
             hunterTarget.isAlive = False
             hunterTarget.turn_died = game.current_turn
             hunterTarget.save()
@@ -651,6 +675,8 @@ class TurnPhase(models.Model):
     hunter_killed = models.BooleanField(default=False)
     lover_killed = models.BooleanField(default=False)
     elder_saved = models.BooleanField(default=False)
+    elder_voted_off = models.BooleanField(default=False)
+    village_idiot_voted_off = models.BooleanField(default=False)
     role_model_killed = models.BooleanField(default=False)
     seer_target = models.CharField(max_length=1000, default="There is currently nothing stored in seer")
     hunter_target = models.CharField(max_length=1000, default="There is currently nothing stored in hunter_target")
