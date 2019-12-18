@@ -65,6 +65,24 @@ class GameManager(models.Manager):
         #unfinished -- we need to figure out what graph info we're showing and how
         return graphInfo
 
+    def mainIndexGraph(self):
+        allDoneGames = Game.objects.filter(ended=True)
+        graphInfo = {
+            'x_data': [],
+            'y_dataW': [],
+            'y_dataV': [],
+        }
+        for game in allDoneGames:
+            graphInfo['x_data'].append(game.updated_at) # x axis of graph is datetime of games
+            wwWonGames = len(allDoneGames.filter(winning_team__icontains="Werewol"))
+            vilWonGames = len(allDoneGames.exclude(winning_team__icontains="Werewol"))
+            totalGameCount = len(allDoneGames)
+            graphInfo['y_dataW'].append((wwWonGames / totalGameCount) * 100) # %Winrate of werewolves
+            graphInfo['y_dataV'].append((vilWonGames / totalGameCount) * 100) # %Winrate of villagers
+        return graphInfo
+
+
+
     def roleDescription(self, role):
         desc = ""
         if role.role_name == "Werewolf":
@@ -258,7 +276,7 @@ class GameManager(models.Manager):
                         wildChildList[0].role_name = "Werewolf"
                         wildChildList[0].save()
                 if wwTarget.secondary_role_name == "Lover":
-                    loverList = aliveRoles.filter(secondary_role_name="Lover")
+                    loverList = game.roles.filter(secondary_role_name="Lover")
                     if len(loverList) > 0:
                         loverList[0].isAlive = False
                         loverList[0].turn_died = game.current_turn
@@ -325,7 +343,7 @@ class GameManager(models.Manager):
                     wildChildList[0].save()
             # lover logic
             if voteTarget.secondary_role_name == "Lover":
-                loverList = aliveRoles.filter(secondary_role_name="Lover")
+                loverList = game.roles.filter(secondary_role_name="Lover")
                 if len(loverList) > 0:
                     loverList[0].isAlive = False
                     loverList[0].turn_died = game.current_turn
@@ -380,7 +398,7 @@ class GameManager(models.Manager):
                     wildChildList[0].save()
             # lover logic
             if hunterTarget.secondary_role_name == "Lover":
-                loverList = aliveRoles.filter(secondary_role_name="Lover")
+                loverList = game.roles.filter(secondary_role_name="Lover")
                 if len(loverList) > 0:
                     loverList[0].isAlive = False
                     loverList[0].turn_died = game.current_turn

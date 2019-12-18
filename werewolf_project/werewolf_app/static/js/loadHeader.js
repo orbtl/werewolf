@@ -9,4 +9,5 @@ $(document).ready(function(){
     $('#playerInfoDiv').load('/home/game/' + gameID + '/playerInfo');
     $('#postGameInfo').load('/home/game/' + gameID + '/postGameInfo');
     $('#profileGraphDiv').load('/home/users/' + profileUserID + '/graph');
+    $('#mainIndexGraphDiv').load('/home/indexGraph');
 })

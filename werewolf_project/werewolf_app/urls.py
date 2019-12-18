@@ -19,6 +19,7 @@ urlpatterns = [
     path('game/<int:gameID>/hunterPhase/<str:gamePhase>', views.partialHunter),
     path('game/<int:gameID>/playerInfo', views.playerInfo),
     path('game/<int:gameID>/postGameInfo', views.postGameInfo),
+    path('indexGraph', views.mainIndexGraph),
 
     path('graph', views.renderGraph),
     path('game/<int:gameID>/delete', views.deleteGame),

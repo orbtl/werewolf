@@ -4,7 +4,7 @@ from .models import User, Game, Role
 import random #for random key generation
 import string #for easy random key string generation
 import bcrypt
-from .graph import makeGraph, doubleGraph
+from .graph import makeGraph, doubleGraph, indexGraph
 
 def randomKey():
     charsAllowed = (string.ascii_uppercase + string.digits)
@@ -154,6 +154,14 @@ def postGameGraph(request, gameID):
     game = Game.objects.get(id=gameID)
     graphInfo = Game.objects.postGameGraph(game)
     graphic = doubleGraph(graphInfo['x_data'], graphInfo['y_dataW'], graphInfo['y_dataV'])
+    context = {
+        'graphic': graphic,
+    }
+    return render(request, 'partial/graph.html', context)
+
+def mainIndexGraph(request):
+    graphInfo = Game.objects.mainIndexGraph()
+    graphic = indexGraph(graphInfo['x_data'], graphInfo['y_dataW'], graphInfo['y_dataV'])
     context = {
         'graphic': graphic,
     }
