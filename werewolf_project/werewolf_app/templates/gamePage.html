@@ -147,119 +147,89 @@
                                 {% endif %} <!--End pre-game lobby config card for host-->
                             {% else %} <!--Show players game page-->
                                 {% if game.started == False %} <!--players pre-game lobby current settings page-->
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-8">Maximum Players</div>
                                         <div class="col-md-4">{{game.max_players}}</div>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-8"># of Werewolves (including Accursed One)</div>
                                         <div class="col-md-4">{{game.num_werewolves}}</div>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-5">
                                             Seer
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_seer}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_seer %}checked{% endif %} disabled>
                                         <div class="col-md-5">
                                             Witch
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_witch}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_witch %}checked{% endif %} disabled>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-5">
                                             Accursed One
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_accursed_one}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_accursed_one %}checked{% endif %} disabled>
                                         <div class="col-md-5">
                                             Cupid (and lovers)
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_cupid}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_cupid %}checked{% endif %} disabled>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-5">
                                             Defender
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_defender}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_defender %}checked{% endif %} disabled>
                                         <div class="col-md-5">
                                             Hunter
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_hunter}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_hunter %}checked{% endif %} disabled>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-5">
                                             Twins
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_twins}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_twins %}checked{% endif %} disabled>
                                         <div class="col-md-5">
                                             Village Idiot
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_village_idiot}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_village_idiot %}checked{% endif %} disabled>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-5">
                                             Wild Child
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_wild_child}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_wild_child %}checked{% endif %} disabled>
                                         <div class="col-md-5">
                                             Little Child
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_little_child}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_little_child %}checked{% endif %} disabled>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-5">
                                             Knight with the Rusty Sword
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_rusty_knight}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_rusty_knight %}checked{% endif %} disabled>
                                         <div class="col-md-5">
                                             Elder
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_elder}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_elder %}checked{% endif %} disabled>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-5">
                                             Angel
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_angel}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_angel %}checked{% endif %} disabled>
                                         <div class="col-md-5">
                                             Gypsy
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.has_gypsy}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.has_gypsy %}checked{% endif %} disabled>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-center form-group">
                                         <div class="col-md-5">
                                             Allow Spectators
                                         </div>
-                                        <div class="col-md-1">
-                                            {{game.allow_spectators}}
-                                        </div>
+                                        <input type="checkbox" class="form-control col-md-1" {% if game.allow_spectators %}checked{% endif %} disabled>
                                     </div>
                                 {% else %} <!--End players pre-game lobby current settings page-->
                                     {% if user in game.players.all %}

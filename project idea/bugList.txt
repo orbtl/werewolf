@@ -1,6 +1,4 @@
--game settings page for players shows correct settings but we need to fix it showing True/False instead of maybe 1 or 0 (or maybe show greyed out checkboxes???)
--spectators can't see roles of players
--actually get post-game page to show information about the game
+-implement post-game graph
 -accursed one needs to have only 1 ammo (check all special characters too)
 -maybe have helpful info box at the bottom of host's game page to show reminders about certain roles, like village idiot no longer being able to vote
 -add last_phase_description to game model and show it to host to remind of the events that happened i nthe last phase
