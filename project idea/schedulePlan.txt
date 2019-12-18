@@ -11,28 +11,40 @@ By EOD Monday:
 By EOD Tuesday:
     (done)-Storing each game's data in the database
     (COME ONNNNNNNNNNNNNNNNNNNNNN)-Storing each turn's data in the database
-    (need more stats)-Implement game page for post-game stats/info
-    (need graph and past games)-Implement user profile page with user stats
+    (need graph, otherwise done)-Implement game page for post-game stats/info
+    (done)-Implement user profile page with user stats
 
 By EOD Wednesday:
     -implement leaderboard
+    -add profile link to header
     -Extensive alpha testing on game options/outcomes
+        -accursed one needs to have only 1 ammo (check all special characters too)
+        -check on secondary roles showing at the right times?
+    -maybe have helpful info box at the bottom of host's game page to show reminders about certain roles, like village idiot no longer being able to vote
     -Polished styling
-    -header stay at top of screen
-    -header load before rest of page
-    -LOOK AT what python channels are and how hard they are to implement
+    -Fix issues in buglist
+        -validate lovers aren't same person?
+        -dates are in wrong time zone
+        -check if graph can handle going to user page with 0 games played for dividing by 0
+    (low priority)-header stay at top of screen
+    (low priority)-header load before rest of page
 
 By EOD Thursday: 
-    -Dry-run of presentation (do we want to use two laptops for host vs player view?)
+    - need to make old game list (and user profile list) below main page
+    -LOOK AT what python channels are and how hard they are to implement
     -Implement force-kill functionality
     -Implement Ban functionality (kick is done)
-    -Try implementing data visualization (d3?) for winrate trend graph etc
-    -change leaderboard metrics from a dropdown or something
+    (done)-Try implementing data visualization (d3?) for winrate trend graph etc
+    (optional)-change leaderboard metrics from a dropdown or something
 
 By Friday presentation time:
+    -buglist stuff:
+        -implement post-game graph
+        -partial html template - update seer information once seer functionality is programmed
     -Implement channels for live updating
         -Or if channels are too ahrd, use a button with ajax to refresh player list without refreshing whole page
 
+    -Dry-run of presentation (do we want to use two laptops for host vs player view?)
     -Final testing
     
     

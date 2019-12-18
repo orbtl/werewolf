@@ -3,6 +3,26 @@ from login_app.models import User
 import random
 
 class GameManager(models.Manager):
+    def top5(self):
+        topUsers = User.objects.filter(games_won__gte=1).order_by('-games_won') #all players with at least 1 win, sorted by most wins
+        if len(topUsers) >= 5: # if at least 5 people have at least 1 win
+            top5objs = topUsers[:5]
+        else:
+            top5objs = topUsers # if less than 5 people have at least 1 win we just leave this as is, because it's less than 5 anyways
+        top5 = []
+        for topUser in top5objs:
+            topUserWinrate = ((len(topUser.games_won.all()) / len(topUser.games_joined.exclude(host=topUser)))*100)
+            print(topUser.username)
+            print(topUser.games_won)
+            print(topUserWinrate)
+            top5.append({
+                'topUser': topUser,
+                'winrate': round(topUserWinrate,2),
+            })
+        top5ByWinRate = sorted(top5, key=lambda topEntry: topEntry['winrate'], reverse=True) # this lambda function goes into each item and sorts by its key 'winrate' in reverse order, so the highest winrate is first
+        return top5ByWinRate
+        
+
     def calcStats(self, profileUser):
         stats = {}
         rolesPlayed = Role.objects.filter(player=profileUser).exclude(role_name="host").exclude(game__ended=False)

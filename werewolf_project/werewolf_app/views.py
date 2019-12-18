@@ -15,10 +15,12 @@ def homeIndex(request): # Main Home Page
         messages.error(request, "You must log in to view that page")
         return redirect('/')
     user = User.objects.get(id=request.session['userID'])
+    top5 = Game.objects.top5()
     context = {
         'user': user,
         'games': Game.objects.all(),
         'userStats': Game.objects.calcStats(user),
+        'top5': top5,
     }
     return render(request, 'homeIndex.html', context)
 
