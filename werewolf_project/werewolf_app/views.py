@@ -297,3 +297,10 @@ def deleteGame(request, gameID): # remove this functionality for production
     gameToDelete.delete()
     messages.success(request, f'Successfully deleted game id {gameID} and associated roles')
     return redirect('/home')
+
+def dayPhaseSummary(request, gameID):
+    currGame = Game.objects.get(id=gameID)
+    context = {
+        'game': currGame,
+    }
+    return render(request, 'partial/dayPhaseSummary.html', context)

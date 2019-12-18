@@ -11,6 +11,7 @@ urlpatterns = [
     path('users/<int:profileUserID>/graph', views.renderGraph),
     path('game/<int:gameID>', views.game),
     path('game/<int:gameID>/join', views.joinGame),
+    path('game/<int:gameID>/dayPhaseSummary', views.dayPhaseSummary),
     path('game/<int:gameID>/update', views.updateGame),
     path('game/<int:gameID>/start', views.startGame),
     path('game/<int:gameID>/kick/<int:playerID>', views.kickPlayer),

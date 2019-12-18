@@ -139,6 +139,9 @@
                                 {% else %} <!--If game has started-->
                                     {% if game.current_phase == "Night" %}
                                         <div id="nightPhaseDiv"></div>
+                                        {% if game.current_turn != 0 %}
+                                            <div id="dayPhaseSummary"></div>
+                                        {% endif %}
                                     {% elif game.current_phase == "Day" %} <!--phase == "Day"-->
                                         <div id="dayPhaseDiv"></div>
                                     {% elif game.current_phase == "Hunter" %} <!--Phase == "Hunter"-->

@@ -10,4 +10,5 @@ $(document).ready(function(){
     $('#postGameInfo').load('/home/game/' + gameID + '/postGameInfo');
     $('#profileGraphDiv').load('/home/users/' + profileUserID + '/graph');
     $('#mainIndexGraphDiv').load('/home/indexGraph');
+    $('#dayPhaseSummary').load('/home/game/' + gameID + '/dayPhaseSummary');
 })

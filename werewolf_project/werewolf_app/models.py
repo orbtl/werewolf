@@ -12,9 +12,6 @@ class GameManager(models.Manager):
         top5 = []
         for topUser in top5objs:
             topUserWinrate = ((len(topUser.games_won.all()) / len(topUser.games_joined.exclude(host=topUser).exclude(ended=False)))*100)
-            print(topUser.username)
-            print(topUser.games_won)
-            print(topUserWinrate)
             top5.append({
                 'topUser': topUser,
                 'winrate': round(topUserWinrate,2),
