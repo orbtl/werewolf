@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <div id="header"></div>
-        <div class="row border-bottom pt-1 pb-1">
+        <div class="row pt-1 pb-1">
             <div class="col-md-2">
                 <img style="width:150px;" src="{% static 'img/userImg.png' %}" alt="generic user image">
             </div>
@@ -32,6 +32,48 @@
                     <div class="row">
                         <p>Date Joined: {{profileUser.created_at}}</p>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 pt-1 pb-1">
+            <div class="col-md-6 card">
+                <div class="card-header row">
+                    <h3 class="col-md-12 text-center">Winrate</h3>
+                </div>
+                <div class="card-body">
+                    graph goes here
+                   blah
+                   blah
+                   bleh    
+                </div>
+            </div>
+            <div class="col-md-6 card">
+                <div class="card-header row">
+                    <h3 class="col-md-12 text-center">Statistics</h3>
+                </div>
+                <div class="card-body">
+                    <p>Total Wins: # (#%)</p>
+                    <p>Werewolf Wins: # (#%)</p>
+                    <p>Villager Wins: # (#%)</p>
+                    <p>Average Lifespan: # Turns</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6 card">
+                <div class="card-header row">
+                    <h4 class="col-md-12 text-center">Games Hosted</h4>
+                </div>
+                <div class="card-body">
+                    blah here
+                </div>
+            </div>
+            <div class="col-md-6 card">
+                <div class="row card-header">
+                    <h4 class="col-md-12 text-center">Games Joined</h4>
+                </div>
+                <div class="card-body">
+                    bleh here
                 </div>
             </div>
         </div>
