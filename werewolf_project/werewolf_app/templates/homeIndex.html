@@ -68,30 +68,31 @@
         </div>
         {% endif %}
         <div class="row">
-            <div class="card-group col-md-10 offset-md-1">
-                <div class="card btn btn-primary" style="transform: rotate(0);"> <!--Transform identifies the place where stretched-link stops-->
+            <div class="card-group col-md-12">
+                <div class="card btn btn-primary col-md-4" style="transform: rotate(0);"> <!--Transform identifies the place where stretched-link stops-->
                     <div class="card-body justify-content-center d-flex align-items-center">
                         <a href="/home/host" class="stretched-link">Host A Game</a>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card col-md-8 pl-0 pr-0">
                     <div class="card-header text-center">
-                        <h5>Existing Games</h5>
+                        <h5 class="col-md-12">Existing Games</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body overflow-auto" style="height: 250px;">
                         <ul>
                             {% for game in games %}
                                 {% if game.ended == False %}
-                                    <li {% if game.started == True %} class="text-success" {% endif %}>ID: {{game.id}} - Host: {{game.host.username}}
-                                        {% if game.started == False or user in game.players.all %}
-                                            <a href="/home/game/{{game.id}}/join" class="btn btn-sm btn-primary">Join Game</a>
-                                        {% endif %}
-                                        {% if game.allow_spectators == True %}
-                                            <a href="/home/game/{{game.id}}" class="btn btn-sm btn-secondary">Spectate</a>
-                                        {% endif %}
-                                        {% if game.host.id == user.id %}
-                                            <a href="/home/game/{{game.id}}/delete" class="btn btn-sm btn-danger">Delete</a> <!--For debugging etc-->
-                                        {% endif %}
+                                    <li {% if game.started == True %} class="text-success mb-1 h4 font-weight-normal"{% else %} class="mb-1 h4 font-weight-normal" {% endif %}>
+                                        <div class="row border-bottom">
+                                            <div class="col-md-6">
+                                                ID: {{game.id}} - Host: {{game.host.username}}
+                                            </div>
+                                            <div class="col-md-6 mb-1">
+                                                <a href="/home/game/{{game.id}}/join" {% if game.started == False or user in game.players.all %} class="btn btn-sm btn-primary" {% else %} class="btn btn-sm btn-outline-secondary disabled" {% endif %} >Join</a>
+                                                <a href="/home/game/{{game.id}}" {% if game.allow_spectators == True %} class="btn btn-sm btn-info" {% else %} class="btn btn-sm btn-outline-secondary disabled" {% endif %}>Spectate</a>
+                                                <a href="/home/game/{{game.id}}/delete" {% if game.host.id == user.id %} class="btn btn-sm btn-danger" {% else %} class="btn btn-sm btn-outline-secondary disabled" {% endif %} >Delete</a> <!--For debugging etc-->
+                                            </div>
+                                        </div>
                                     </li>
                                 {% endif %}
                             {% endfor %}
