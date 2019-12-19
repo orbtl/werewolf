@@ -279,7 +279,7 @@ class GameManager(models.Manager):
                     witchPoisonTarget.turnPhaseKilled = turnPhase
                     witchPoisonTarget.save()
                     turnPhase.witchUsedPoison = True
-                    turnPhase.witchPoisonTarget = witchPoisonTarget.player.username
+                    turnPhase.poison_target = witchPoisonTarget.player.username
                     turnPhase.save()
             #check if little child was spotted
             if 'littleChildCaught' in postData:
