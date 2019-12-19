@@ -10,7 +10,7 @@ By EOD Monday:
 
 By EOD Tuesday:
     (done)-Storing each game's data in the database
-    (COME ONNNNNNNNNNNNNNNNNNNNNN)-Storing each turn's data in the database
+    (done but without parseable stats)(COME ONNNNNNNNNNNNNNNNNNNNNN)-Storing each turn's data in the database
     (need graph, otherwise done)-Implement game page for post-game stats/info
     (done)-Implement user profile page with user stats
 

@@ -66,7 +66,7 @@ class GameManager(models.Manager):
             'x_data': [],
             'y_data': [],
         }
-        gamesPlayed = profileUser.games_joined.exclude(host=profileUser).exclude(ended=False)
+        gamesPlayed = profileUser.games_joined.exclude(host=profileUser).exclude(ended=False).order_by('updated_at')
         for game in gamesPlayed:
             graphInfo['x_data'].append(game.updated_at)
             gamesWonThen = len(profileUser.games_won.filter(updated_at__lte=game.updated_at))
