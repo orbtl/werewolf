@@ -298,22 +298,12 @@ def deleteGame(request, gameID): # remove this functionality for production
     messages.success(request, f'Successfully deleted game id {gameID} and associated roles')
     return redirect('/home')
 
-def dayPhaseSummary(request, gameID):
+def phaseSummary(request, gameID):
+    print("made it to night phase summary")
     currGame = Game.objects.get(id=gameID)
     turnPhase = currGame.turnPhases.last()
     context = {
         'game': currGame,
         'turnPhase': turnPhase,
     }
-    return render(request, 'partial/dayPhaseSummary.html', context)
-
-def nightPhaseSummary(request, gameID):
-    currGame = Game.objects.get(id=gameID)
-    turnPhase = currGame.turnPhases.last()
-    nightTurn = (currGame.current_turn - 1)
-    playersWhoDied = currGame.roles.filter(turn_died=nightTurn)
-    context = {
-        'game': currGame,
-        'turnPhase': turnPhase,
-    }
-    return render(request, 'partial/nightPhaseSummary.html', context)
+    return render(request, 'partial/phaseSummary.html', context)

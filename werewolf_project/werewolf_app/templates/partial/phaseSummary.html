@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h3>Here is a summary of the past {{turnPhase.phase}}:</h3>
+        </div>
+        <div class="card-body">
+            <h5>People killed:</h5>
+            <ul>
+                {% for role in turnPhase.players_killed.all %}
+                    <li>{{role.player.username}} - {{role.role_name}}</li>
+                {% endfor %}
+            </ul>
+            <h5>Events last phase:</h5>
+            <ul>
+                {% if turnPhase.phase == "Night" %}
+                <li>The Werewolves targetted: {{turnPhase.wwTarget}}</li>
+                {% endif %}
+                {% if turnPhase.phase == "Day" %}
+                <li>The Villagers voted for: {{turnPhase.vilTarget}}</li>
+                {% if turnPhase.target_switched == True %}
+                    <li>{{turnPhase.wwTarget}} was switched to a werewolf by the Accursed One</li>
+                {% endif %}
+                {% if turnPhase.witchUsedPotion == True %}
+                    <li>The Witch used their potion, saving {{turnPhase.wwTarget}}</li>
+                {% endif %}
+                {% if turnPhase.witchUsedPoison == True %}
+                    <li>The Witch poisoned {{turnPhase.poison_target}}</li>
+                {% endif %}
+                {% if turnPhase.littleChildCaught == True %}
+                    <li>The little child was caught, so she died instead of {{turnPhase.wwTarget}}</li>
+                {% endif %}
+                {% if turnPhase.tetanus_infected == True %}
+                    <li>{{turnPhase.tetanus_target}} was infected with super tetanus and will die next turn...</li>
+                {% endif %}
+                {% if turnPhase.tetanus_killed == True %}
+                    <li>{{turnPhase.tetanus_target}} was killed by super tetanus!!</li>
+                {% endif %}
+                {% if turnPhase.hunter_killed == True %}
+                    <li>The hunter was killed and shot {{turnPhase.hunter_target}} with their dying breath!</li>
+                {% endif %}
+                {% if turnPhase.lover_killed == True %}
+                    <li>A lover was killed, so both lovers died:
+                        <ul>
+                            {% for role in turnPhase.players_killed.all %}
+                                {% if role.secondary_role_name == "Lover" %}
+                                    <li>{{role.player.username}}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% if turnPhase.elder_saved == True %}
+                    <li>The elder used his wisdom to avoid the attack by the werewolves...</li>
+                {% endif %}
+                {% if turnPhase.elder_voted_off == True %}
+                    <li>The elder was lynched by the townspeople and in their shame they all have lost their special powers!</li>
+                {% endif %}
+                {% if turnPhase.village_idiot_voted_off == True %}
+                    <li>The Village Idiot was going to be lynched, but was spared by the villagers due to his loveable charm.  They are no longer allowed to vote, because what's an idiot's vote worth anyways?</li>
+                {% endif %}
+                {% if turnPhase.role_model_killed == True %}
+                    <li>The Role Model died, sending the Wild Child, 
+                        {% for role in game.roles.all %}
+                            {% if role.role_name == "Wild Child" %}
+                                {{role.player.username}}
+                            {% endif %}
+                        {% endfor %}
+                        into a frenzy, making them a Werewolf.
+                    </li>
+                <!--put seer target in here?-->
+            </ul>
+
+        </div>
+    </div>
+</div>
