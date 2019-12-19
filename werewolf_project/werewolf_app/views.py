@@ -306,3 +306,14 @@ def dayPhaseSummary(request, gameID):
         'turnPhase': turnPhase,
     }
     return render(request, 'partial/dayPhaseSummary.html', context)
+
+def nightPhaseSummary(request, gameID):
+    currGame = Game.objects.get(id=gameID)
+    turnPhase = currGame.turnPhases.last()
+    nightTurn = (currGame.current_turn - 1)
+    playersWhoDied = currGame.roles.filter(turn_died=nightTurn)
+    context = {
+        'game': currGame,
+        'turnPhase': turnPhase,
+    }
+    return render(request, 'partial/nightPhaseSummary.html', context)

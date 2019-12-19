@@ -11,4 +11,5 @@ $(document).ready(function(){
     $('#profileGraphDiv').load('/home/users/' + profileUserID + '/graph');
     $('#mainIndexGraphDiv').load('/home/indexGraph');
     $('#dayPhaseSummary').load('/home/game/' + gameID + '/dayPhaseSummary');
+    $('#nightPhaseSummary').load('/home/game/' + gameID + '/nightPhaseSummary');
 })
