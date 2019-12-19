@@ -17,7 +17,7 @@ class UserManager(models.Manager):
         email_regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
         if not re.search(email_regex, postData['email']):
             errors['invalidEmail'] = "Invalid email address"
-        if len(User.objects.filter(email=postData['email'])) > 0:
+        if len(User.objects.filter(email=postData['email'].lower())) > 0:
             errors['existingEmail'] = "Account with that email address already exists in database"
         if len(postData['password']) < 8:
             errors['pw_length'] = "Password must be at least 8 characters"
@@ -30,10 +30,10 @@ class UserManager(models.Manager):
 
     def login_validator(self, postData):
         errors = {}
-        if len(User.objects.filter(email=postData['email'])) == 0:
+        if len(User.objects.filter(email=postData['email'].lower())) == 0:
             errors['noEmail'] = "Email address not found in user database"
             return errors
-        currUser = User.objects.filter(email=postData['email'])[0]
+        currUser = User.objects.filter(email=postData['email'].lower())[0]
         if not bcrypt.checkpw(postData['password'].encode(), currUser.password.encode()):
             errors['pwInvalid'] = "Invalid Password"
         return errors
@@ -52,6 +52,8 @@ class User(models.Model):
     # roles = each role this player is or has been for given games
     # games_hosted = game objects the player created
     # games_joined = game objects the player joined
+    # games_won
+    # games_lost
 
 
 

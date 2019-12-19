@@ -3,3 +3,4 @@
 -bootstrap adjust appearance on phone
 -emails are case sensitive....... that's wrong
 -Header loading a split second after the rest of the page.  Can we make it load first?
+-adjust fake player usernames so something more interesting shows up than user1 etc

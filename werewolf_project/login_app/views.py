@@ -16,7 +16,7 @@ def register(request):
             messages.error(request, errors[error])
         return redirect('/')
     passwordHash = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt()).decode()
-    currUser = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], username=request.POST['username'], email=request.POST['email'], password=passwordHash)
+    currUser = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], username=request.POST['username'], email=request.POST['email'].lower(), password=passwordHash)
     request.session['userID'] = currUser.id
     return redirect('/home')
     
@@ -26,7 +26,7 @@ def login(request):
         for error in errors:
             messages.error(request, errors[error])
         return redirect('/')
-    currUser = User.objects.filter(email=request.POST['email'])[0]
+    currUser = User.objects.filter(email=request.POST['email'].lower())[0]
     request.session['userID'] = currUser.id
     return redirect('/home')
 
@@ -36,6 +36,6 @@ def logout(request):
 
 def checkEmail(request):
     context = {
-        'found': (len(User.objects.filter(email=request.POST['email'])) > 0),
+        'found': (len(User.objects.filter(email=request.POST['email'].lower())) > 0),
     }
     return render(request, 'partials/emailCheck.html', context)
