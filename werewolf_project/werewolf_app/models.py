@@ -242,6 +242,7 @@ class GameManager(models.Manager):
             if len(tetanusList) > 0: # we know one is infected
                 tetanusList[0].isAlive = False
                 tetanusList[0].turn_died = game.current_turn
+                tetanusList[0].turnPhaseKilled = turnPhase
                 tetanusList[0].save()
                 turnPhase.tetanus_killed = True
                 turnPhase.tetanus_target = tetanusList[0].username
@@ -275,6 +276,7 @@ class GameManager(models.Manager):
                     witchPoisonTarget = Role.objects.get(id=witchPoisonTargetID)
                     witchPoisonTarget.isAlive = False
                     witchPoisonTarget.turn_died = game.current_turn
+                    witchPoisonTarget.turnPhaseKilled = turnPhase
                     witchPoisonTarget.save()
                     turnPhase.witchUsedPoison = True
                     turnPhase.witchPoisonTarget = witchPoisonTarget.player.username
@@ -321,9 +323,11 @@ class GameManager(models.Manager):
                     if len(loverList) > 0:
                         loverList[0].isAlive = False
                         loverList[0].turn_died = game.current_turn
+                        loverList[0].turnPhaseKilled = turnPhase
                         loverList[0].save()
                         loverList[1].isAlive = False
                         loverList[1].turn_died = game.current_turn
+                        loverList[1].turnPhaseKilled = turnPhase
                         loverList[1].save()
                         turnPhase.lover_killed = True
                         turnPhase.save()
@@ -345,6 +349,7 @@ class GameManager(models.Manager):
 
                 wwTarget.isAlive = False # actually kill the target
                 wwTarget.turn_died = game.current_turn
+                wwTarget.turnPhaseKilled = turnPhase
                 wwTarget.save()
                 turnPhase.wwNewTarget = wwTarget.player.username
                 turnPhase.save()
@@ -402,9 +407,11 @@ class GameManager(models.Manager):
                 if len(loverList) > 0:
                     loverList[0].isAlive = False
                     loverList[0].turn_died = game.current_turn
+                    loverList[0].turnPhaseKilled = turnPhase
                     loverList[0].save()
                     loverList[1].isAlive = False
                     loverList[1].turn_died = game.current_turn
+                    loverList[1].turnPhaseKilled = turnPhase
                     loverList[1].save()
                     turnPhase.lover_killed = True
                     turnPhase.save()
@@ -430,6 +437,7 @@ class GameManager(models.Manager):
             if voteTarget != None:
                 voteTarget.isAlive = False
                 voteTarget.turn_died = game.current_turn
+                voteTarget.turnPhaseKilled = turnPhase
                 voteTarget.save()
                 turnPhase.vilNewTarget = voteTarget.player.username
             else:
@@ -474,14 +482,17 @@ class GameManager(models.Manager):
                 if len(loverList) > 0:
                     loverList[0].isAlive = False
                     loverList[0].turn_died = game.current_turn
+                    loverList[0].turnPhaseKilled = turnPhase
                     loverList[0].save()
                     loverList[1].isAlive = False
                     loverList[1].turn_died = game.current_turn
+                    loverList[1].turnPhaseKilled = turnPhase
                     loverList[1].save()
                     turnPhase.lover_killed = True
                     turnPhase.save()
             hunterTarget.isAlive = False
             hunterTarget.turn_died = game.current_turn
+            hunterTarget.turnPhaseKilled = turnPhase
             hunterTarget.save()
             if postData['prevPhase'] == "Day":
                 game.current_phase = "Night"
