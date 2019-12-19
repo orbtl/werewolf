@@ -28,7 +28,7 @@ class GameManager(models.Manager):
             duration = "This game took too long... next time keep it under a day!"
         else:
             durHours = (duration.seconds // 3600)
-            durMinutes = (duration.seconds % 3600)
+            durMinutes = (duration.seconds % 3600)//60
             if durHours == 0:
                 duration = f"{durMinutes} Minutes"
             else:

@@ -5,6 +5,7 @@
 - need to make old game list (and user profile list) below main page
 -add profile link to header
 -validate lovers aren't same person?
+-emails are case sensitive....... that's wrong
 -dates are in wrong time zone
 -partial html template - update seer information once seer functionality is programmed
 -add input for who seer checked, append string to role notes maybe to store info on who they checked and show it for the player
