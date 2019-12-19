@@ -1,5 +1,6 @@
 from django.db import models
 from login_app.models import User
+from django.contrib import messages
 import random
 
 class GameManager(models.Manager):
@@ -213,6 +214,8 @@ class GameManager(models.Manager):
 
         # store initializing of secondary roles
         if 'lover1' in postData:
+            if postData['lover1'] == postData['lover2']:
+                return "Sorry, you cannot set both lovers to the same player"
             loverToSet1 = Role.objects.get(id=postData['lover1'])
             loverToSet2 = Role.objects.get(id=postData['lover2'])
             loverToSet1.secondary_role_name = "Lover"
@@ -368,7 +371,7 @@ class GameManager(models.Manager):
                         game.save()
                         turnPhase.hunter_killed = True
                         turnPhase.save()
-                        return True
+                        return "True"
             else:
                 turnPhase.wwNewTarget = "No one was killed"
                 turnPhase.save()
@@ -457,7 +460,7 @@ class GameManager(models.Manager):
                     game.save()
                     turnPhase.hunter_killed = True
                     turnPhase.save()
-                    return True
+                    return "True"
         
 
             game.current_phase = "Night"
@@ -530,7 +533,7 @@ class GameManager(models.Manager):
                 else:
                     game.losing_players.add(role.player)
         game.save()
-        return False
+        return "False"
             
 
 

@@ -58,9 +58,13 @@ def dayPhase(request, gameID):
 
 def calcPhase(request, gameID, gamePhase):
     hunterKilled = Game.objects.calcKilled(request, gameID, gamePhase, request.POST) #returns true if hunter killed
-    if hunterKilled == True:
+    if hunterKilled == "True":
         return redirect(f'/home/game/{gameID}/gameHunter/{gamePhase}')
-    return redirect(f"/home/game/{gameID}")
+    elif hunterKilled == "False":
+        return redirect(f"/home/game/{gameID}")
+    else:
+        messages.error(request, hunterKilled)
+        return redirect(f"/home/game/{gameID}")
 
 def gameHunter(request, gameID, gamePhase):
     if 'userID' not in request.session or request.session['userID'] == None:

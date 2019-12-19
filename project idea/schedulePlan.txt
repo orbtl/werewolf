@@ -16,7 +16,7 @@ By EOD Tuesday:
 
 By EOD Wednesday:
     (done)-implement leaderboard
-    -add profile link to header
+    (done)-add profile link to header
     -Extensive alpha testing on game options/outcomes
         -accursed one needs to have only 1 ammo (check all special characters too)
         -check on secondary roles showing at the right times?
@@ -24,7 +24,7 @@ By EOD Wednesday:
     -Polished styling
     -Fix issues in buglist
         -validate lovers aren't same person?
-        -dates are in wrong time zone
+        (done)-dates are in wrong time zone
         (done)-check if graph can handle going to user page with 0 games played for dividing by 0
     (low priority)-header stay at top of screen
     (low priority)-header load before rest of page

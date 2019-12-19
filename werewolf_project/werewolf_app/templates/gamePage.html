@@ -126,15 +126,6 @@
                                             <a href="#" class="btn btn-secondary mr-3">Suggest Values</a>
                                             <button type="submit" name="submitAction" value="start" class="btn btn-danger">Start Game</button>
                                         </div>
-                                        {% if messages %}
-                                        <div class="row">
-                                            <ul class="messages"> <!--Error Messages for host-->
-                                                {% for message in messages %}
-                                                    <li>{{message}}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                        {% endif %}
                                     </form>
                                 {% else %} <!--If game has started-->
                                     {% if game.current_phase == "Night" %}
@@ -245,6 +236,15 @@
                         {% else %} <!--end if for game.ended being false-->
                         <!-- game has ended-->
                             <div id="postGameInfo"></div>
+                        {% endif %}
+                        {% if messages %}
+                            <div class="row">
+                                <ul class="messages"> <!--Error Messages for host-->
+                                    {% for message in messages %}
+                                        <li class="text-danger">{{message}}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
