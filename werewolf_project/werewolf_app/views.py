@@ -105,6 +105,12 @@ def partialHunter(request, gameID, gamePhase):
     }
     return render(request, 'partial/hunterForm.html', context)
 
+def suggestRoles(request, gameID):
+    errors = Game.objects.suggestRoles(gameID)
+    if errors != None:
+        messages.error(request, errors)
+    return redirect(f'/home/game/{gameID}')
+
 def game(request, gameID): # game page
     if 'userID' not in request.session or request.session['userID'] == None:
         messages.error(request, "You must log in to view that page")
@@ -150,11 +156,16 @@ def postGameInfo(request, gameID):
     game = Game.objects.get(id=gameID)
     num_villagers = len(game.roles.filter(role_name="Villager"))
     num_ww = len(game.roles.filter(role_name="Werewolf"))
+    stats = Game.objects.calcPostGameStats(gameID)
     context = {
         'user': user,
         'game': game,
         'num_villagers': num_villagers,
         'num_ww': num_ww,
+        'duration': stats['duration'],
+        'avgDeathsPerTurn': stats['avgDeathsPerTurn'],
+        'avgLifeSpan': stats['avgLifeSpan'],
+        'avgDeathPercentile': stats['avgDeathPercentile'],
     }
     return render(request, "partial/postGameInfo.html", context)
 

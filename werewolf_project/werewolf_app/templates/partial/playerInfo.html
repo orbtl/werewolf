@@ -20,7 +20,7 @@
                 <p>You have been identified as the village idiot and are no longer allowed to vote during the day phase!</p>
             {% endif %}
         {% endif %}
-        {% if playerRole.role_name == "Cupid" and role.game.current_turn >= 1 %} <!--Cupid hasn't selected anyone yet turn 0-->
+        {% if playerRole.role_name == "Cupid" and playerRole.game.current_turn >= 1 %} <!--Cupid hasn't selected anyone yet turn 0-->
             <p>The two lovers you selected are:</p>
                 {% for role in roles %}
                     {% if role.secondary_role_name == "Lover" %}

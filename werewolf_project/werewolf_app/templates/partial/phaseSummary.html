@@ -69,7 +69,7 @@
                         into a frenzy, making them a Werewolf.
                     </li>
                 {% endif %}
-                {% if turnPhase.phase == "Night" %}
+                {% if turnPhase.phase == "Night" and turnPhase.game.has_defender == True %}
                     <li>The defender defended {{turnPhase.def_target}}</li>
                 {% endif %}
                 <!--put seer target in here?-->

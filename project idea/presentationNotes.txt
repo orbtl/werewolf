@@ -46,3 +46,9 @@
     -bootstrap
     -bcrypt for password hashing
     -jquery
+
+
+
+
+
+-incognito mode to have multiple logins at same time!!!

@@ -20,6 +20,51 @@ class GameManager(models.Manager):
         top5ByWinRate = sorted(top5, key=lambda topEntry: topEntry['winrate'], reverse=True) # this lambda function goes into each item and sorts by its key 'winrate' in reverse order, so the highest winrate is first
         return top5ByWinRate
         
+    def calcPostGameStats(self, gameID):
+        game = Game.objects.get(id=gameID)
+        duration = (game.updated_at - game.created_at)
+        # get duration string
+        if duration.days > 0:
+            duration = "This game took too long... next time keep it under a day!"
+        else:
+            durHours = (duration.seconds // 3600)
+            durMinutes = (duration.seconds % 3600)
+            if durHours == 0:
+                duration = f"{durMinutes} Minutes"
+            else:
+                duration = f"{durHours} Hours, {durMinutes} Minutes"
+        # avg deaths/turn
+        totalTurns = game.current_turn
+        deadRoles = game.roles.filter(isAlive=False)
+        avgDeathsPerTurn = round(len(deadRoles)/totalTurns, 2)
+        # avg lifespan
+        aliveRoles = game.roles.filter(isAlive=True).exclude(role_name="host")
+        aliveRolesTurn = game.current_turn
+        lifeSum = (aliveRolesTurn * len(aliveRoles))
+        for deadRole in deadRoles:
+            lifeSum += deadRole.turn_died
+        avgLifeSpan = round(lifeSum / (len(aliveRoles) + len(deadRoles)), 2)
+        # deaths vs other games
+        allGames = Game.objects.filter(ended=True)
+        thisGameGreaterThanCount = 0
+        allGameCount = len(allGames)
+        for thatGame in allGames:
+            thatGamesTurns = thatGame.current_turn
+            thatGamesDeadRoles = thatGame.roles.filter(isAlive=False)
+            thatGamesAvgDeathsPerTurn = round((len(thatGamesDeadRoles) / thatGamesTurns), 2)
+            if avgDeathsPerTurn > thatGamesAvgDeathsPerTurn:
+                thisGameGreaterThanCount += 1
+        percentile = round(((thisGameGreaterThanCount / allGameCount) * 100), 2)
+        #dictionary to return
+        stats = {
+            'duration': duration,
+            'avgDeathsPerTurn': avgDeathsPerTurn,
+            'avgLifeSpan': avgLifeSpan,
+            'avgDeathPercentile': percentile,
+        }
+        return stats
+
+
 
     def calcStats(self, profileUser):
         stats = {}
@@ -57,8 +102,6 @@ class GameManager(models.Manager):
             else:
                 stats['vilWins'] = (len(profileUser.games_won.exclude(winning_team__icontains="Werewol")))
                 stats['vilWinrate'] = int(stats['vilWins'] / vilGamesPlayed * 100)
-            print(stats['wwWins'])
-            print(stats['wwWinrate'])
             return stats
 
     def profileGraphStats(self, profileUser):
@@ -80,7 +123,14 @@ class GameManager(models.Manager):
             'y_dataW': [],
             'y_dataV': [],
         }
-        #unfinished -- we need to figure out what graph info we're showing and how
+        turnPhases = game.turnPhases.all()
+        for turnPhase in turnPhases:
+            if turnPhase.phase == "Day":
+                graphInfo['x_data'].append(turnPhase.turn)
+            else:
+                graphInfo['x_data'].append(turnPhase.turn + 0.5)
+            graphInfo['y_dataW'].append(turnPhase.ww_alive)
+            graphInfo['y_dataV'].append(turnPhase.v_alive)
         return graphInfo
 
     def mainIndexGraph(self):
@@ -98,6 +148,61 @@ class GameManager(models.Manager):
             graphInfo['y_dataW'].append((wwWonGames / totalGameCount) * 100) # %Winrate of werewolves
             graphInfo['y_dataV'].append((vilWonGames / totalGameCount) * 100) # %Winrate of villagers
         return graphInfo
+    
+    def suggestRoles(self, gameID):
+        game = Game.objects.get(id=gameID)
+        numplayers = len(game.players.exclude(id=game.host.id))
+        if numplayers < 3:
+            return "You need at least 3 players to have joined your game to suggest roles!"
+        # set all to false and werewolves to 1 for less than or equal to 5 players
+        game.has_seer = False
+        game.has_cupid = False
+        game.has_lovers = False
+        game.has_accursed_one = False
+        game.has_witch = False
+        game.has_defender = False
+        game.has_village_idiot = False
+        game.has_twins = False
+        game.has_hunter = False
+        game.has_wild_child = False
+        game.has_role_model = False
+        game.has_little_child = False
+        game.has_rusty_knight = False
+        game.has_elder = False
+        game.has_angel = False
+        game.has_gypsy = False
+        game.num_werewolves = 1
+        if numplayers > 5:
+            game.has_seer = True
+        if numplayers >= 8:
+            game.num_werewolves = 2
+            game.has_witch = True
+        if numplayers >= 10:
+            game.has_defender = True
+            game.has_cupid = True
+            game.has_lovers = True
+            game.has_accursed_one = True
+            game.has_twins = True
+        if numplayers >= 12:
+            game.has_hunter = True
+            game.has_village_idiot = True
+        if numplayers >= 14:
+            game.num_werewolves = 3
+            game.has_role_model = True
+            game.has_wild_child = True
+            game.has_rusty_knight = True
+        if numplayers >= 20:
+            game.has_elder = True
+            game.has_little_child = True
+            game.num_werewolves = 4
+            game.has_angel = True
+            game.has_gypsy = True
+        if numplayers >= 28:
+            game.num_werewolves = 5
+        game.save()
+        return f"Updated values based on suggested roles for {numplayers} players"
+        
+
 
 
 
@@ -110,7 +215,7 @@ class GameManager(models.Manager):
         if role.role_name == "Village Idiot":
             desc = "What is a village without an Idiot? You do pretty much nothing important, but you are so charming that no one would want to hurt you....\n If the village votes against you, you are revealed as the Village Idiot. At that moment the Villagers understand their mistake and immediately let you be. From now on you continue to play, but may no longer vote. As what would the vote of an idiot be worth....\n Keep in mind that if the Werewolves devour you, you are dead."
         if role.role_name == "Cupid":
-            desc = "Cupid is the village matchmaker. YOu received the nickname because of your ability to make any two people fall in love instantly. During the first night of the game, Cupid designates two players who will be in 'in love' with one another for the rest of the game. Cupid can choose themself as one of the lovers. If one of the lovers dies, the other immediately kills him/herself in a fit of grief. A love cannot, even as a bluff, vote to lynch their lover."
+            desc = "Cupid is the village matchmaker. You received the nickname because of your ability to make any two people fall in love instantly. During the first night of the game, Cupid designates two players who will be in 'in love' with one another for the rest of the game. Cupid can choose themself as one of the lovers. If one of the lovers dies, the other immediately kills him/herself in a fit of grief. A love cannot, even as a bluff, vote to lynch their lover."
         if role.role_name == "Twin":
             desc = "You are one of two Twins in this game. The Twins get along like the fingers of the hand or the hair in a lock. It's certainly encouraging to have someone close you can trust in these uncertain times! The first night, when called by the Host, you wake up together and recognize each other as fellow villagers."
         if role.role_name == "Accursed One":
@@ -533,6 +638,10 @@ class GameManager(models.Manager):
                 else:
                     game.losing_players.add(role.player)
         game.save()
+        # counting alive players of each role for stats
+        turnPhase.ww_alive = len(game.roles.filter(isAlive=True).filter(role_name="Werewolf")) + len(game.roles.filter(isAlive=True).filter(role_name="Accursed One"))
+        turnPhase.v_alive = len(game.roles.filter(isAlive=True).exclude(role_name="Werewolf").exclude(role_name="Accursed One").exclude(role_name="host"))
+        turnPhase.save()
         return "False"
             
 

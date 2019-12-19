@@ -29,7 +29,24 @@ def doubleGraph(x_data, y_dataW, y_dataV): # end of game graph
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x_data, y=y_dataW, name="Werewolves Alive", line_color="red"))
     fig.add_trace(go.Scatter(x=x_data, y=y_dataV, name="Villagers Alive", line_color="blue"))
-    fig.update_layout(title_text="Roles Alive Per Turn")
+    fig.update_layout(title_text="Roles Alive Per Turn Phase", xaxis=dict(
+            showgrid=True,
+            showticklabels=False,
+            gridcolor='lightgray',
+        ),
+        yaxis=dict(
+            showgrid=True,
+            gridcolor='lightgray',
+        ), showlegend=False, margin=dict(
+            l=0,
+            t=0,
+            b=0,
+            r=0,
+            pad=0,
+        ), width=300, height=255, plot_bgcolor='white', paper_bgcolor='white',
+    
+    
+    )
     plt_div = plot(fig, output_type="div")
     return plt_div
 

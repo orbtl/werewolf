@@ -66,7 +66,7 @@
         <h5>Game Info:</h5>
         <ul>
             <li>Host: {{game.host.username}}</li>
-            <li>Duration: placeholder</li>
+            <li>Duration: {{duration}}</li>
             <li>Total Turns: {{game.current_turn}}</li>
             <li>Played On: {{game.created_at}}</li>
         </ul>
@@ -76,19 +76,26 @@
     <div class="col-md-12 text-center">
         <h4>Game Stats:</h4>
     </div>
-    <div class="row">
-        <div class="col-md-5">
-            INSERT GRAPH HERE WOWWWWWWW
+    <div class="row mt-2">
+        <div class="col-md-7" style="width: 350px;">
+            <div class="row">
+                <h6 class="col-md-12 text-center">Team Members alive per turn phase</h6>
+            </div>
+            <div id="postGameGraphDiv"></div>
         </div>
-        <div class="col-md-7">
-            <ul>
-                <li>
-                    Average Deaths/Turn: placeholder
-                </li>
-                <li>
-                    Average Player Lifespan: placeholder
-                </li>
-            </ul>
+        <div class="col-md-5">
+            <p class="text-center">Average Deaths/Turn:</p>
+            <h5 class="text-center">{{avgDeathsPerTurn}}</h5>    
+            <p class="text-center">Average Player Lifespan:</p>
+            <h5 class="text-center">{{avgLifeSpan}} Turns</h5>
+            <p class="text-center">This game's deaths/turn were greater than:</p>
+            <h5 class="text-center"><span class="text-success">{{avgDeathPercentile}}%</span> of all games</h5>
         </div>
     </div>
 </div>
+<input type="hidden" id="gameIDInput" value="{{game.id}}">
+<script>
+    console.log("script loading");
+    var gameID = $('#gameIDInput').val();
+    $('#postGameGraphDiv').load('/home/game/' + gameID + '/postGameGraph');
+</script>
