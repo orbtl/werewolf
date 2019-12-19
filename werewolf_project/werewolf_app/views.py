@@ -16,11 +16,14 @@ def homeIndex(request): # Main Home Page
         return redirect('/')
     user = User.objects.get(id=request.session['userID'])
     top5 = Game.objects.top5()
+    users = User.objects.all()
+    sortedUsers = sorted(users, key=lambda sortItem: sortItem.first_name.lower())
     context = {
         'user': user,
         'games': Game.objects.all(),
         'userStats': Game.objects.calcStats(user),
         'top5': top5,
+        'users': sortedUsers,
     }
     return render(request, 'homeIndex.html', context)
 

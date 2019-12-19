@@ -1,5 +1,4 @@
 - need to make old game list (and user profile list) below main page
--show roles to call out ofr host
 -bootstrap adjust appearance on phone
 -emails are case sensitive....... that's wrong
 -Header loading a split second after the rest of the page.  Can we make it load first?
