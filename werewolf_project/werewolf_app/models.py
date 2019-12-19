@@ -359,9 +359,13 @@ class GameManager(models.Manager):
             #check if accursed one switched them to werewolf
             if 'targetSwitched' in postData:
                 if postData['targetSwitched'] == "True":
-                    targetSwitched = True
-                    turnPhase.target_switched = True
-                    turnPhase.save()
+                    accursedOne = aliveRoles.filter(role_name="Accursed One")[0]
+                    if accursedOne.primary_ammo == 1:
+                        targetSwitched = True
+                        turnPhase.target_switched = True
+                        turnPhase.save()
+                        accursedOne.primary_ammo = 0
+                        accursedOne.save()
             #check if defender saved
             if 'defTargetID' in postData:
                 defTarget = Role.objects.get(id=postData['defTargetID'])

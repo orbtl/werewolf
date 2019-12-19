@@ -44,6 +44,7 @@ def nightPhase(request, gameID):
         'witch': aliveRoles.filter(role_name="Witch"),
         'defender': aliveRoles.filter(role_name="Defender"),
         'gypsy': aliveRoles.filter(role_name="Gypsy"),
+        'accursed_one': aliveRoles.filter(role_name="Accursed One"),
     }
     return render(request, 'partial/gameFormNight.html', context)
 
@@ -328,6 +329,10 @@ def forceAlive(request, gameID, roleID):
 def forceRole(request, gameID, roleID):
     role = Role.objects.get(id=roleID)
     role.role_name = request.POST['roleName']
+    role.primary_ammo = 1
+    if request.POST['roleName'] == "Gypsy":
+        role.primary_ammo = 5
+    role.secondary_ammo = 1
     role.save()
     return redirect(f'/home/game/{gameID}')
 

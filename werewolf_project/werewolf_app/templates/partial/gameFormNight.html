@@ -46,7 +46,7 @@
             {% endfor %}
         </select>
     </div>
-    {% if "Accursed One" in aliveRoleNames %}
+    {% if "Accursed One" in aliveRoleNames and accursed_one.0.primary_ammo == 1 %}
         <div class="form-group row align-items-center">
             <label class="control-label col-md-8">Did Accursed One Turn the Target?</label>
             <label class="form-check-label col-md-2">
