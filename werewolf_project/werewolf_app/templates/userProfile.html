@@ -22,7 +22,7 @@
             </div>
             <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <div class="row mr-5">
-                    <h1 class="display-1 mr-5" style="font-family: sans-serif">{{profileUser.username}}</h1>
+                    <h1 {% if profileUser.username|length >= 12 %} class="display-4 mr-5" {% elif profileUser.username|length >= 7 %} class="display-3 mr-5" {% else %} class="display-1 mr-5" {% endif %} style="font-family: sans-serif">{{profileUser.username}}</h1>
                 </div>
             </div>
             <div class="col-md-4 d-flex align-items-center">

@@ -23,6 +23,10 @@ class UserManager(models.Manager):
             errors['pw_length'] = "Password must be at least 8 characters"
         if postData['password'] != postData['password2']:
             errors['pw_match'] = "Passwords do not match!"
+        if len(postData['username']) < 2:
+            errors['usernameTooSmall'] = "Username must be at least 2 characters"
+        if len(postData['username']) > 18:
+            errors['usernameTooBig'] = "Username may only be at most 18 characters"
         # ageDelta = (datetime.now() - datetime.strptime(postData['birthday'], '%Y-%m-%d'))
         # if ageDelta.days < 4745: #4745 days = 13 years
         #     errors['birthday'] = "Sorry, you must be at least 13 years of age to register for this website"
