@@ -313,6 +313,27 @@ def deleteGame(request, gameID): # remove this functionality for production
     messages.success(request, f'Successfully deleted game id {gameID} and associated roles')
     return redirect('/home')
 
+def forceKill(request, gameID, roleID):
+    role = Role.objects.get(id=roleID)
+    role.isAlive = False
+    role.save()
+    return redirect(f'/home/game/{gameID}')
+
+def forceAlive(request, gameID, roleID):
+    role = Role.objects.get(id=roleID)
+    role.isAlive = True
+    role.save()
+    return redirect(f'/home/game/{gameID}')
+
+def forceRole(request, gameID, roleID):
+    role = Role.objects.get(id=roleID)
+    role.role_name = request.POST['roleName']
+    role.save()
+    return redirect(f'/home/game/{gameID}')
+
+
+
+
 def phaseSummary(request, gameID):
     print("made it to night phase summary")
     currGame = Game.objects.get(id=gameID)

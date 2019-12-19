@@ -5,6 +5,9 @@
 - need to make old game list (and user profile list) below main page
 -add profile link to header
 -validate lovers aren't same person?
+-show roles to call out ofr host
+-bootstrap adjust appearance on phone
+if defender is dead don't sho wthat thing
 -emails are case sensitive....... that's wrong
 -dates are in wrong time zone
 -partial html template - update seer information once seer functionality is programmed

@@ -306,13 +306,13 @@
                                                     {% if user == game.host and game.started == True and game.ended == False %}
                                                         <!--dropdown for manually adjusting roles-->
                                                         <div class="dropdown">
-                                                            <button class="btn btn-secondary" type="button" id="role{{role.id}}ManualEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <a class="" href="#" id="role{{role.id}}ManualEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                 {{role.role_name}}
-                                                            </button>
+                                                            </a>
                                                             <div class="dropdown-menu" aria-labelledby="manualRoleEditDropdown{{role.id}}">
-                                                                <form action="/home/game/{{game.id}}/forceRole/{{role.player.id}}" method="post">
+                                                                <form action="/home/game/{{game.id}}/forceRole/{{role.id}}" method="post">
                                                                     {% csrf_token %}
-                                                                    <select class="dropdown-item form-control">
+                                                                    <select name="roleName" class="dropdown-item form-control">
                                                                         <option value="Villager" {% if role.role_name == "Villager" %} selected="selected" {% endif %}>Villager</option>
                                                                         <option value="Werewolf" {% if role.role_name == "Werewolf" %} selected="selected" {% endif %}>Werewolf</option>
                                                                         <option value="Village Idiot" {% if role.role_name == "Village Idiot" %} selected="selected" {% endif %}>Village Idiot</option>
@@ -353,8 +353,8 @@
                                                             </button>
                                                             <div class="dropdown-menu" aria-labelledby="role{{role.id}}Control">
                                                                 <a class="dropdown-item" href="/home/game/{{game.id}}/kick/{{role.player.id}}">Kick</a>
-                                                                <a class="dropdown-item" href="/home/game/{{game.id}}/forceKill/{{role.player.id}}">Force Dead</a>
-                                                                <a class="dropdown-item" href="/home/game/{{game.id}}/forceAlive/{{role.player.id}}">Force Alive</a>
+                                                                <a class="dropdown-item" href="/home/game/{{game.id}}/forceKill/{{role.id}}">Force Dead</a>
+                                                                <a class="dropdown-item" href="/home/game/{{game.id}}/forceAlive/{{role.id}}">Force Alive</a>
                                                                 <a class="dropdown-item" href="/home/users/{{role.player.id}}">Profile</a>
                                                             </div>
                                                             
