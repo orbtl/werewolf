@@ -3,6 +3,7 @@
     {% if game.current_turn == 0 %}
         {% if 'Cupid' in aliveRoleNames %}
             <div class="form-group row align-items-center">
+                <p class="text-primary">Awaken the Cupid and ask for their Lover Choices</p>
                 <label for="lover1" class="control-label col-md-5">Cupid's Lover 1</label>
                 <select class="form-control col-md-7" name="lover1">
                     {% for role in aliveRoles %}
@@ -25,6 +26,7 @@
         {% endif %}
         {% if 'Wild Child' in aliveRoleNames %}
             <div class="form-group row align-items-center">
+                <p class="text-primary">Awaken the Wild Child and ask for their Role Model Choice</p>
                 <label for="role_model" class="control-label col-md-5">Wild Child's Role Model</label>
                 <select class="form-control col-md-7" name="role_model">
                     {% for role in aliveRoles %}
@@ -37,6 +39,7 @@
         {% endif %}
     {% endif %} <!--Now for all turns-->
     <div class="form-group row align-items-center">
+        <p class="text-primary">Awaken the Werewolves and ask for their Victim</p>
         <label for="wwTargetID" class="control-label col-md-5">Werewolf Kill Target</label>
         <select class="form-control col-md-7" name="wwTargetID">
             {% for role in aliveRoles %}
@@ -48,6 +51,7 @@
     </div>
     {% if "Accursed One" in aliveRoleNames and accursed_one.0.primary_ammo == 1 %}
         <div class="form-group row align-items-center">
+            <p class="text-primary">Awaken the Accursed One and ask if they want to use their power</p>
             <label class="control-label col-md-8">Did Accursed One Turn the Target?</label>
             <label class="form-check-label col-md-2">
                 <input type="radio" class="form-check-input" name="targetSwitched" value="True">Yes
@@ -71,6 +75,7 @@
     {% if "Witch" in aliveRoleNames %}
         {% if witch.0.primary_ammo == 1 %}
             <div class="form-group row align-items-center">
+                <p class="text-primary">Awaken the Witch and ask if they want to save the victim</p>
                 <label class="control-label col-md-8">Did Witch use Potion?</label>
                 <label class="form-check-label col-md-2">
                     <input type="radio" class="form-check-input" name="witchUsedPotion" value="True">Yes
@@ -82,6 +87,7 @@
         {% endif %}
         {% if witch.0.secondary_ammo == 1 %}
             <div class="form-group row align-items-center">
+                <p class="text-primary">Awaken the Witch and ask if they want to poison someone</p>
                 <label for="witchPoisonTargetID" class="control-label col-md-5">Did Witch use Poison?</label>
                 <select class="form-control col-md-7" name="witchPoisonTargetID">
                     <option value=0>Did Not Poison</option>
@@ -96,6 +102,7 @@
     {% endif %}
     {% if "Defender" in aliveRoleNames %}   
         <div class="form-group row align-items-center">
+            <p class="text-primary">Awaken the Defender and ask who they defend</p>
             <label for="defTargetID" class="control-label col-md-5">Who did Defender Defend?</label>
             <select class="form-control col-md-7" name="defTargetID">
                 {% for role in aliveRoles %}
@@ -108,6 +115,7 @@
     {% endif %}
     {% if "Gypsy" in aliveRoleNames %}
         <div class="form-group row align-items-center">
+            <p class="text-primary">Awaken the Gypsy and ask if they want to question the dead</p>
             <label class="control-label col-md-8">Did Gypsy Question the Dead?</label>
             <label class="form-check-label col-md-2">
                 <input type="radio" class="form-check-input" name="gypsyQuestioned" value="True">Yes
