@@ -39,6 +39,13 @@
                 </h5>
             </div>
         {% endif %}
+        {% if game.ended == False %}
+            <div class="row text-center">
+                <h6 class="col-md-12">
+                    Hosted By: <a href="/home/users/{{game.host.id}}">{{game.host.username}}</a>
+                </h6>
+            </div>
+        {% endif %}
         <div class="row">
             <div class="card-deck col-md-12">
                 <div class="card col-md-7">
