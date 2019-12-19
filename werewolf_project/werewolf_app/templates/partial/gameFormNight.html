@@ -15,7 +15,7 @@
             <div class="form-group row align-items-center">
                 <label for="lover2" class="control-label col-md-5">Cupid's Lover 2</label>
                 <select class="form-control col-md-7" name="lover2">
-                    {% for role in aliveRoles %}
+                    {% for role in aliveRoles reversed %}
                         {% if role.role_name != "Cupid" %}
                             <option value="{{role.id}}">{{role.player.username}}</option>
                         {% endif %}
