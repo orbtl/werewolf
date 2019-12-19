@@ -20,17 +20,20 @@ By EOD Wednesday:
     -Extensive alpha testing on game options/outcomes
         -accursed one needs to have only 1 ammo (check all special characters too)
         -check on secondary roles showing at the right times?
-    -maybe have helpful info box at the bottom of host's game page to show reminders about certain roles, like village idiot no longer being able to vote
+    (done)-maybe have helpful info box at the bottom of host's game page to show reminders about certain roles, like village idiot no longer being able to vote
     -Polished styling
     -Fix issues in buglist
-        -validate lovers aren't same person?
+        (done)-validate lovers aren't same person?
         (done)-dates are in wrong time zone
         (done)-check if graph can handle going to user page with 0 games played for dividing by 0
     (low priority)-header stay at top of screen
     (low priority)-header load before rest of page
 
 By EOD Thursday: 
+    -reformat login/reg page?
+    -implement suggest values for game settings? or remove from page
     - need to make old game list (and user profile list) below main page
+    -fix end-of-game stats like duration, and graph spot
     -LOOK AT what python channels are and how hard they are to implement
     -Implement force-kill functionality
     -Implement Ban functionality (kick is done)

@@ -1,0 +1,48 @@
+-Start at registration/login
+    -figure out whose account we want to login to
+    -make sure to setup so only the games we want showing in existing games are still there
+        -show different variations of game status for different buttons
+            -talk about how join button is not clickable if game has started and you aren't in player list
+            -spectate button if spectating disabled
+            -delete button only for host and if game hasn't ended
+    -make sure the user account we choose has some existing stats to see
+        -mention a stat maybe like winrate so that when a game is then completed they can notice the stat has changed
+-Talk about main page elements
+    -header
+    -leaderboard
+    -graph
+    -stats
+    -game section
+-Host a game
+    -show option selection with applying changes
+    -if programmed, show suggest values
+    -mention that add fake users was only added for hte purposes of the demo, and add users to show it
+    -(figure out in advance which roles we want selected - which are most impressive?)
+    -start game
+        -talk about the logic needed for making these roles interact
+            -showcase this by creating complications, such as killing a lover
+            -at that point talk about keeping an eye on the connected players list on the right to see updates
+                - maybe talk about the need for and implementation of features for the host such as kick/force kill etc
+        -After submitting first phase, talk about summary card
+        -Go through each turn talking about the different special roles we selected and their complications until game is over
+    -game is over
+        talk about stats shown
+        -now we can show what it looks like from a player's perspective
+-Join game hosted on another machine (have it already joined and randomized for role we want?)
+        -talk about overall design philosophy to keep people playing in person and talking, rather than entering data on their phone
+        -show how settings are shown but not editable for players
+    -start game
+        -talk about how it shows the card image depending on your role with a helpful role description
+        -talk about status text showing your special ability availability and other helpful info (like who the other lover is)
+        -role on player list is ??? until that player is dead or the game is over
+        -mention displayed turn number/phase
+-Show User Profile
+    -show through the page
+-Show past games/players list on main page?
+-labor distribution (mostly pair programming but sometimes split)
+-technologies used
+    -python/django
+    -plotly
+    -bootstrap
+    -bcrypt for password hashing
+    -jquery

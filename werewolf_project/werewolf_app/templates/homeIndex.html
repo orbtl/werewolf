@@ -11,6 +11,11 @@
     {% load static %}
     <script src="{% static 'js/loadHeader.js' %}?{% now 'U' %}"></script>
     <title>Werewolf</title>
+    <style>
+        #hostGameButton:hover{
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -96,9 +101,9 @@
         {% endif %}
         <div class="row mt-4">
             <div class="card-group col-md-12">
-                <div class="card btn btn-primary col-md-4" style="transform: rotate(0);"> <!--Transform identifies the place where stretched-link stops-->
+                <div class="card btn btn-primary col-md-4" style="transform: rotate(0);" id="hostGameButton"> <!--Transform identifies the place where stretched-link stops-->
                     <div class="card-body justify-content-center d-flex align-items-center">
-                        <a href="/home/host" class="stretched-link">Host A Game</a>
+                        <a href="/home/host" class="stretched-link h1 text-success text-decoration-none">Host A Game</a>
                     </div>
                 </div>
                 <div class="card col-md-8 pl-0 pr-0">
