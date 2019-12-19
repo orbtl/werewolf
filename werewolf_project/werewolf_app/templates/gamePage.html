@@ -303,7 +303,38 @@
                                                     {% endif %}
                                                 </td>
                                                 <td>
-                                                    {% if user == game.host or role.isAlive == False or user not in game.players.all or game.ended == True %}
+                                                    {% if user == game.host and game.started == True and game.ended == False %}
+                                                        <!--dropdown for manually adjusting roles-->
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary" type="button" id="role{{role.id}}ManualEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                {{role.role_name}}
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="manualRoleEditDropdown{{role.id}}">
+                                                                <form action="/home/game/{{game.id}}/forceRole/{{role.player.id}}" method="post">
+                                                                    {% csrf_token %}
+                                                                    <select class="dropdown-item form-control">
+                                                                        <option value="Villager" {% if role.role_name == "Villager" %} selected="selected" {% endif %}>Villager</option>
+                                                                        <option value="Werewolf" {% if role.role_name == "Werewolf" %} selected="selected" {% endif %}>Werewolf</option>
+                                                                        <option value="Village Idiot" {% if role.role_name == "Village Idiot" %} selected="selected" {% endif %}>Village Idiot</option>
+                                                                        <option value="Accursed One" {% if role.role_name == "Accursed One" %} selected="selected" {% endif %}>Accursed One</option>
+                                                                        <option value="Cupid" {% if role.role_name == "Cupid" %} selected="selected" {% endif %}>Cupid</option>
+                                                                        <option value="Twin" {% if role.role_name == "Twin" %} selected="selected" {% endif %}>Twins</option>
+                                                                        <option value="Seer" {% if role.role_name == "Seer" %} selected="selected" {% endif %}>Seer</option>
+                                                                        <option value="Witch" {% if role.role_name == "Witch" %} selected="selected" {% endif %}>Witch</option>
+                                                                        <option value="Defender" {% if role.role_name == "Defender" %} selected="selected" {% endif %}>Defender</option>
+                                                                        <option value="Hunter" {% if role.role_name == "Hunter" %} selected="selected" {% endif %}>Hunter</option>
+                                                                        <option value="Wild Child" {% if role.role_name == "Wild Child" %} selected="selected" {% endif %}>Wild Child</option>
+                                                                        <option value="Little Child" {% if role.role_name == "Little Child" %} selected="selected" {% endif %}>Little Child</option>
+                                                                        <option value="Knight with the Rusty Sword" {% if role.role_name == "Knight with the Rusty Sword" %} selected="selected" {% endif %}>Knight with the Rusty Sword</option>
+                                                                        <option value="Elder" {% if role.role_name == "Elder" %} selected="selected" {% endif %}>Elder</option>
+                                                                        <option value="Angel" {% if role.role_name == "Angel" %} selected="selected" {% endif %}>Angel</option>
+                                                                        <option value="Gypsy" {% if role.role_name == "Gypsy" %} selected="selected" {% endif %}>Gypsy</option>
+                                                                    </select>
+                                                                    <button type="submit" class="dropdown-item btn btn-danger">Submit</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    {% elif user == game.host or role.isAlive == False or user not in game.players.all or game.ended == True %}
                                                         {{role.role_name}}
                                                     {% else %}
                                                         ???
@@ -323,8 +354,10 @@
                                                             <div class="dropdown-menu" aria-labelledby="role{{role.id}}Control">
                                                                 <a class="dropdown-item" href="/home/game/{{game.id}}/kick/{{role.player.id}}">Kick</a>
                                                                 <a class="dropdown-item" href="/home/game/{{game.id}}/forceKill/{{role.player.id}}">Force Dead</a>
+                                                                <a class="dropdown-item" href="/home/game/{{game.id}}/forceAlive/{{role.player.id}}">Force Alive</a>
                                                                 <a class="dropdown-item" href="/home/users/{{role.player.id}}">Profile</a>
                                                             </div>
+                                                            
                                                         </div>
                                                     {% else %} <!--for players-->
                                                         <a href="/home/users/{{role.player.id}}" class="btn btn-sm btn-info">Profile</a>
