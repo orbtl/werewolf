@@ -21,3 +21,7 @@ Required dependencies for running the django server:
   -Then to run the server at the local address so that anyone can connect at port 8000 to your IP, run:
   
     - python3 manage.py runserver 0.0.0.0:8000
+
+The server will now be running and you can access it at http://localhost:8000  (replace localhost with your public IP if accessing from a different computer and make sure your firewall allows it).
+
+If you wish to create fake users to test the functionality of the game without needing a large number of real users connected, you can navigate to http://localhost:8000/home/fakeUserGen/ and it will generate 10 fake users named user1 through user10.  Then you can use the "Add Fake Users" button when hosting a game to be able to test in-game functionality without real users present.
