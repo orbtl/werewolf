@@ -5,7 +5,7 @@ Made by Jake Sklarew, Sonia Benothmane, and Kaelo Bang
 
 Required dependencies for running the django server:
   
-  -Create a virtual environment, and run the following pip installation commands:
+  -Create a virtual environment, enter the virtual environment, and run the following pip installation commands:
     
     - pip3 install django==2.2
     - pip3 install bcrypt
