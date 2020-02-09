@@ -2,6 +2,9 @@
 Online Werewolf (game) managing app for our Python Project Week
 Made by Jake Sklarew, Sonia Benothmane, and Kaelo Bang
 
+[![Click to view demo video on youtube](https://img.youtube.com/vi/gBbee5WEl_c/0.jpg)](https://www.youtube.com/watch?v=gBbee5WEl_c)
+
+(click image above to view demo video on youtube)
 
 Required dependencies for running the django server:
   
